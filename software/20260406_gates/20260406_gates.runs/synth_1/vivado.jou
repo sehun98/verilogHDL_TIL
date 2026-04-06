@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Mon Apr  6 15:36:20 2026
+# Process ID: 11856
+# Current directory: D:/ondevice_ai_project/verilogHDL/software/20260406_gates/20260406_gates.runs/synth_1
+# Command line: vivado.exe -log gates.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source gates.tcl
+# Log file: D:/ondevice_ai_project/verilogHDL/software/20260406_gates/20260406_gates.runs/synth_1/gates.vds
+# Journal file: D:/ondevice_ai_project/verilogHDL/software/20260406_gates/20260406_gates.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source gates.tcl -notrace
