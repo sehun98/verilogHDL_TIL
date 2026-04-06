@@ -4,3 +4,4 @@
 [2026-04-06 방과후] 
 1. tick generator 1ms
 2. tick generator 1ms accumulator
+3. debounce 
