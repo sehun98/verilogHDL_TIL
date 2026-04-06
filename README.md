@@ -5,3 +5,4 @@
 1. tick generator 1ms
 2. tick generator 1ms accumulator
 3. debounce 
+4. rising & falling & both edge detector

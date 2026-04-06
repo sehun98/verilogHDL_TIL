@@ -4,6 +4,8 @@ Nov 18 2020
 09:47:47
 D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.sim/sim_1/behav/xsim/glbl.v,1605673889,verilog,,,,glbl,,,,,,,,
 D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sim_1/new/tb_debounce.v,1775478497,verilog,,,,tb_debounce,,,,,,,,
+D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sim_1/new/tb_rising_edge_detector.v,1775479530,verilog,,,,tb_rising_edge_detector,,,,,,,,
 D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sim_1/new/tb_tick_generator_1ms.v,1775475655,verilog,,,,tb_tick_generator_1ms,,,,,,,,
 D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sources_1/new/debounce.v,1775477658,verilog,,D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sim_1/new/tb_debounce.v,,debounce,,,,,,,,
+D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sources_1/new/rising_edge_detector.v,1775479050,verilog,,D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sim_1/new/tb_rising_edge_detector.v,,rising_edge_detector,,,,,,,,
 D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sources_1/new/tick_generator_1ms.v,1775477227,verilog,,D:/Project/verilogHDL_TIL/software/20260406_watch/20260406_watch.srcs/sim_1/new/tb_tick_generator_1ms.v,,tick_generator_1ms,,,,,,,,
