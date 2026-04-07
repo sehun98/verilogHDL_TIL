@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 
 
-module watch_fsm(
+module watch_fsm (
     input wire sysclk,
-    input wire rst_n, // sw1
-    input wire btn_start_noise, // btn1
-    input wire btn_stop_noise, // btn2
-    input wire btn_reset_noise, // btn3
+    input wire rst_n,  // sw1
+    input wire btn_start_noise,  // btn1
+    input wire btn_stop_noise,  // btn2
+    input wire btn_reset_noise,  // btn3
     output reg [] seg
-    );
+);
     parameter CLOCK_FREQ_HZ = 100_000_000;
     parameter DEBOUNCE_MS = 20;
 
@@ -33,8 +33,8 @@ module watch_fsm(
     reg next_state = IDLE;
 
     // 1.state register
-    always@(posedge sysclk or negedge rst_n) begin
-        if(!rst_n) begin
+    always @(posedge sysclk or negedge rst_n) begin
+        if (!rst_n) begin
             next_state <= IDLE;
             state <= IDLE;
         end else begin
@@ -44,20 +44,20 @@ module watch_fsm(
 
     // 2. next_state logic
     always @(posedge sysclk or negedge rst_n) begin
-        if(!rst_n) begin
+        if (!rst_n) begin
             next_state <= IDLE;
         end else begin
             case (state)
-                IDLE : begin
-                    if(btn_start) next_state <= START;
+                IDLE: begin
+                    if (btn_start) next_state <= START;
                 end
-                START : begin
-                    if(btn_reset) next_state <= IDLE;
-                    else if(btn_stop) next_state <= STOP;
+                START: begin
+                    if (btn_reset) next_state <= IDLE;
+                    else if (btn_stop) next_state <= STOP;
                 end
-                STOP : begin
-                    if(btn_start) next_state <= START;
-                    else if(btn_reset) next_state <= IDLE; 
+                STOP: begin
+                    if (btn_start) next_state <= START;
+                    else if (btn_reset) next_state <= IDLE;
                     // overflow 시 stop 추가
                 end
                 default: next_state <= next_state;
@@ -73,28 +73,28 @@ module watch_fsm(
         .CLK_FREQ_HZ(CLOCK_FREQ_HZ),
         .DEBOUNCE_MS(DEBOUNCE_MS)
     ) u1_debounce_start (
-        .clk(sysclk),
+        .clk  (sysclk),
         .rst_n(rst_n),
-        .din(btn_start_noise),
-        .dout(btn_start_debounced)
+        .din  (btn_start_noise),
+        .dout (btn_start_debounced)
     );
     debounce #(
         .CLK_FREQ_HZ(CLOCK_FREQ_HZ),
         .DEBOUNCE_MS(DEBOUNCE_MS)
     ) u2_debounce_stop (
-        .clk(sysclk),
+        .clk  (sysclk),
         .rst_n(rst_n),
-        .din(btn_stop_noise),
-        .dout(btn_stop_debounced)
+        .din  (btn_stop_noise),
+        .dout (btn_stop_debounced)
     );
     debounce #(
         .CLK_FREQ_HZ(CLOCK_FREQ_HZ),
         .DEBOUNCE_MS(DEBOUNCE_MS)
     ) u3_debounce_reset (
-        .clk(sysclk),
+        .clk  (sysclk),
         .rst_n(rst_n),
-        .din(btn_reset_noise),
-        .dout(btn_reset_debounced)
+        .din  (btn_reset_noise),
+        .dout (btn_reset_debounced)
     );
 
     rising_edge_detector u1_edge_detector_start (
@@ -116,17 +116,28 @@ module watch_fsm(
         .pulse_out(btn_reset)
     );
 
-/*
-    n_modulo #(
-        .CLK_FREQ_HZ(CLOCK_FREQ_HZ)
-    ) u1_1000_modulo (
-    input wire clk,
-    input wire rst_n,
-    input wire count_tick,
-    input wire sys_en,
-    input wire clear,
-    output reg tick,
-    output reg [M-1:0] data_out */
-);
+    wire tick_1s;
+    tick_generator_1ms #(
+        .CLK_FREQ_HZ(100_000_000),
+        .TICK_RATE_HZ(100_000_000)
+    ) u1_tick_generator_1s (
+        .clk(sysclk),
+        .rst_n(rst_n),
+        .tick_1ms(tick_1s)
+    );
+
+    n_modulo#(
+        .N(10)
+    ) (
+        .clk(sysclk),
+        .rst_n(rst_n),
+        .count_tick(tick_1s),
+        .sys_en(),  // input command
+        .clear(),  // input command
+        .tick(),  // output carry
+        .data_out()  // output data
+    );
+
+    
 
 endmodule
