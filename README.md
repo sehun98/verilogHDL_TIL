@@ -6,3 +6,11 @@
 2. tick generator 1ms accumulator
 3. debounce 
 4. rising & falling & both edge detector
+
+[2026-04-07 수업 시작 전]
+1. N-modulo
+2. watch FSM 미완성
+
+[2026-04-07]
+1. 파일 구조
+2. half adder & full adder

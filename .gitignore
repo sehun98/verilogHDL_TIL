@@ -1,0 +1,27 @@
+# =========================
+# Vivado
+# =========================
+
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.gen/
+
+.xil/
+*.log
+*.jou
+
+# Wave / sim
+*.wdb
+*.wcfg
+*.vcd
+
+# Backup
+*~
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
