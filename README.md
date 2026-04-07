@@ -15,3 +15,6 @@
 1. 파일 구조
 2. half adder & full adder
 3. 4bit full adder + FND
+
+[2026-04-08]
+1. 
