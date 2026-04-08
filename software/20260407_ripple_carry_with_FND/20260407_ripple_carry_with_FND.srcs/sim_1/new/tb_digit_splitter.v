@@ -20,7 +20,7 @@ integer i;
 
 initial begin
     for(i=0;i<10;i=i+1) begin
-        sum_data = $random(seed) % 3; #10;
+        sum_data = $random(seed) % 256; #10;
     end
 end
 

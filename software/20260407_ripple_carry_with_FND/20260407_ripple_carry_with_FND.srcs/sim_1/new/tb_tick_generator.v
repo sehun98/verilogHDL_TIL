@@ -13,10 +13,7 @@ module tb_tick_generator;
 
     always #5 clk = ~clk;
 
-    tick_generator #(
-        .CLOCK_FREQ_HZ(100_000_000),
-        .TICK_HZ(1000)
-    ) u1_tick_generator (
+    tick_generator u1_tick_generator (
         .clk(clk),
         .rst_n(rst_n),
         .tick_1ms(tick_1ms)
