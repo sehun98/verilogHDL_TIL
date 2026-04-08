@@ -3,7 +3,7 @@
 // 0~9
 module BCD(
     input wire [3:0] data_in,
-    output reg [0:7] seg
+    output reg [7:0] seg
     );
 
 always@(*) begin

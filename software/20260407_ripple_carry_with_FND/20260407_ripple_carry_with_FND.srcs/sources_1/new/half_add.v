@@ -3,8 +3,8 @@
 module half_add (
     input wire a,
     input wire b,
-    input wire c_out,
-    input wire sum
+    output wire c_out,
+    output wire sum
 );
     assign sum   = a ^ b;
     assign c_out = a & b;
