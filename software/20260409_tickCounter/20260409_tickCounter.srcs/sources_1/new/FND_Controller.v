@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module FND_Controllor(
+module FND_Controller(
     input wire clk,
     input wire rst_n,
     input wire [13:0] data,
@@ -23,8 +23,7 @@ module FND_Controllor(
 
     wire w_tick;
 
-
-    digit_splitter u2_digit_splitter (
+    digit_splitter u1_digit_splitter (
         .sum_data(data),
         .digit_ones(w_digit_ones),
         .digit_tens(w_digit_tens),
@@ -32,7 +31,7 @@ module FND_Controllor(
         .digit_thousands(w_digit_thousands)
     );
 
-    mux_4x1 u3_mux_4x1 (
+    mux_4x1 u2_mux_4x1 (
         .digit_ones(w_digit_ones),
         .digit_tens(w_digit_tens),
         .digit_hundreds(w_digit_hundreds),
@@ -41,23 +40,23 @@ module FND_Controllor(
         .digit_out(w_digit_out)
     );
 
-    BCD u4_BCD (
+    BCD u3_BCD (
         .data_in(w_digit_out),
         .seg    (seg_raw)
     );
 
-    decoder_2x4 u5_decoder_2x4 (
+    decoder_2x4 u4_decoder_2x4 (
         .digit_sel(w_digit_sel),
         .digit(digit)
     );
 
-    tick_generator u6_tick_generator (
+    square_wave_generator u5_square_wave_generator (
         .clk(clk),
         .rst_n(rst_n),
         .tick_1ms(w_tick)
     );
     
-    counter_4 u7_counter_4 (
+    counter_4 u6_counter_4 (
         .clk(w_tick),
         .rst_n(rst_n),
         .digit_sel(w_digit_sel)

@@ -3,7 +3,7 @@
 module data_path (
     input wire clk,
     input wire rst_n,
-    output reg [13:0] tick_count
+    output wire [13:0] tick_count
     );
 
     wire w_tick_10hz;

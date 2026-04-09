@@ -15,7 +15,7 @@ module counter_10000 (
         .tick_count(w_tick_count)
     );
 
-    FND_Controllor u2_FND_Controllor (
+    FND_Controller u2_FND_Controller (
         .clk  (clk),
         .rst_n(rst_n),
         .data (w_tick_count),
