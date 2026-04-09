@@ -17,4 +17,8 @@
 3. 4bit full adder + FND
 
 [2026-04-08]
-1. 
+1. 8bit full adder + FND
+
+[2026-04-09 수업 시작 전]
+1. ultrasonic sensor
+
