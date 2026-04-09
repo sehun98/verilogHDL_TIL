@@ -11,9 +11,12 @@ module tb_BCD;
     );
 
     integer i;
+    
     initial begin
         for (i = 0; i < 16; i= i+1) begin
             data_in = i; #10;
         end        
     end
+
+
 endmodule
