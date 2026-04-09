@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module digit_splitter (
-    input  wire [7:0] sum_data,
+    input  wire [13:0] sum_data,
     output wire [3:0] digit_ones,
     output wire [3:0] digit_tens,
     output wire [3:0] digit_hundreds,
