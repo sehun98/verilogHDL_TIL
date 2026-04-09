@@ -3,51 +3,46 @@
 module top_ultrasonic (
     input wire clk,
     input wire rst_n,
-    input wire start,
-    output reg [7:0] seg
+    input wire echo,
+    output wire [7:0] seg,
+    output wire [3:0] digit,
+    output wire trig
 );
     wire [3:0] w_digit_out;
     wire [1:0] w_digit_sel;
 
+    wire [9:0] w_distance;
+
+    wire w_square_wave_1ms_toggle;
+
+    wire [3:0] w_digit_ones;
+    wire [3:0] w_digit_tens;
+    wire [3:0] w_digit_hundreds;
+    wire [3:0] w_digit_thousands;
+
+    wire w_start;
     ultrasonic u1_ultrasonic (
         .clk(clk),
         .rst_n(rst_n),
-        .start(start),
-        .distance(distance),
+        .start(w_start),
+        .distance(w_distance),
         .trig(trig),
         .echo(echo)
     );
 
-    digit_splitter u3_digit_splitter (
-        .sum_data(sum_data),
-        .digit_ones(digit_ones),
-        .digit_tens(digit_tens),
-        .digit_hundreds(digit_hundreds),
-        .digit_thousands(digit_thousands)
-    );
-
-    decoder_2to4 u4_decoder_2to4 (
-        .digit_sel(digit_sel),
-        .digit(digit)
-    );
-
-    counter_4 u5_counter_4 (
+    start_gen_100ms #(
+        .CLOCK_FREQ(100_000_000)
+    ) u2_start_gen_100ms (
         .clk(clk),
         .rst_n(rst_n),
-        .digit_sel(w_digit_sel)
+        .tick_10hz(w_start)
     );
 
-    mux_4to1 u2_mux_4to1 (
-        .digit_ones(digit_ones),
-        .digit_tens(digit_tens),
-        .digit_hundreds(digit_hundreds),
-        .digit_thousands(digit_thousands),
-        .digit_sel(w_digit_sel),
-        .digit_out(w_digit_out)
-    );
-
-    BCD u6_BCD (
-        .data_in(w_digit_out),
+    FND_Controller u3_FND_Controller(
+        .clk(clk),
+        .rst_n(rst_n),
+        .data(w_distance),
+        .digit(digit),
         .seg(seg)
     );
 
