@@ -5,10 +5,22 @@ module tb_counter_4;
     reg rst_n;
     wire [1:0] digit_sel;
 
+    wire w_tick_1ms;
+
     counter_4 tb_counter_4 (
         .clk(clk),
         .rst_n(rst_n),
+        .tick_1ms(w_tick_1ms),
         .digit_sel(digit_sel)
+    );
+
+    tick_generator_1ms #(
+        .CLOCK_FREQ_HZ(100_000_000),
+        .TICK_HZ(1000)
+    ) u4_tick_generator_1ms (
+        .clk(clk),
+        .rst_n(rst_n),
+        .tick_1ms(w_tick_1ms)
     );
 
     initial begin
@@ -17,5 +29,4 @@ module tb_counter_4;
     end
 
     always #5 clk = ~clk;
-
 endmodule

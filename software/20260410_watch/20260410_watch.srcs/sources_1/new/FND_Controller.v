@@ -1,12 +1,12 @@
 `timescale 1ns / 1ps
 
-module FND_Controller (
+module FND_Controller(
     input wire clk,
     input wire rst_n,
-    input wire [9:0] data,
+    input wire [13:0] data,
     output wire [3:0] digit,
     output wire [7:0] seg
-);
+    );
 
     wire [7:0] seg_raw;
 
@@ -24,7 +24,7 @@ module FND_Controller (
     wire w_tick_1ms;
 
     digit_splitter u1_digit_splitter (
-        .sum_data(data),
+        .digit_data(data),
         .digit_ones(w_digit_ones),
         .digit_tens(w_digit_tens),
         .digit_hundreds(w_digit_hundreds),
@@ -45,10 +45,7 @@ module FND_Controller (
         .seg    (seg_raw)
     );
 
-    tick_generator_1ms #(
-        .CLOCK_FREQ_HZ(100_000_000),
-        .TICK_HZ(1000)
-    ) u4_tick_generator_1ms (
+    tick_1ms u4_tick_1ms (
         .clk(clk),
         .rst_n(rst_n),
         .tick_1ms(w_tick_1ms)
@@ -57,7 +54,6 @@ module FND_Controller (
     counter_4 u5_counter_4 (
         .clk(w_tick_1ms),
         .rst_n(rst_n),
-        .tick_1ms(w_tick_1ms),
         .digit_sel(w_digit_sel)
     );
 

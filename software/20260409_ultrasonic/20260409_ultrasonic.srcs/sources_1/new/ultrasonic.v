@@ -139,7 +139,15 @@ module ultrasonic (
             // 2. distance <= echo_count * 0.00017;
             // 3. distance <= echo_count * 17 / 100000;
             // 4. distance <= echo_count / 5882;
-            distance <= echo_count / 5800;
+            // WTS 문제 발생
+            // 5. distance ≈ (echo_count * K) >> S 근사화 진행
+            // K = 2^S / 5882
+            // S = 20, K = 178
+            distance <= (echo_count * 179) >> 20;
+            // 정확도 확인
+            // 178 / 1048576 = 0.0001697540283203125
+            // 1 / 5882 = 0.00017001020061203672220333
+            // 오차 0.0015%
         end
     end
 endmodule
