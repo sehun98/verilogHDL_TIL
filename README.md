@@ -24,3 +24,15 @@
 
 [2026-04-09]
 1. 10000 counter
+
+[2026-04-10]
+1. 10000 counter + run/stop + reset + up/down count mode
+2. latch + ff + meta stable + CDC
+
+[2026-04-11 방과후]
+1. ultrasonic slack path fixed
+2. register
+3. uart baud rate
+
+[2026-04-12]
+1. uart baud rate + uart tx + uart rx
