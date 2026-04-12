@@ -36,3 +36,4 @@
 
 [2026-04-12]
 1. uart baud rate + uart tx + uart rx
+2. button interface (debounce + edge detect)
