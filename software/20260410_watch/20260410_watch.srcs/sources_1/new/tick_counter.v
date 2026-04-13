@@ -11,7 +11,6 @@ module tick_counter #(
     input wire tick,
     output reg [TICK_COUNT_WIDTH-1:0] tick_count
 );
-
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             tick_count <= {TICK_COUNT_WIDTH{1'b0}};
@@ -33,5 +32,4 @@ module tick_counter #(
             end
         end
     end
-
 endmodule
