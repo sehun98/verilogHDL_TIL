@@ -140,7 +140,7 @@ module ultrasonic (
             // 3. distance <= echo_count * 17 / 100000;
             // 4. distance <= echo_count / 5882;
             // WTS 문제 발생
-            // 5. distance ≈ (echo_count * K) >> S 근사화 진행
+            // 5. distance ≈ (echo_count * K) >> S 정수 곱셈 + 쉬프트로 근사화 진행
             // K = 2^S / 5882
             // S = 20, K = 178
             distance <= (echo_count * 179) >> 20;
