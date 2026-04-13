@@ -127,3 +127,4 @@ module fsm3 (
     assign led[1] = (state==C) || (state==E);
     assign led[2] = (state==D) || (state==E);
 endmodule
+
