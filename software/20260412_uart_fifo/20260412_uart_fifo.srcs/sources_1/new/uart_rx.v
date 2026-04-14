@@ -8,6 +8,7 @@ module uart_rx (
     output wire busy,
     output reg done,
     output reg [7:0] data,
+    output reg frame_error,
 
     input wire rx
 );
@@ -161,6 +162,15 @@ module uart_rx (
             done <= 1'b0;
             if (state == STOP && rx_baud_tick && oversample_count == 4'd15 && sync_ff_2)
                 done <= 1'b1;
+        end
+    end
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) frame_error <= 1'b0;
+        else begin
+            frame_error <= 1'b0;
+            if (state == STOP && rx_baud_tick && oversample_count == 4'd15 && !sync_ff_2)
+                frame_error <= 1'b1;
         end
     end
 
