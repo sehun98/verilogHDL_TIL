@@ -29,6 +29,7 @@ module tb_fsm2;
     end
 
 endmodule
+`timescale 1ns / 1ps
 
 module tb_fsm4;
     reg clk;
@@ -36,41 +37,38 @@ module tb_fsm4;
     reg [2:0] sw;
     wire [2:0] led;
 
+<<<<<<< HEAD
     fsm3 u1_fsm4 (
+=======
+    fsm3 u1_fsm3 (
+>>>>>>> 30b9adcf7bc8581e3d1dfd1b34108cffe53ad636
         .clk(clk),
         .rst_n(rst_n),
         .sw(sw),
         .led(led)
     );
 
-    // 시나리오 1 : A 전원 상태에서 LED가 모두 꺼진지 확인
-    // 시나리오 2 : sw=3'b001이 인가될 때 led[0]이 켜지는지 확인
-    // 시나리오 3 : sw=3'b010이 인가될 때 led[1]이 켜지는지 확인
-    // 시나리오 4 : sw=3'b100이 인가될 때 led[2]이 켜지는지 확인
-
-    // 시나리오 5 : sw=3'b111이 인가될 때 led all 켜지는지 확인
-
-    // 시나리오 6 : sw=3'b000이 인가될 때 led off 꺼지는지 확인
-
-    // 시나리오 7 : sw=3'b010이 인가될 때 led[1]이 켜지는지 확인
-
-    // 시나리오 8 : sw=3'b100이 인가될 때 led[2]이 켜지는지 확인
-    //           : sw=3'b000이 인가될 때 led off 꺼지는지 확인
-
-    // 시나리오 9 : sw=3'b001이 인가될 때 led[0]이 켜지는지 확인
-    //           : sw=3'b010이 인가될 때 led[1]이 꺼지는지 확인
-    //           : sw=3'b001이 인가될 때 led[0]이 꺼지는지 확인
-
     always #5 clk = ~clk;
+
     initial begin
         clk   = 0;
         rst_n = 0;
+<<<<<<< HEAD
         repeat (5) @(posedge clk);
+=======
+        sw    = 3'b000;
+
+        repeat(5) @(posedge clk);
+>>>>>>> 30b9adcf7bc8581e3d1dfd1b34108cffe53ad636
         rst_n = 1;
 
-        // 시나리오 1 : A 전원 상태에서 LED가 모두 꺼진지 확인
-        #1000_000;
+        // 시나리오 1 : 초기 상태에서 LED 모두 OFF 확인
+        sw = 3'b000;
+        #100;
+        if (led !== 3'b000) $display("SCENARIO 1 FAIL: led=%b", led);
+        else                $display("SCENARIO 1 PASS: led=%b", led);
 
+<<<<<<< HEAD
         // 시나리오 2 : sw=3'b001이 인가될 때 led[0]이 켜지는지 확인
         sw = 3'b001;
         #1000_000;
@@ -155,6 +153,75 @@ module tb_fsm10;
 
         // 시뮬레이션 종료
         #100 $finish;
+=======
+        // 시나리오 2 : sw=001 -> led[0] ON
+        sw = 3'b001;
+        #100;
+        if (led !== 3'b001) $display("SCENARIO 2 FAIL: led=%b", led);
+        else                $display("SCENARIO 2 PASS: led=%b", led);
+
+        // 시나리오 3 : sw=010 -> led[1] ON
+        sw = 3'b010;
+        #100;
+        if (led !== 3'b010) $display("SCENARIO 3 FAIL: led=%b", led);
+        else                $display("SCENARIO 3 PASS: led=%b", led);
+
+        // 시나리오 4 : sw=100 -> led[2] ON
+        sw = 3'b100;
+        #100;
+        if (led !== 3'b100) $display("SCENARIO 4 FAIL: led=%b", led);
+        else                $display("SCENARIO 4 PASS: led=%b", led);
+
+        // 시나리오 5 : sw=111 -> LED ALL ON
+        sw = 3'b111;
+        #100;
+        if (led !== 3'b111) $display("SCENARIO 5 FAIL: led=%b", led);
+        else                $display("SCENARIO 5 PASS: led=%b", led);
+
+        // 시나리오 6 : sw=000 -> LED ALL OFF
+        sw = 3'b000;
+        #100;
+        if (led !== 3'b000) $display("SCENARIO 6 FAIL: led=%b", led);
+        else                $display("SCENARIO 6 PASS: led=%b", led);
+
+        // 시나리오 7 : sw=010 -> led[1] ON
+        sw = 3'b010;
+        #100;
+        if (led !== 3'b010) $display("SCENARIO 7 FAIL: led=%b", led);
+        else                $display("SCENARIO 7 PASS: led=%b", led);
+
+        // 시나리오 8-1 : sw=100 -> led[2] ON
+        sw = 3'b100;
+        #100;
+        if (led !== 3'b100) $display("SCENARIO 8-1 FAIL: led=%b", led);
+        else                $display("SCENARIO 8-1 PASS: led=%b", led);
+
+        // 시나리오 8-2 : sw=000 -> LED ALL OFF
+        sw = 3'b000;
+        #100;
+        if (led !== 3'b000) $display("SCENARIO 8-2 FAIL: led=%b", led);
+        else                $display("SCENARIO 8-2 PASS: led=%b", led);
+
+        // 시나리오 9-1 : sw=001 -> led[0] ON
+        sw = 3'b001;
+        #100;
+        if (led !== 3'b001) $display("SCENARIO 9-1 FAIL: led=%b", led);
+        else                $display("SCENARIO 9-1 PASS: led=%b", led);
+
+        // 시나리오 9-2 : sw=010 -> led[1] ON
+        sw = 3'b010;
+        #100;
+        if (led !== 3'b010) $display("SCENARIO 9-2 FAIL: led=%b", led);
+        else                $display("SCENARIO 9-2 PASS: led=%b", led);
+
+        // 시나리오 9-3 : sw=001 -> led[0] ON
+        sw = 3'b001;
+        #100;
+        if (led !== 3'b001) $display("SCENARIO 9-3 FAIL: led=%b", led);
+        else                $display("SCENARIO 9-3 PASS: led=%b", led);
+
+        $finish;
+>>>>>>> 30b9adcf7bc8581e3d1dfd1b34108cffe53ad636
     end
 
 endmodule

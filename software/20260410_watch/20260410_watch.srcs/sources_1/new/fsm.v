@@ -126,6 +126,7 @@ module fsm3 (
     assign led[2] = (state==D) || (state==E);
 endmodule
 
+<<<<<<< HEAD
 module fsm4 (
     input wire clk,
     input wire rst_n,
@@ -317,3 +318,5 @@ module fsm6 (
         end
     end
 endmodule
+=======
+>>>>>>> 30b9adcf7bc8581e3d1dfd1b34108cffe53ad636
