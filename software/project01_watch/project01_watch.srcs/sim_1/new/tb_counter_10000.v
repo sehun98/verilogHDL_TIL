@@ -1,7 +1,6 @@
 `timescale 1ns / 1ps
 
 module tb_counter_10000;
-
     reg clk;
     reg rst_n;
     reg btn_run;
@@ -33,8 +32,8 @@ module tb_counter_10000;
 
     // debounce가 20ms라면 그보다 길게 눌러줘야 안전
     localparam integer PRESS_TIME = 25_000_000; // 25ms
-    localparam integer GAP_TIME   =  5_000_000; // 5ms
-    localparam integer BOUNCE_NS  = 1000;       // 1us 간격으로 bounce
+    localparam integer GAP_TIME   = 30_000_000; // 30ms
+    localparam integer BOUNCE_NS  = 1000_000;       // 1ms 간격으로 bounce
 
     //------------------------------------------------------------
     // clean press task
@@ -105,15 +104,6 @@ module tb_counter_10000;
     endtask
 
     //------------------------------------------------------------
-    // optional monitor
-    //------------------------------------------------------------
-    initial begin
-        $display("time\tclk\trst_n\trun\tclear\tmode");
-        $monitor("%0t\t%b\t%b\t%b\t%b\t%b",
-                 $time, clk, rst_n, btn_run, btn_clear, btn_mode);
-    end
-
-    //------------------------------------------------------------
     // test
     //------------------------------------------------------------
     initial begin
@@ -131,7 +121,7 @@ module tb_counter_10000;
         repeat (5) @(posedge clk);
         rst_n = 1'b1;
         repeat (5) @(posedge clk);
-
+        #(GAP_TIME);
         //--------------------------------------------------------
         // 시나리오 2
         // STOP -> RUN
