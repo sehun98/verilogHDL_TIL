@@ -14,7 +14,7 @@ module uart_command_parser (
     output wire tx_w_en,
     input wire tx_full,
 
-    output wire [3:0] led
+    output wire led
 );
     // 1. if(!empty) recieve data 
     // 2. if(buff \n 존재) parser 진행
@@ -30,7 +30,4 @@ module uart_command_parser (
     // 7. S_PARSE : 
     // 8. S_EXEC : 
     // 9. S_TX_SEND : 
-    
-    
-
 endmodule
