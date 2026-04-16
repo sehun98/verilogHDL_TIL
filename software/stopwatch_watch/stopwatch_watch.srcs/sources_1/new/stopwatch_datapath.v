@@ -3,9 +3,11 @@
 module stopwatch_datapath (
     input  wire       clk,
     input  wire       rst_n,
+
     input  wire       run,
     input  wire       clear,
     input  wire       mode,
+    
     output wire [6:0] msec,
     output wire [5:0] sec,
     output wire [5:0] min,
@@ -32,7 +34,7 @@ module stopwatch_datapath (
     );
 
     n_modulo_counter #(
-        .N(10)
+        .N(100)
     ) u2_msec (
         .clk  (clk),
         .rst_n(rst_n),
@@ -44,7 +46,7 @@ module stopwatch_datapath (
     );
 
     n_modulo_counter #(
-        .N(10)
+        .N(60)
     ) u3_sec (
         .clk  (clk),
         .rst_n(rst_n),

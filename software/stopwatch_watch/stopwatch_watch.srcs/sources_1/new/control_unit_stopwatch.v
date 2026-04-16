@@ -1,20 +1,20 @@
 `timescale 1ns / 1ps
 
-module control_unit (
+module control_unit_stopwatch (
     input  wire       clk,
     input  wire       rst_n,           // active low reset
+
     input  wire       btn_run,
     input  wire       btn_clear,
     input  wire       btn_mode,
-    input  wire       btn_not_define,
-    input  wire [2:0] sw,
+
+    input  wire       btn_undefine,
+    input  wire       sw_undefine,
+
     output wire       run,
     output reg        clear,
-    output reg        mode,
-    output wire [2:0] led
+    output reg        mode
 );
-    assign led = sw;
-
     localparam [2:0] IDLE = 3'b000;
     localparam [2:0] STOP = 3'b001;
     localparam [2:0] CLEAR = 3'b010;

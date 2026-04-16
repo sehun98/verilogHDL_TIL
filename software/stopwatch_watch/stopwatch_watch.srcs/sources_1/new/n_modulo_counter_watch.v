@@ -1,30 +1,34 @@
 `timescale 1ns / 1ps
 
-module n_modulo_counter_watch # (
-    parameter N = 60,
-    parameter TIME_SET = 0
+module n_modulo_counter_watch #(
+    parameter N        = 60,
+    parameter TIME_SET = 0,
+    parameter WIDTH    = $clog2(N)
 ) (
-    input  wire       clk,
-    input  wire       rst_n,
-    input  wire       en,
-    input  wire       count_set,
-    output reg  [6:0] count,
-    output reg        tick
+    input  wire             clk,
+    input  wire             rst_n,
+    input  wire             en,
+    input  wire             set_en,
+    input  wire [WIDTH-1:0] set_value,
+    output reg  [WIDTH-1:0] count,
+    output reg              tick
 );
-    localparam WIDTH = $clog2(N);
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            count <= TIME_SET;
-            tick  <= 0;
+            count <= TIME_SET[WIDTH-1:0];
+            tick  <= 1'b0;
         end else begin
-            tick <= 0;  // en 내부로 들어가면 안됨
-            if (en) begin
+            tick <= 1'b0;
+
+            if (set_en) begin
+                count <= set_value;
+            end else if (en) begin
                 if (count == N - 1) begin
-                    count <= TIME_SET;
-                    tick  <= 1;
+                    count <= TIME_SET[WIDTH-1:0];
+                    tick  <= 1'b1;
                 end else begin
-                    count <= count + 1;
+                    count <= count + 1'b1;
                 end
             end
         end

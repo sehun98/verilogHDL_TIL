@@ -85,8 +85,8 @@ module FND_Controller (
     );
 
     mux2to1 u7_mux2to1 (
-        .digit_ones(w_msec_sec_mux_out),
-        .digit_tens(w_min_hour_mux_out),
+        .digit_ones(w_min_hour_mux_out),
+        .digit_tens(w_msec_sec_mux_out),
         .digit_sel (time_unit_sel),
         .digit_out (w_digit_out)
     );
