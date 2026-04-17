@@ -9,7 +9,7 @@ module top_stopwatch_watch (
     input wire btnU,
     input wire btnD,
 
-    input wire undefine_sw,
+    input wire setmode_sw,
     input wire stopwatch_watch_sw,
     input wire hourmin_secmsec_sw,
 
@@ -49,6 +49,13 @@ module top_stopwatch_watch (
     wire       w_btnU;
     wire       w_btnD;
 
+    wire       w_stopwatch_btnR;
+    wire       w_stopwatch_btnL;
+    wire       w_stopwatch_btnD;
+    wire       w_watch_btnR;
+    wire       w_watch_btnL;
+    wire       w_watch_btnD;
+
     stopwatch_datapath u1_stopwatch_datapath (
         .clk  (clk),
         .rst_n(rst_n),
@@ -61,10 +68,10 @@ module top_stopwatch_watch (
         .hour (w_stopwatch_hour)
     );
 
-    watch_datapath u1_watch_datapath (
+    watch_datapath u2_watch_datapath (
         .clk      (clk),
         .rst_n    (rst_n),
-        .set_mode (undefine_sw),
+        .set_mode (setmode_sw),
         .up       (w_up),
         .down     (w_down),
         .digit_sel(w_digit_sel),
@@ -74,7 +81,7 @@ module top_stopwatch_watch (
         .hour     (w_watch_hour)
     );
 
-    stopwatch_watch_mux u_stopwatch_watch_mux (
+    stopwatch_watch_mux u3_stopwatch_watch_mux (
         .stopwatch_msec(w_stopwatch_msec),
         .stopwatch_sec (w_stopwatch_sec),
         .stopwatch_min (w_stopwatch_min),
@@ -96,12 +103,12 @@ module top_stopwatch_watch (
     assign led[0] = ~stopwatch_watch_sw;  // 1: watch, 0: stopwatch
     assign led[1] = hourmin_secmsec_sw;  // 1: sec/msec, 0: hour/min
 
-    control_unit_stopwatch u1_stopwatch_control_unit (
+    control_unit_stopwatch u4_stopwatch_control_unit (
         .clk         (clk),
         .rst_n       (rst_n),
-        .btn_run     (w_btnR),
-        .btn_clear   (w_btnL),
-        .btn_mode    (w_btnD),
+        .btn_run     (w_stopwatch_btnR),
+        .btn_clear   (w_stopwatch_btnL),
+        .btn_mode    (w_stopwatch_btnD),
         .btn_undefine(),
         .sw_undefine (),
         .run         (w_run),
@@ -109,20 +116,20 @@ module top_stopwatch_watch (
         .mode        (w_mode)
     );
 
-    control_unit_watch u1_watch_control_unit (
+    control_unit_watch u5_watch_control_unit (
         .clk      (clk),
         .rst_n    (rst_n),
-        .btn_right(w_btnR),
-        .btn_left (w_btnL),
-        .btn_down (w_btnD),
+        .btn_right(w_watch_btnR),
+        .btn_left (w_watch_btnL),
+        .btn_down (w_watch_btnD),
         .btn_up   (w_btnU),
-        .set_mode (undefine_sw),
+        .set_mode (setmode_sw),
         .digit_sel(w_digit_sel),
         .up       (w_up),
         .down     (w_down)
     );
 
-    FND_Controller u3_FND_Controller (
+    FND_Controller u6_FND_Controller (
         .clk          (clk),
         .rst_n        (rst_n),
         .msec         (w_msec),
@@ -130,32 +137,48 @@ module top_stopwatch_watch (
         .min          (w_min),
         .hour         (w_hour),
         .time_unit_sel(hourmin_secmsec_sw),  // 1: sec/msec, 0: hour/min
+        .set_mode_sw(setmode_sw),
+        .stopwatch_watch_sw(stopwatch_watch_sw),
+        .dot_sel      (w_digit_sel),
         .digit        (digit),
         .seg          (seg)
     );
 
-    btn_interface u1_btnR (
+    demux_1to2 u7_demux_1to2 (
+        .btnR          (w_btnR),
+        .btnL          (w_btnL),
+        .btnD          (w_btnD),
+        .sel           (~stopwatch_watch_sw),
+        .stopwatch_btnR(w_stopwatch_btnR),
+        .stopwatch_btnL(w_stopwatch_btnL),
+        .stopwatch_btnD(w_stopwatch_btnD),
+        .watch_btnR    (w_watch_btnR),
+        .watch_btnL    (w_watch_btnL),
+        .watch_btnD    (w_watch_btnD)
+    );
+
+    btn_interface u8_btnR (
         .clk      (clk),
         .rst_n    (rst_n),
         .btn_in   (btnR),
         .btn_pulse(w_btnR)
     );
 
-    btn_interface u1_btnL (
+    btn_interface u9_btnL (
         .clk      (clk),
         .rst_n    (rst_n),
         .btn_in   (btnL),
         .btn_pulse(w_btnL)
     );
 
-    btn_interface u1_btnU (
+    btn_interface u10_btnU (
         .clk      (clk),
         .rst_n    (rst_n),
         .btn_in   (btnU),
         .btn_pulse(w_btnU)
     );
 
-    btn_interface u1_btnD (
+    btn_interface u11_btnD (
         .clk      (clk),
         .rst_n    (rst_n),
         .btn_in   (btnD),

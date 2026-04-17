@@ -20,7 +20,7 @@ module control_unit_watch (
     assign down = set_mode & btn_down;
 
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+        if (!rst_n || !set_mode) begin // setmode가 켜지지 않으면 digit_sel 을 초기화
             digit_sel <= 3'd0;
         end else begin
             if (set_mode) begin

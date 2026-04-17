@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module mux2to1 (
+module mux_2to1 (
     input wire [3:0] digit_ones,
     input wire [3:0] digit_tens,
     input wire digit_sel,
