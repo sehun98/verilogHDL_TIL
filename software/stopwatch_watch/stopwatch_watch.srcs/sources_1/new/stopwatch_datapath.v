@@ -34,7 +34,8 @@ module stopwatch_datapath (
     );
 
     n_modulo_counter #(
-        .N(100)
+        .N(100),
+        .M(6)
     ) u2_msec (
         .clk  (clk),
         .rst_n(rst_n),
@@ -46,7 +47,8 @@ module stopwatch_datapath (
     );
 
     n_modulo_counter #(
-        .N(60)
+        .N(60),
+        .M(5)
     ) u3_sec (
         .clk  (clk),
         .rst_n(rst_n),
@@ -58,7 +60,8 @@ module stopwatch_datapath (
     );
 
     n_modulo_counter #(
-        .N(60)
+        .N(60),
+        .M(5)
     ) u4_min (
         .clk  (clk),
         .rst_n(rst_n),
@@ -70,7 +73,8 @@ module stopwatch_datapath (
     );
 
     n_modulo_counter #(
-        .N(24)
+        .N(24),
+        .M(4)
     ) u5_hour (
         .clk  (clk),
         .rst_n(rst_n),

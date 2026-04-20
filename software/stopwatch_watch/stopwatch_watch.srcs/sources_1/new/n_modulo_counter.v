@@ -1,14 +1,15 @@
 `timescale 1ns / 1ps
 
 module n_modulo_counter #(
-    parameter N = 60
+    parameter N = 60,
+    parameter M = 6
 ) (
     input  wire       clk,
     input  wire       rst_n,
     input  wire       en,
     input  wire       clear,
     input  wire       mode,
-    output reg  [6:0] count,
+    output reg  [M:0] count,
     output reg        tick
 );
     localparam WIDTH = $clog2(N);
