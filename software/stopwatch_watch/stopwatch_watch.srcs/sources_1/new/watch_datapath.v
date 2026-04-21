@@ -38,6 +38,7 @@ module watch_datapath (
     ) u1_tick_gen_100hz (
         .clk       (clk),
         .rst_n     (rst_n),
+        .clear     (clear),
         .tick_100hz(w_tick_100hz)
     );
 

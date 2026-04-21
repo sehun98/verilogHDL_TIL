@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module tb_top_stopwatch_watch;
+module tb_top_watch;
     reg        clk;
     reg        rst_n;
 
@@ -123,7 +123,7 @@ module tb_top_stopwatch_watch;
     // ============================================================
     task print_state;
         begin
-            $display("[%0t] setmode=%0b sw_watch=%0b unit_sel=%0b led=%02b digit=%04b seg=%08b",
+            $display("[%0f] setmode=%0b sw_watch=%0b unit_sel=%0b led=%02b digit=%04b seg=%08b",
                      $time, setmode_sw, stopwatch_watch_sw, hourmin_secmsec_sw, led, digit, seg);
         end
     endtask
@@ -137,11 +137,11 @@ module tb_top_stopwatch_watch;
         input integer actual;
         begin
             if (expected === actual) begin
-                $display("[%0t] SUCCESS | %s | expected=%0d actual=%0d", $time, name, expected, actual);
+                $display("[%0f] SUCCESS | %s | expected=%0d actual=%0d", $time, name, expected, actual);
                 pass_cnt = pass_cnt + 1;
             end
             else begin
-                $display("[%0t] FAIL    | %s | expected=%0d actual=%0d", $time, name, expected, actual);
+                $display("[%0f] FAIL    | %s | expected=%0d actual=%0d", $time, name, expected, actual);
                 fail_cnt = fail_cnt + 1;
             end
         end
@@ -153,11 +153,11 @@ module tb_top_stopwatch_watch;
         input integer actual;
         begin
             if (prev !== actual) begin
-                $display("[%0t] SUCCESS | %s | prev=%0d actual=%0d", $time, name, prev, actual);
+                $display("[%0f] SUCCESS | %s | prev=%0d actual=%0d", $time, name, prev, actual);
                 pass_cnt = pass_cnt + 1;
             end
             else begin
-                $display("[%0t]FAIL    | %s | value did not change | prev=%0d actual=%0d", $time, name, prev, actual);
+                $display("[%0f]FAIL    | %s | value did not change | prev=%0d actual=%0d", $time, name, prev, actual);
                 fail_cnt = fail_cnt + 1;
             end
         end
@@ -168,11 +168,11 @@ module tb_top_stopwatch_watch;
         input cond;
         begin
             if (cond) begin
-                $display("[%0t] SUCCESS | %s", $time, name);
+                $display("[%0f] SUCCESS | %s", $time, name);
                 pass_cnt = pass_cnt + 1;
             end
             else begin
-                $display("[%0t] FAIL    | %s", $time, name);
+                $display("[%0f] FAIL    | %s", $time, name);
                 fail_cnt = fail_cnt + 1;
             end
         end
@@ -206,124 +206,136 @@ module tb_top_stopwatch_watch;
 
         // stopwatch 모드 진입
         set_switches(0, 1, 0);
-
         $display("==================================================");
-        $display("        STOPWATCH 9-SCENARIO VERIFICATION");
+        $display("      WATCH -> STOPWATCH SCENARIO VERIFICATION");
         $display("==================================================");
 
         // ========================================================
-        // SCENARIO 1 : btnL 입력 → 스톱워치 시작
+        // SCENARIO 1 : setmode_sw 내림 → WATCH 동작
         // ========================================================
-        $display("\nSCENARIO 1 : START");
-        prev_msec = sw_msec;
-        prev_sec  = sw_sec;
-
-        press_btnR();             // 네 기존 tb 기준 btnR이 start/stop
-        #100_000_000;             // 100ms 관찰
-
-        check_true     ("RUN state entered", sw_run == 1'b1);
-        check_not_equal("msec should increase after START", prev_msec, sw_msec);
-
-        // ========================================================
-        // SCENARIO 2 : btnL 입력 → 스톱워치 정지
-        // ========================================================
-        $display("\nSCENARIO 2 : STOP");
-        press_btnR();
-        prev_msec = sw_msec;
+        $display("\nSCENARIO 1 : WATCH RUN MODE");
+        set_switches(0, 0, 0);   // setmode=0, watch=0, hour/min=0
         #50_000_000;
 
-        check_true ("RUN state cleared after STOP", sw_run == 1'b0);
-        check_equal("msec should hold after STOP", prev_msec, sw_msec);
+        check_equal("watch mode selected", 1, led[0]);
+        print_state();
 
         // ========================================================
-        // SCENARIO 3 : btnR 입력 → 초기화
+        // SCENARIO 2 : setmode_sw 올림 → 설정 모드 진입
         // ========================================================
-        $display("\nSCENARIO 3 : CLEAR");
-        press_btnL();
-
+        $display("\nSCENARIO 2 : WATCH SET MODE ENTRY");
+        set_switches(1, 0, 0);
         #10_000_000;
-        check_equal("msec cleared", 0, sw_msec);
-        check_equal("sec cleared" , 0, sw_sec);
+
+        check_equal("still watch mode", 1, led[0]);
+        check_equal("setmode_sw entered", 1, setmode_sw);
+        print_state();
 
         // ========================================================
-        // SCENARIO 4 : btnL 입력 → 다시 시작
+        // SCENARIO 3 : time_sel_sw 올림 → 시/분 표시
         // ========================================================
-        $display("\nSCENARIO 4 : RESTART");
-        prev_msec = sw_msec;
+        $display("\nSCENARIO 3 : TIME DISPLAY SELECT");
+        prev_seg   = seg;
+        prev_digit = digit;
+
+        set_switches(1, 0, 1);   // setmode=1, watch=0, sec/msec 표시
+        #10_000_000;
+
+        check_equal("sec/msec display selected", 1, led[1]);
+        check_true ("display changed after time_sel toggle",
+                    (digit != prev_digit) || (seg != prev_seg));
+        print_state();
+
+        // ========================================================
+        // SCENARIO 4 : 자리수 변경 및 값 변경 확인
+        // ========================================================
+        $display("\nSCENARIO 4 : DIGIT / VALUE CHANGE");
+        prev_seg = seg;
+
+        // 자릿수 이동
         press_btnR();
-        #100_000_000;
+        #10_000_000;
 
-        check_true     ("RUN state entered again", sw_run == 1'b1);
-        check_not_equal("msec should increase after RESTART", prev_msec, sw_msec);
+        // 값 증가
+        press_btnU();
+        #10_000_000;
 
-        // ========================================================
-        // SCENARIO 5 : btnL 입력 → 정지
-        // ========================================================
-        $display("\nSCENARIO 5 : STOP AGAIN");
-        press_btnR();
-        prev_msec = sw_msec;
-        #50_000_000;
+        check_true("display changed after digit/value update", seg != prev_seg);
+        print_state();
 
-        check_true ("RUN state cleared after second STOP", sw_run == 1'b0);
-        check_equal("msec should hold after second STOP", prev_msec, sw_msec);
-
-        // ========================================================
-        // SCENARIO 6 : btnD 입력 → 다운 카운트 모드 전환
-        // ========================================================
-        $display("\nSCENARIO 6 : DOWN MODE TOGGLE");
+        // 필요하면 감소도 같이 검증
+        prev_seg = seg;
+        press_btnL();
+        #10_000_000;
         press_btnD();
         #10_000_000;
 
-        check_true("down mode entered", sw_down == 1'b1);
+        check_true("display changed after left/down update", seg != prev_seg);
+        print_state();
 
         // ========================================================
-        // SCENARIO 7 : btnL 입력 → 스톱워치 동작
+        // SCENARIO 5 : setmode_sw 내림 → WATCH 동작
         // ========================================================
-        $display("\nSCENARIO 7 : START IN DOWN MODE");
+        $display("\nSCENARIO 5 : EXIT SET MODE -> WATCH RUN");
+        set_switches(0, 0, 1);
+        #50_000_000;
+
+        check_equal("setmode exited", 0, setmode_sw);
+        check_equal("watch mode maintained", 1, led[0]);
+        print_state();
+
+        // ========================================================
+        // SCENARIO 6 : stopwatch_watch_sw 올림 → 스톱워치 전환
+        // ========================================================
+        $display("\nSCENARIO 6 : SWITCH TO STOPWATCH");
+        set_switches(0, 1, 1);
+        #10_000_000;
+
+        // led[0] : HIGH watch, LOW stopwatch 라는 주석 기준
+        check_equal("stopwatch mode selected", 0, led[0]);
+        print_state();
+
+        // ========================================================
+        // SCENARIO 7 : btnR → 스톱워치 START
+        // ========================================================
+        $display("\nSCENARIO 7 : STOPWATCH START");
         prev_msec = sw_msec;
         prev_sec  = sw_sec;
 
         press_btnR();
         #100_000_000;
 
-        check_true("RUN state entered in down mode", sw_run == 1'b1);
-        check_true("count should move in down mode",
-                   (sw_sec < prev_sec) || ((sw_sec == prev_sec) && (sw_msec < prev_msec)));
+        check_true     ("RUN state entered", sw_run == 1'b1);
+        check_not_equal("msec increased after stopwatch start", prev_msec, sw_msec);
+        print_state();
 
         // ========================================================
-        // SCENARIO 8 : 오버플로우 확인
-        // 다운카운트에서는 00에서 최대값으로 언더플로우되는지 확인
+        // SCENARIO 8 : btnD → DOWN COUNT
         // ========================================================
-        $display("\nSCENARIO 8 : OVERFLOW / UNDERFLOW");
-        press_btnR();   // 잠깐 정지
-        press_btnL();   // clear -> 0으로
-        press_btnR();   // 다시 시작 (down mode 유지 가정)
-        #50_000_000;
-
-        check_true("underflow wrap observed in down mode",
-                   (sw_sec != 0) || (sw_msec != 0));
-
-        // ========================================================
-        // SCENARIO 9 : btnL 입력 → 정지 + time_sel_sw 표시 전환
-        // ========================================================
-        $display("\nSCENARIO 9 : STOP + DISPLAY TOGGLE");
-        press_btnR();    // stop
-        check_true("RUN state cleared at final STOP", sw_run == 1'b0);
-
-        prev_digit = digit;
-        prev_seg   = seg;
-
-        set_switches(0, 1, 1);   // sec/msec
+        $display("\nSCENARIO 8 : STOPWATCH DOWN COUNT MODE");
+        press_btnR();    // 일단 정지
         #10_000_000;
+        check_true("RUN cleared before down mode toggle", sw_run == 1'b0);
 
-        check_equal("LED[1] should indicate sec/msec display", 1, led[1]);
-        check_true ("display output should change after time_sel_sw toggle",
-                    (digit != prev_digit) || (seg != prev_seg));
+        press_btnD();    // down mode 진입
+        #10_000_000;
+        check_true("down mode entered", sw_down == 1'b1);
+
+        prev_msec = sw_msec;
+        prev_sec  = sw_sec;
+
+        press_btnR();    // down mode에서 start
+        #100_000_000;
+
+        check_true("RUN entered in down mode", sw_run == 1'b1);
+        check_true("count decreased in down mode",
+                   (sw_sec < prev_sec) || ((sw_sec == prev_sec) && (sw_msec < prev_msec)));
+        print_state();
 
         $display("\n==================================================");
         $display("FINAL RESULT | PASS = %0d | FAIL = %0d", pass_cnt, fail_cnt);
         $display("==================================================");
-
+        
         $finish;
     end
 
