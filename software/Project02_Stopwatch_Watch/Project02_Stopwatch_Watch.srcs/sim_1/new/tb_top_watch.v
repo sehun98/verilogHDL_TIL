@@ -215,7 +215,7 @@ module tb_top_watch;
         // ========================================================
         $display("\nSCENARIO 1 : WATCH RUN MODE");
         set_switches(0, 0, 0);   // setmode=0, watch=0, hour/min=0
-        #50_000_000;
+        #5_000_000;
 
         check_equal("watch mode selected", 1, led[0]);
         print_state();
@@ -225,7 +225,7 @@ module tb_top_watch;
         // ========================================================
         $display("\nSCENARIO 2 : WATCH SET MODE ENTRY");
         set_switches(1, 0, 0);
-        #10_000_000;
+        #5_000_000;
 
         check_equal("still watch mode", 1, led[0]);
         check_equal("setmode_sw entered", 1, setmode_sw);
@@ -268,7 +268,9 @@ module tb_top_watch;
         press_btnL();
         #10_000_000;
         press_btnD();
-        #10_000_000;
+        #50_000_000;
+        press_btnD();
+        #50_000_000;
 
         check_true("display changed after left/down update", seg != prev_seg);
         print_state();

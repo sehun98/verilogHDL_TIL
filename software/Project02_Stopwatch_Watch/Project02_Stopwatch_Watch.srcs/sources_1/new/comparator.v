@@ -8,7 +8,7 @@ module comparator (
 );
 
     reg [8:0] count;
-
+    
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             count <= 0;
@@ -24,4 +24,5 @@ module comparator (
             end
         end
     end
+
 endmodule
