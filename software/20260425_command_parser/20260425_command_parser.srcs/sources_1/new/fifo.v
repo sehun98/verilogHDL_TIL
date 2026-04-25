@@ -1,32 +1,30 @@
 `timescale 1ns / 1ps
 
 module fifo (
-    input wire clk,
-    input wire rst_n,
+    input  wire       clk,
+    input  wire       rst_n,
 
-    // write
-    input wire [7:0] din,
-    input wire       w_en,
+    input  wire       w_en,
+    input  wire [7:0] din,
 
-    // read
-    output reg  [7:0] dout,
     input  wire       r_en,
+    output reg  [7:0] dout,
 
-    // status
-    output wire empty,
-    output wire full
+    output wire       empty,
+    output wire       full
 );
 
-    reg [7:0] ram[0:15];
-    // wrap bit [4], addr bit [3:0]
-    reg [4:0] w_addr, r_addr;
+    reg [7:0] w_addr;   // [6:0]: addr, [7]: wrap bit
+    reg [7:0] r_addr;
+
+    reg [7:0] mem [0:127];
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            w_addr <= 5'd0;
+            w_addr <= 8'd0;
         end else begin
             if (w_en && !full) begin
-                ram[w_addr[3:0]] <= din;
+                mem[w_addr[6:0]] <= din;
                 w_addr <= w_addr + 1'b1;
             end
         end
@@ -34,17 +32,17 @@ module fifo (
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            r_addr <= 5'd0;
+            r_addr <= 8'd0;
             dout   <= 8'd0;
         end else begin
             if (r_en && !empty) begin
-                dout   <= ram[r_addr[3:0]];
+                dout <= mem[r_addr[6:0]];
                 r_addr <= r_addr + 1'b1;
             end
         end
     end
 
     assign empty = (w_addr == r_addr);
-    assign full  = (w_addr[3:0] == r_addr[3:0]) && (w_addr[4] != r_addr[4]);
+    assign full  = (w_addr[6:0] == r_addr[6:0]) && (w_addr[7] != r_addr[7]);
 
 endmodule

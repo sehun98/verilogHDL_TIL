@@ -12,9 +12,7 @@ module line_collector #(
 
     output reg  [        8*LINE_MAX-1:0] line_data, // 문장이 완성된 데이터를 전송해준다.
     output reg  [$clog2(LINE_MAX+1)-1:0] line_length, // 문장의 길이를 전송해준다.
-    output reg                           line_valid, // 문장이 완성되지 않았을 때 valid를 0으로 유지 시킨다, 문장이 전송이 되어도 0이 된다.
-
-    input  wire                          ready // 상대방에게 문장을 보낼 수 있다는 신호가 들어온다.
+    output reg                           line_valid // 문장이 완성되지 않았을 때 valid를 0으로 유지 시킨다, 문장이 전송이 되어도 0이 된다.
 );
 
     reg [8*LINE_MAX-1:0] buffer;
@@ -35,7 +33,7 @@ module line_collector #(
 
             // parser가 line_data를 가져가면 valid 해제
             // 상대가 ready인지 확인 한다.
-            if (line_valid && ready) begin
+            if (line_valid) begin
                 line_valid <= 0;
                 count      <= 0;
                 buffer     <= 0;
