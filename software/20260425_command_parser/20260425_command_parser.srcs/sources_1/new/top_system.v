@@ -40,10 +40,13 @@ module top_system (
         .rst_n(rst_n),
         .rx(rx),
         .tx(tx),
-        .tx_send(w_r_en),
+
+        .tx_send(w_rx_done),
         .tx_data(w_rx_data),
+        
         .rx_data(w_rx_data),
         .rx_done(w_rx_done),
+
         .rx_frame_error(),
         .tx_busy(),
         .tx_overrun_error()
@@ -55,8 +58,10 @@ module top_system (
 
         .w_en (w_rx_done),
         .din  (w_rx_data),
+
         .r_en (w_r_en),
         .dout (w_dout),
+        
         .empty(w_empty),
         .full ()
     );
@@ -66,9 +71,11 @@ module top_system (
     ) u4_line_collector (
         .clk(clk),
         .rst_n(rst_n),
+
         .fifo_r_en(w_r_en), // en 신호를 인가하면 fifo로 부터 데이터가 들어온다.
         .fifo_data(w_dout),  // 읽오는 데이터
         .fifo_empty(w_empty), // high 일 때 비어 있으므로 데이터를 읽지 말아야 한다.
+
         .line_data(w_line_data), // 문장이 완성된 데이터를 전송해준다.
         .line_length(w_line_length),  // 문장의 길이를 전송해준다.
         .line_valid(w_line_valid) // 문장이 완성되지 않았을 때 valid를 0으로 유지 시킨다, 문장이 전송이 되어도 0이 된다.

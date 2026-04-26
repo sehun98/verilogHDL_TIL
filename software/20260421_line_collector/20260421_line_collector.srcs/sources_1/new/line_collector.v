@@ -37,8 +37,8 @@ module line_collector #(
                 line_valid <= 0;
                 count      <= 0;
                 buffer     <= 0;
-            end  // 아직 완료된 line이 없을 때만 fifo 읽기
-            else if (!line_valid && !fifo_empty) begin
+                // 아직 완료된 line이 없을 때만 fifo 읽기
+            end else if (!line_valid && !fifo_empty) begin
                 fifo_r_en <= 1;
 
                 // line feed
