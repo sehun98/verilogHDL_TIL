@@ -139,6 +139,7 @@ module command_parser #(
                 else begin
                     cmd_type  <= CMD_NOP;
                     cmd_data  <= 16'd0;
+                    cmd_valid <= 1'b1;
                     cmd_error <= 1'b1;
                 end
             end
@@ -146,24 +147,3 @@ module command_parser #(
     end
 
 endmodule
-
-/*
-
-line_collector #(
-    parameter LINE_MAX = 64
-) (
-    input  wire                          clk,
-    input  wire                          rst_n,
-
-    output reg                           fifo_r_en, // en 신호를 인가하면 fifo로 부터 데이터가 들어온다.
-    input  wire [                   7:0] fifo_data, // 읽오는 데이터
-    input  wire                          fifo_empty, // high 일 때 비어 있으므로 데이터를 읽지 말아야 한다.
-
-    output reg  [        8*LINE_MAX-1:0] line_data, // 문장이 완성된 데이터를 전송해준다.
-    output reg  [$clog2(LINE_MAX+1)-1:0] line_length, // 문장의 길이를 전송해준다.
-    output reg                           line_valid, // 문장이 완성되지 않았을 때 valid를 0으로 유지 시킨다, 문장이 전송이 되어도 0이 된다.
-
-    input  wire                          ready // 상대방에게 문장을 보낼 수 있다는 신호가 들어온다.
-);
-
-*/
