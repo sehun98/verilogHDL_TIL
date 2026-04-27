@@ -29,7 +29,6 @@ module uart_baud_rate_acc #(
             end
         end
     end
-
 endmodule
 
 module uart_baud_rate_cnt #(
@@ -58,9 +57,8 @@ module uart_baud_rate_cnt #(
                 cnt       <= 1'b0;
             end else begin
                 baud_tick <= 1'b0;
-                cnt       <= cnt + 1'b1;
+                cnt <= cnt + 1'b1;
             end
         end
     end
-
 endmodule

@@ -25,10 +25,10 @@ module uart #(
 
     wire w_baud_tick_acc;
 
-    uart_baud_rate_acc #(
+    uart_baud_rate_cnt #(
         .CLOCK_FREQ_HZ(CLOCK_FREQ_HZ),
         .BAUD_RATE(BAUD_RATE)
-    ) u1_uart_baud_rate_acc (
+    ) u1_uart_baud_rate_cnt (
         .clk(clk),
         .rst_n(rst_n),
         .baud_tick(w_baud_tick_acc)
