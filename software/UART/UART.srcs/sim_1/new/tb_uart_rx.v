@@ -83,40 +83,44 @@ module tb_uart_rx;
     endtask
 
     always #5 clk = ~clk;
+initial begin
+    clk = 0;
+    rst_n = 0;
+    rx = 1;
 
-    initial begin
-        clk = 0;
-        rst_n = 0;
-        rx = 1;
-        repeat (5) @(negedge clk);
-        rst_n = 1;
+    repeat (5) @(negedge clk);
+    rst_n = 1;
 
-        #(DELAY);
-        set_data(8'h30);  // '0'
+    #(DELAY);
 
-        #(DELAY);
-        set_data(8'h30);  // 
+    // 시나리오 1: 단일 수신
+    set_data(8'h30);  // '0'
+    #(DELAY);
 
-        #(DELAY);
-        rx = 1'b0;  // start bit
-        repeat (16) @(negedge w_baud_tick_acc);
+    // 시나리오 2: 연속 수신
+    set_data(8'h30);  // '0'
+    set_data(8'h30);  // '1'
+    set_data(8'h30);  // '2'
+    set_data(8'h30);  // '3'
+    set_data(8'h30);  // '4'
+    set_data(8'h30);  // '5'
+    set_data(8'h30);  // '6'
+    set_data(8'h30);  // '7'
+    set_data(8'h30);  // '8'
+    set_data(8'h30);  // '9'
 
-        rx = 0;
-        repeat (16) @(negedge w_baud_tick_acc);
-        rx = 0;
-        repeat (16) @(negedge w_baud_tick_acc);
-        rx = 0;
-        repeat (16) @(negedge w_baud_tick_acc);
-        rx = 0;
-        set_data(8'h30);
-        #(DELAY);
+    #(DELAY);
 
-        set_data_stop_bit_not_1(8'h30);
-        #(DELAY);
+    // 시나리오 4: stop bit 오류
+    set_data_stop_bit_not_1(8'h30);
 
-        set_data_start_glitch();
-        #(DELAY);
-        $finish;
-    end
+    #(DELAY);
+
+    // 시나리오 5: start glitch
+    set_data_start_glitch();
+
+    #(DELAY);
+    $finish;
+end
 
 endmodule

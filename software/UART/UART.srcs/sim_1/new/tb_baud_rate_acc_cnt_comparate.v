@@ -40,12 +40,11 @@ module tb_baud_rate_acc_cnt_comparate;
         rst_n = 1;
 
         // 1ms 측정 : 100MHz => 100,000 clocks
-        repeat (100_000_000) @(posedge clk);
-        @(negedge clk);
-        clk = 1'bx;
+        #(100_000);
         $display("[%0t] tick_count_acc = %0d, tick_count_cnt = %0d",
                  $time, tick_count_acc, tick_count_cnt);
-
+        rst_n = 0;
+        #(100_000);
         #100;
         $finish;
     end

@@ -37,22 +37,23 @@ module tb_uart_tx;
         .tx(tx)
     );
 
-    task send_flag;
-    begin
-        @(negedge clk);
-        #2;
-        tx_send = 1;
-        @(posedge clk);
-        @(negedge clk);   
-        tx_send = 0;     
-    end
-    endtask
-
-    task set_bit(
-        input [7:0] t_data
-    );
+    task send_byte(input [7:0] t_data);
         begin
+            // TX가 사용 가능할 때까지 대기
+            wait (tx_busy == 0);
+
+            @(negedge clk);
             tx_data = t_data;
+            tx_send = 1;
+
+            @(negedge clk);
+            tx_send = 0;
+
+            // 전송 시작 확인
+            wait (tx_busy == 1);
+
+            // 전송 완료 대기
+            wait (tx_busy == 0);
         end
     endtask
 
@@ -63,23 +64,26 @@ module tb_uart_tx;
         rst_n = 0;
         tx_send = 0;
         tx_data = 0;
-        repeat(5) @(negedge clk);
+
+        repeat (5) @(negedge clk);
         rst_n = 1;
 
         #(DELAY);
-        set_bit(8'h30);
-        send_flag();
+
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
+        send_byte(8'h30);
 
         #(DELAY);
-        set_bit(8'h30);
-        send_flag();
-        repeat(16*5) @(posedge w_baud_tick_acc);
-        set_bit(8'hff);
-        send_flag();
-
-
-        #(DELAY);
-        $finish;        
+        $finish;
     end
 
 endmodule
