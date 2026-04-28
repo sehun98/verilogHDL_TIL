@@ -25,6 +25,8 @@ module uart_rx (
     reg rx_done_reg, rx_done_next;
     reg rx_frame_error_reg, rx_frame_error_next;
 
+    localparam STOP_RATE = 15;
+
     // 1. state register
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -76,7 +78,7 @@ module uart_rx (
                 end
             end
             STOP: begin
-                if (rx_baud_tick && baud_tick_cnt_reg == 15) begin
+                if (rx_baud_tick && baud_tick_cnt_reg == STOP_RATE) begin
                     n_state = IDLE;
                 end
             end
@@ -102,7 +104,7 @@ module uart_rx (
             end
             STOP: begin
                 if (rx_baud_tick) begin
-                    if (baud_tick_cnt_reg == 15) baud_tick_cnt_next = 0;
+                    if (baud_tick_cnt_reg == STOP_RATE) baud_tick_cnt_next = 0;
                     else baud_tick_cnt_next = baud_tick_cnt_reg + 1;
                 end
             end
@@ -160,7 +162,7 @@ module uart_rx (
             START: rx_done_next = 0;
             DATA: rx_done_next = 0;
             STOP: begin
-                if (rx_baud_tick && baud_tick_cnt_reg == 15 && sync_ff2)
+                if (rx_baud_tick && baud_tick_cnt_reg == STOP_RATE && sync_ff2)
                     rx_done_next = 1;
                 else rx_done_next = 0;
             end
@@ -178,7 +180,7 @@ module uart_rx (
             START: rx_frame_error_next = 0;
             DATA: rx_frame_error_next = 0;
             STOP: begin
-                if (rx_baud_tick && baud_tick_cnt_reg == 15 && !sync_ff2)
+                if (rx_baud_tick && baud_tick_cnt_reg == STOP_RATE && !sync_ff2)
                     rx_frame_error_next = 1;
                 else rx_frame_error_next = 0;
             end
@@ -187,3 +189,7 @@ module uart_rx (
     end
 
 endmodule
+
+// done signal fast than busy signal
+// error accumulator
+//
