@@ -13,6 +13,17 @@ module top_stopwatch_watch (
     input wire stopwatch_watch_sw,
     input wire hourmin_secmsec_sw,
 
+    input wire uart_set_en,
+
+    input wire [6:0] i_msec_data,  // msec
+    input wire [5:0] i_sec_data,  // sec
+    input wire [5:0] i_min_data,  // min
+    input wire [4:0] i_hour_data,  // hour
+
+    input wire run,
+    input wire clear,
+    input wire mode,
+
     output wire [7:0] seg,
     output wire [3:0] digit,
     output wire [1:0] led
@@ -33,11 +44,6 @@ module top_stopwatch_watch (
     wire [5:0] w_min;
     wire [4:0] w_hour;
 
-    // stopwatch control signals
-    wire       w_run;
-    wire       w_clear;
-    wire       w_mode;
-
     // watch control signals
     wire [2:0] w_digit_sel;
     wire       w_up;
@@ -55,6 +61,11 @@ module top_stopwatch_watch (
     wire       w_watch_btnR;
     wire       w_watch_btnL;
     wire       w_watch_btnD;
+
+    // stopwatch datapath signal
+    wire       w_run;
+    wire       w_clear;
+    wire       w_mode;
 
     stopwatch_datapath u1_stopwatch_datapath (
         .clk  (clk),
@@ -75,6 +86,14 @@ module top_stopwatch_watch (
         .up       (w_up),
         .down     (w_down),
         .digit_sel(w_digit_sel),
+
+        .uart_set_en(uart_set_en),
+
+        .i_hour_data(i_hour_data),
+        .i_min_data(i_min_data),
+        .i_sec_data(i_sec_data),
+        .i_msec_data(i_msec_data),
+
         .msec     (w_watch_msec),
         .sec      (w_watch_sec),
         .min      (w_watch_min),
@@ -106,6 +125,9 @@ module top_stopwatch_watch (
     control_unit_stopwatch u4_stopwatch_control_unit (
         .clk         (clk),
         .rst_n       (rst_n),
+        .uart_run    (run),
+        .uart_clear  (clear),
+        .uart_mode   (mode),
         .btn_run     (w_stopwatch_btnR),
         .btn_clear   (w_stopwatch_btnL),
         .btn_mode    (w_stopwatch_btnD),
@@ -130,18 +152,18 @@ module top_stopwatch_watch (
     );
 
     FND_Controller u6_FND_Controller (
-        .clk          (clk),
-        .rst_n        (rst_n),
-        .msec         (w_msec),
-        .sec          (w_sec),
-        .min          (w_min),
-        .hour         (w_hour),
-        .time_unit_sel(hourmin_secmsec_sw),  // 1: sec/msec, 0: hour/min
-        .set_mode_sw(setmode_sw),
+        .clk               (clk),
+        .rst_n             (rst_n),
+        .msec              (w_msec),
+        .sec               (w_sec),
+        .min               (w_min),
+        .hour              (w_hour),
+        .time_unit_sel     (hourmin_secmsec_sw),  // 1: sec/msec, 0: hour/min
+        .set_mode_sw       (setmode_sw),
         .stopwatch_watch_sw(stopwatch_watch_sw),
-        .dot_sel      (w_digit_sel),
-        .digit        (digit),
-        .seg          (seg)
+        .dot_sel           (w_digit_sel),
+        .digit             (digit),
+        .seg               (seg)
     );
 
     demux_1to2 u7_demux_1to2 (

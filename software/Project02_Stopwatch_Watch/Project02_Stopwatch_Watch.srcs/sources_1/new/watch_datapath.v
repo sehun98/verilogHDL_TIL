@@ -11,6 +11,13 @@ module watch_datapath (
 
     input wire [2:0] digit_sel,
 
+    input wire uart_set_en,
+
+    input wire [6:0] i_msec_data,
+    input wire [5:0] i_sec_data,
+    input wire [5:0] i_min_data,
+    input wire [4:0] i_hour_data,
+
     output wire [6:0] msec,
     output wire [5:0] sec,
     output wire [5:0] min,
@@ -46,65 +53,78 @@ module watch_datapath (
         .N(100),
         .TIME_SET(0)
     ) u2_msec (
-        .clk       (clk),
-        .rst_n     (rst_n),
-        .en        (w_tick_100hz & ~set_mode),
-        .set_en    (set_en_msec),
-        .set_value (set_value_msec),
-        .count     (msec),
-        .tick      (w_sec)
+        .clk      (clk),
+        .rst_n    (rst_n),
+        .en       (w_tick_100hz & ~set_mode),
+        .set_en   (set_en_msec),
+        .set_value(set_value_msec),
+        .count    (msec),
+        .tick     (w_sec)
     );
 
     n_modulo_counter_watch #(
         .N(60),
         .TIME_SET(0)
     ) u3_sec (
-        .clk       (clk),
-        .rst_n     (rst_n),
-        .en        (w_sec),
-        .set_en    (set_en_sec),
-        .set_value (set_value_sec),
-        .count     (sec),
-        .tick      (w_min)
+        .clk      (clk),
+        .rst_n    (rst_n),
+        .en       (w_sec),
+        .set_en   (set_en_sec),
+        .set_value(set_value_sec),
+        .count    (sec),
+        .tick     (w_min)
     );
 
     n_modulo_counter_watch #(
         .N(60),
         .TIME_SET(0)
     ) u4_min (
-        .clk       (clk),
-        .rst_n     (rst_n),
-        .en        (w_min),
-        .set_en    (set_en_min),
-        .set_value (set_value_min),
-        .count     (min),
-        .tick      (w_hour)
+        .clk      (clk),
+        .rst_n    (rst_n),
+        .en       (w_min),
+        .set_en   (set_en_min),
+        .set_value(set_value_min),
+        .count    (min),
+        .tick     (w_hour)
     );
 
     n_modulo_counter_watch #(
         .N(24),
         .TIME_SET(12)
     ) u5_hour (
-        .clk       (clk),
-        .rst_n     (rst_n),
-        .en        (w_hour),
-        .set_en    (set_en_hour),
-        .set_value (set_value_hour),
-        .count     (hour),
-        .tick      ()
+        .clk      (clk),
+        .rst_n    (rst_n),
+        .en       (w_hour),
+        .set_en   (set_en_hour),
+        .set_value(set_value_hour),
+        .count    (hour),
+        .tick     ()
     );
 
     always @(*) begin
         // 기본값
-        set_en_msec     = 1'b0;
-        set_en_sec      = 1'b0;
-        set_en_min      = 1'b0;
-        set_en_hour     = 1'b0;
+        set_en_msec    = 1'b0;
+        set_en_sec     = 1'b0;
+        set_en_min     = 1'b0;
+        set_en_hour    = 1'b0;
 
-        set_value_msec  = msec;
-        set_value_sec   = sec;
-        set_value_min   = min;
-        set_value_hour  = hour;
+        set_value_msec = msec;
+        set_value_sec  = sec;
+        set_value_min  = min;
+        set_value_hour = hour;
+
+        // UART 절대값 설정 우선
+        if (uart_set_en) begin
+            set_en_hour    = 1'b1;
+            set_en_min     = 1'b1;
+            set_en_sec     = 1'b1;
+            set_en_msec    = 1'b1;
+
+            set_value_hour = i_hour_data;
+            set_value_min  = i_min_data;
+            set_value_sec  = i_sec_data;
+            set_value_msec = i_msec_data;
+        end
 
         if (up) begin
             case (digit_sel)
@@ -157,8 +177,7 @@ module watch_datapath (
                     else set_value_msec = msec + 1;
                 end
             endcase
-        end
-        else if (down) begin
+        end else if (down) begin
             case (digit_sel)
                 3'd0: begin
                     set_en_hour = 1'b1;

@@ -4,6 +4,10 @@ module control_unit_stopwatch (
     input  wire       clk,
     input  wire       rst_n,           // active low reset
 
+    input  wire       uart_run,
+    input  wire       uart_clear,
+    input  wire       uart_mode,
+
     input  wire       btn_run,
     input  wire       btn_clear,
     input  wire       btn_mode,
@@ -38,12 +42,12 @@ module control_unit_stopwatch (
         case (state)
             IDLE: n_state = STOP;
             STOP: begin
-                if (btn_clear) n_state = CLEAR;
-                else if (btn_mode) n_state = MODE;
-                else if (btn_run) n_state = RUN;
+                if (btn_clear || uart_clear) n_state = CLEAR;
+                else if (btn_mode || uart_mode) n_state = MODE;
+                else if (btn_run || uart_run) n_state = RUN;
                 else n_state = STOP;
             end
-            RUN: if (btn_run) n_state = STOP;
+            RUN: if (btn_run || uart_run) n_state = STOP;
             CLEAR: n_state = STOP;
             MODE: n_state = STOP;
             default: n_state = IDLE;
