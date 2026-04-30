@@ -41,11 +41,10 @@ module command_parser #(
     localparam CMD_TIME_SEL = 4'd4;
 
     localparam CMD_WATCH_SET = 4'd5;
-
     localparam CMD_WATCH_TIME = 4'd6; // watch 시간
 
     localparam CMD_ULTRASONIC = 4'd7;
-    localparam CMD_TEMP = 4'd8;
+    localparam CMD_DHT11 = 4'd8;
 
     // line_data를 8bit ASCII 문자 배열로 분리
     wire [7:0] c [0:LINE_MAX-1];
@@ -178,6 +177,33 @@ module command_parser #(
                     ) begin
 
                     cmd_type  <= CMD_WATCH_TIME;
+                    cmd_data_1  <= 16'd0;
+                    cmd_data_2  <= 16'd0;
+                    cmd_data_3  <= 16'd0;
+                    cmd_data_4  <= 16'd0;
+                    cmd_valid <= 1'b1;
+                end
+
+                // ULTRASONIC
+                else if (line_length == 10 &&
+                    c[0] == "U" && c[1] == "L" && c[2] == "T" && c[3] == "R"  && c[4] == "A" &&
+                    c[5] == "S" && c[6] == "O" && c[7] == "N" && c[8] == "I" && c[9] == "C"
+                    ) begin
+
+                    cmd_type  <= CMD_ULTRASONIC;
+                    cmd_data_1  <= 16'd0;
+                    cmd_data_2  <= 16'd0;
+                    cmd_data_3  <= 16'd0;
+                    cmd_data_4  <= 16'd0;
+                    cmd_valid <= 1'b1;
+                end
+
+                // DHT11
+                else if (line_length == 5 &&
+                    c[0] == "D" && c[1] == "H" && c[2] == "T" && c[3] == "1"  && c[4] == "1"
+                    ) begin
+
+                    cmd_type  <= CMD_DHT11;
                     cmd_data_1  <= 16'd0;
                     cmd_data_2  <= 16'd0;
                     cmd_data_3  <= 16'd0;

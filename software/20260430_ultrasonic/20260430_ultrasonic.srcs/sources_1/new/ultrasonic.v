@@ -92,8 +92,8 @@ module ultrasonic_controller (
     reg [1:0] state, n_state;
 
     // 10tick = 10us
-    // 400cm * 58 = 
-    // 32768
+    // 400cm * 58 = 23200
+    // 32768 
     reg [14:0] cnt_reg, cnt_next;
 
 

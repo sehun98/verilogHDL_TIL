@@ -6,12 +6,14 @@ module command_executor (
 
     output reg uart_set_en,
     output reg watch_time_request,
+    output reg ultrasonic_request,
+    output reg dht11_request,
 
     // to uart controller
-    output reg  [4:0]                   o_cmd_data_1,   // hour
-    output reg  [5:0]                   o_cmd_data_2,   // min
-    output reg  [5:0]                   o_cmd_data_3,   // sec
-    output reg  [6:0]                   o_cmd_data_4,   // msec
+    output reg  [15:0]                   o_cmd_data_1,   // hour
+    output reg  [15:0]                   o_cmd_data_2,   // min
+    output reg  [15:0]                   o_cmd_data_3,   // sec
+    output reg  [15:0]                   o_cmd_data_4,   // msec
     
     // from command executor
     input wire  [15:0]                   i_cmd_data_1,   // hour
@@ -37,11 +39,12 @@ module command_executor (
 
     // 미구현
     localparam CMD_TIME_SEL = 4'd4;
+
     localparam CMD_WATCH_SET = 4'd5;
     localparam CMD_WATCH_TIME = 4'd6; // watch 시간
 
     localparam CMD_ULTRASONIC = 4'd7;
-    localparam CMD_TEMP = 4'd8;
+    localparam CMD_DHT11 = 4'd8;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -63,6 +66,8 @@ module command_executor (
 
             uart_set_en <= 1'b0;
             watch_time_request <= 1'b0;
+            ultrasonic_request <= 1'b0;
+            dht11_request <= 1'b0;
 
             if (cmd_valid) begin
                 exec_done <= 1'b1;
@@ -102,11 +107,11 @@ module command_executor (
                     end
 
                     CMD_ULTRASONIC: begin
-                        
+                        ultrasonic_request <= 1'b1;
                     end
 
-                    CMD_TEMP: begin
-                        
+                    CMD_DHT11: begin
+                        dht11_request <= 1'b1;
                     end
                     default: begin
                         error_send <= 1'b1;

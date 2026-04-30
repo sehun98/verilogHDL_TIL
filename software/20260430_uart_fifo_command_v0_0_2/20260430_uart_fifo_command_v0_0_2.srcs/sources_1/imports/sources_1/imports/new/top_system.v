@@ -19,14 +19,6 @@ module top_system (
     input  wire rx,
     output wire tx
 );
-/*
-    ila_0 uila_0 (
-        .clk(clk),
-        .probe0(w_tx_full),
-        .probe1(w_tx_din)
-    );
-
-*/
     localparam LINE_MAX = 64;
     localparam DEPTH = 16;
 
@@ -78,6 +70,12 @@ module top_system (
     wire                          w_tx_controller_fifo_w_en;
     wire [                   7:0] w_tx_controller_fifo_data;
 
+    wire w_watch_time_request;  
+
+    wire w_ultrasonic_request; // executor to ultrasonic request signal
+    wire w_dht11_request; // executor to dht11 request signal
+    wire w_ultrasonic_done; // ultrasonic to uart tx controller done signal
+    wire w_dht11_done; // dht11 to uart tx controller done signal
 
     top_stopwatch_watch u1_top_stopwatch_watch (
         .clk  (clk),
@@ -94,10 +92,10 @@ module top_system (
 
         .uart_set_en(w_uart_set_en),
 
-        .i_hour_data(w_hour_data),
-        .i_min_data (w_min_data),
-        .i_sec_data (w_sec_data),
-        .i_msec_data(w_msec_data),
+        .i_hour_data(w_hour_data[4:0]),
+        .i_min_data (w_min_data[5:0]),
+        .i_sec_data (w_sec_data[5:0]),
+        .i_msec_data(w_msec_data[6:0]),
         
         .o_hour_data(w_o_hour_data),
         .o_min_data (w_o_min_data),
@@ -149,7 +147,6 @@ module top_system (
         .full ()
     );
 
-
     fifo #(
         .DEPTH(DEPTH)
     ) u4_tx_fifo (
@@ -200,24 +197,24 @@ module top_system (
         .cmd_error()
     );
 
-    wire w_watch_time_request;
-
     command_executor u6_command_executor (
         .clk  (clk),
         .rst_n(rst_n),
 
         .uart_set_en(w_uart_set_en),
         .watch_time_request(w_watch_time_request),
+        .ultrasonic_request(w_ultrasonic_request),
+        .dht11_request(w_dht11_request),
 
         .i_cmd_data_1(w_cmd_data_1),
         .i_cmd_data_2(w_cmd_data_2),
         .i_cmd_data_3(w_cmd_data_3),
         .i_cmd_data_4(w_cmd_data_4),
 
-        .o_cmd_data_1(w_hour_data),
-        .o_cmd_data_2(w_min_data),
-        .o_cmd_data_3(w_sec_data),
-        .o_cmd_data_4(w_msec_data),
+        .o_cmd_data_1(w_hour_data[4:0]),
+        .o_cmd_data_2(w_min_data[5:0]),
+        .o_cmd_data_3(w_sec_data[5:0]),
+        .o_cmd_data_4(w_msec_data[6:0]),
 
         .cmd_type (w_cmd_type),
         .cmd_valid(w_cmd_valid),
@@ -230,12 +227,15 @@ module top_system (
         .error_send(w_error_send)
     );
 
-
     UART_TX_Controller u7_UART_TX_Controller (
         .clk(clk),
         .rst_n(rst_n),
+
         .error_send(w_error_send),
+
         .watch_time_request(w_watch_time_request),
+        .ultrasonic_done(w_ultrasonic_done),
+        .dht11_done(w_dht11_done),
 
         .i_hour_data(w_o_hour_data),
         .i_min_data (w_o_min_data),
@@ -246,4 +246,5 @@ module top_system (
         .fifo_w_en(w_tx_controller_fifo_w_en),
         .fifo_data(w_tx_controller_fifo_data)
     );
+
 endmodule

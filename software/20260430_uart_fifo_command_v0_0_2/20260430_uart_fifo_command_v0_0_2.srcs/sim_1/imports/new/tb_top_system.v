@@ -79,19 +79,19 @@ module tb_top_system;
             uart_send_byte("A");
             uart_send_byte("T");
             uart_send_byte("C");
-            //uart_send_byte("H");
+            uart_send_byte("H");
             uart_send_byte(" ");
-            uart_send_byte("1");
-            uart_send_byte("3");
-            uart_send_byte(":");
-            uart_send_byte("0");
-            uart_send_byte("0");
-            uart_send_byte(":");
-            uart_send_byte("0");
-            uart_send_byte("0");
-            uart_send_byte(":");
-            uart_send_byte("0");
-            uart_send_byte("0");
+            uart_send_byte("T");
+            uart_send_byte("I");
+            uart_send_byte("M");
+            uart_send_byte("E");
+            // uart_send_byte("0");
+            // uart_send_byte(":");
+            // uart_send_byte("0");
+            // uart_send_byte("0");
+            // uart_send_byte(":");
+            // uart_send_byte("0");
+            // uart_send_byte("0");
             uart_send_byte(8'h0A);  // \n
         end
     endtask
@@ -119,7 +119,7 @@ module tb_top_system;
         $display("[%0t] Send command: LED ON", $time);
         send_led_on_command();
 
-        repeat (16) uart_send_byte(8'h0A);
+        //repeat (16) uart_send_byte(8'h0A);
 
         // 명령 파싱 및 실행 대기
         #(BIT_TIME * 20);
