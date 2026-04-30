@@ -134,6 +134,9 @@ module ultrasonic (
         if (!rst_n) begin
             distance <= 8'd0;
         end else if (state == DONE) begin
+            // 1us tick 기준으로는 58us 
+            // distance = echo_count / 58;
+            
             // 100MHz 기준 10ns
             // 1. distance <= (echo_count * 0.01 * 0.034) / 2;
             // 2. distance <= echo_count * 0.00017;
@@ -143,6 +146,7 @@ module ultrasonic (
             // 5. distance ≈ (echo_count * K) >> S 정수 곱셈 + 쉬프트로 근사화 진행
             // K = 2^S / 5882
             // S = 20, K = 178
+            
             distance <= (echo_count * 179) >> 20;
             // 정확도 확인
             // 178 / 1048576 = 0.0001697540283203125
