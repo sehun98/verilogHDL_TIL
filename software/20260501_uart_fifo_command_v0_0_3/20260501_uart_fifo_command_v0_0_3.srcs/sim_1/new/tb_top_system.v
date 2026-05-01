@@ -28,7 +28,7 @@ module tb_top_system;
     localparam CLK_PERIOD = 10;  // 100MHz
     localparam BAUD_RATE = 115200;
     localparam BIT_TIME = 1_000_000_000 / BAUD_RATE;  // ns 단위 약 8680ns
-    localparam ECHO_TIME = 2000;
+    localparam ECHO_TIME = 10000*58;
 
     wire debug_trig;
 
@@ -87,7 +87,7 @@ module tb_top_system;
     endtask
 
     // 문자열 "LED ON\n" 전송
-    task send_led_on_command;
+    task send_ultrasonic_command;
         begin
             uart_send_byte("U");
             uart_send_byte("L");
@@ -109,8 +109,34 @@ module tb_top_system;
             uart_send_byte(8'h0A);  // \n
         end
     endtask
+    task send_watch_command;
+        begin
+            uart_send_byte("W");
+            uart_send_byte("A");
+            uart_send_byte("T");
+            uart_send_byte("C");
+            uart_send_byte("H");
+            uart_send_byte(" ");
+            uart_send_byte("T");
+            uart_send_byte("I");
+            uart_send_byte("M");
+            uart_send_byte("E");
+            uart_send_byte(8'h0A);  // \n
+        end
+    endtask
 
-    assign debug_trig = u1_top_system.u1_stopwatch_watch.u13_ultrasonic.u1_ultrasonic_controller.trig;
+    task send_dht11_command;
+        begin
+            uart_send_byte("D");
+            uart_send_byte("H");
+            uart_send_byte("T");
+            uart_send_byte("1");
+            uart_send_byte("1");
+            uart_send_byte(8'h0A);  // \n
+        end
+    endtask
+
+    assign debug_trig = u1_top_system.u1_top_stopwatch_watch.u13_ultrasonic.u1_ultrasonic_controller.trig;
 
     initial begin
         // 초기값
@@ -123,6 +149,7 @@ module tb_top_system;
         setmode_sw = 0;
         stopwatch_watch_sw = 0;
         hourmin_secmsec_sw = 0;
+        echo = 1'b0;
 
         rx = 1'b1;
 
@@ -133,10 +160,11 @@ module tb_top_system;
         #(BIT_TIME * 5);
 
         $display("[%0t] Send command: LED ON", $time);
-        send_led_on_command();
+        send_ultrasonic_command();
 
         //repeat (16) uart_send_byte(8'h0A);
-        @(posedge debug_trig);
+        @(negedge debug_trig);
+
         echo = 1;
         // 명령 파싱 및 실행 대기
         #(ECHO_TIME);
@@ -149,7 +177,10 @@ module tb_top_system;
             $display("[FAIL] LED ON command failed. led = %b", led);
         end
 
-        #(BIT_TIME * 5);
+        #(1000000);
+        send_dht11_command();
+        #(10000000);
+        #(1000);
         $finish;
     end
 
