@@ -4,30 +4,34 @@ module command_executor (
     input wire clk,
     input wire rst_n,
 
+    // to stopwatch and watch and ultrasonic and dht11
     output reg uart_set_en,
     output reg watch_time_request,
     output reg ultrasonic_request,
     output reg dht11_request,
 
-    // to uart controller
-    output reg  [15:0]                   o_cmd_data_1,   // hour
-    output reg  [15:0]                   o_cmd_data_2,   // min
-    output reg  [15:0]                   o_cmd_data_3,   // sec
-    output reg  [15:0]                   o_cmd_data_4,   // msec
+    // to uart tx controller
+    output reg  [4:0]                   o_hour_data,   // hour
+    output reg  [5:0]                   o_min_data,   // min
+    output reg  [5:0]                   o_sec_data,   // sec
+    output reg  [6:0]                   o_msec_data,   // msec
     
-    // from command executor
+    // from command parser
     input wire  [15:0]                   i_cmd_data_1,   // hour
     input wire  [15:0]                   i_cmd_data_2,   // min
     input wire  [15:0]                   i_cmd_data_3,   // sec
     input wire  [15:0]                   i_cmd_data_4,   // msec
 
+    // from command parser
     input wire [ 3:0] cmd_type,
     input wire        cmd_valid,
 
+    // to stopwatch and watch
     output reg stopwatch_run,
     output reg stopwatch_clear,
     output reg stopwatch_mode,
 
+    // to uart tx controller
     output reg exec_done,
     output reg error_send
 );
@@ -96,10 +100,10 @@ module command_executor (
 
                     CMD_WATCH_SET: begin
                         uart_set_en <= 1'b1;
-                        o_cmd_data_1 <= i_cmd_data_1; // hour
-                        o_cmd_data_2 <= i_cmd_data_2; // min
-                        o_cmd_data_3 <= i_cmd_data_3; // 
-                        o_cmd_data_4 <= i_cmd_data_4;
+                        o_hour_data <= i_cmd_data_1[4:0]; // hour
+                        o_min_data <= i_cmd_data_2[5:0]; // min
+                        o_sec_data <= i_cmd_data_3[5:0]; // sec
+                        o_msec_data <= i_cmd_data_4[6:0]; // msec
                     end
 
                     CMD_WATCH_TIME: begin

@@ -13,21 +13,40 @@ module top_stopwatch_watch (
     input wire stopwatch_watch_sw,
     input wire hourmin_secmsec_sw,
 
-    input wire uart_set_en,
-
+    // from command executor to stopwatch and watch 
     input wire [6:0] i_msec_data,  // msec
-    input wire [5:0] i_sec_data,  // sec
-    input wire [5:0] i_min_data,  // min
+    input wire [5:0] i_sec_data,   // sec
+    input wire [5:0] i_min_data,   // min
     input wire [4:0] i_hour_data,  // hour
 
+    // from stopwatch and watch to uart tx controller
     output wire [6:0] o_msec_data,  // msec
-    output wire [5:0] o_sec_data,  // sec
-    output wire [5:0] o_min_data,  // min
+    output wire [5:0] o_sec_data,   // sec
+    output wire [5:0] o_min_data,   // min
     output wire [4:0] o_hour_data,  // hour
 
-    input wire run,
-    input wire clear,
-    input wire mode,
+    // from command executor to stopwatch and watch 
+    input wire uart_set_en,
+    input wire ultrasonic_request,
+    input wire dht11_request,
+
+    // from stopwatch and watch to uart tx controller
+    output wire ultrasonic_done,
+    output wire dht11_done,
+
+    // from stopwatch and watch to uart tx controller
+    output wire [8:0] distance_data,
+    output wire [7:0] temp_data,
+    output wire [7:0] humidity_data,
+
+    // from command executor to stopwatch and watch 
+    input wire uart_stopwatch_run,
+    input wire uart_stopwatch_clear,
+    input wire uart_stopwatch_mode,
+
+    inout  wire dht11,
+    output wire trig,
+    input  wire echo,
 
     output wire [7:0] seg,
     output wire [3:0] digit,
@@ -68,25 +87,28 @@ module top_stopwatch_watch (
     wire       w_watch_btnD;
 
     // stopwatch datapath signal
-    wire       w_run;
-    wire       w_clear;
-    wire       w_mode;
-    
+    wire       w_stopwatch_run;
+    wire       w_stopwatch_clear;
+    wire       w_stopwatch_mode;
+
+    // fnd로 가는 data intercept
     assign o_msec_data = w_watch_msec;
-    assign o_sec_data = w_watch_sec;
-    assign o_min_data = w_watch_min;
+    assign o_sec_data  = w_watch_sec;
+    assign o_min_data  = w_watch_min;
     assign o_hour_data = w_watch_hour;
 
     stopwatch_datapath u1_stopwatch_datapath (
         .clk  (clk),
         .rst_n(rst_n),
-        .run  (w_run),
-        .clear(w_clear),
-        .mode (w_mode),
-        .msec (w_stopwatch_msec),
-        .sec  (w_stopwatch_sec),
-        .min  (w_stopwatch_min),
-        .hour (w_stopwatch_hour)
+
+        .run  (w_stopwatch_run),
+        .clear(w_stopwatch_clear),
+        .mode (w_stopwatch_mode),
+
+        .msec(w_stopwatch_msec),
+        .sec (w_stopwatch_sec),
+        .min (w_stopwatch_min),
+        .hour(w_stopwatch_hour)
     );
 
     watch_datapath u2_watch_datapath (
@@ -100,14 +122,14 @@ module top_stopwatch_watch (
         .uart_set_en(uart_set_en),
 
         .i_hour_data(i_hour_data),
-        .i_min_data(i_min_data),
-        .i_sec_data(i_sec_data),
+        .i_min_data (i_min_data),
+        .i_sec_data (i_sec_data),
         .i_msec_data(i_msec_data),
 
-        .msec     (w_watch_msec),
-        .sec      (w_watch_sec),
-        .min      (w_watch_min),
-        .hour     (w_watch_hour)
+        .msec(w_watch_msec),
+        .sec (w_watch_sec),
+        .min (w_watch_min),
+        .hour(w_watch_hour)
     );
 
     stopwatch_watch_mux u3_stopwatch_watch_mux (
@@ -133,19 +155,21 @@ module top_stopwatch_watch (
     assign led[1] = hourmin_secmsec_sw;  // 1: sec/msec, 0: hour/min
 
     control_unit_stopwatch u4_stopwatch_control_unit (
-        .clk         (clk),
-        .rst_n       (rst_n),
-        .uart_run    (run),
-        .uart_clear  (clear),
-        .uart_mode   (mode),
+        .clk  (clk),
+        .rst_n(rst_n),
+
+        .uart_run  (uart_stopwatch_run),
+        .uart_clear(uart_stopwatch_clear),
+        .uart_mode (uart_stopwatch_mode),
+
         .btn_run     (w_stopwatch_btnR),
         .btn_clear   (w_stopwatch_btnL),
         .btn_mode    (w_stopwatch_btnD),
         .btn_undefine(),
         .sw_undefine (),
-        .run         (w_run),
-        .clear       (w_clear),
-        .mode        (w_mode)
+        .run         (w_stopwatch_run),
+        .clear       (w_stopwatch_clear),
+        .mode        (w_stopwatch_mode)
     );
 
     control_unit_watch u5_watch_control_unit (
@@ -175,7 +199,6 @@ module top_stopwatch_watch (
         .digit             (digit),
         .seg               (seg)
     );
-
 
     demux_1to2 u7_demux_1to2 (
         .btnR          (w_btnR),
@@ -216,6 +239,26 @@ module top_stopwatch_watch (
         .rst_n    (rst_n),
         .btn_in   (btnD),
         .btn_pulse(w_btnD)
+    );
+
+    dht11 u12_dht11 (
+        .clk        (clk),
+        .rst        (rst),
+        .dht11_start(dht11_request),
+        .dht11_done (dht11_done),
+        .humidity   (humidity_data),
+        .temperature(temp_data),
+        .dht11      (dht11)
+    );
+
+    ultrasonic u13_ultrasonic (
+        .clk             (clk),
+        .rst             (rst),
+        .ultrasonic_start(ultrasonic_request),
+        .ultrasonic_done (ultrasonic_done),
+        .distance        (distance_data),
+        .trig            (trig),
+        .echo            (echo)
     );
 
 endmodule

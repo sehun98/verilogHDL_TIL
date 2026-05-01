@@ -10,7 +10,15 @@
 // cmd_valid
 
 // 모두 완료가 된 후 parser_ready 를 line에 전송해준다.
-
+// ===========================================================
+// command_parser
+// [동작 구조]
+// 1. line_valid가 입력되면 line_data를 기반으로 명령어 parsing 시작
+// 2. 문자열을 분석해서 정보를 추출
+//     - cmd type : 명령어 종류
+//     - cmd data : 명령어에 포함된 데이터값
+// 3. parsing이 완료되면 cmd valid를 1 pulse 출력
+// ===========================================================
 module command_parser #(
     parameter LINE_MAX = 64
 ) (
@@ -21,10 +29,11 @@ module command_parser #(
     input  wire [$clog2(LINE_MAX+1)-1:0] line_length,
     input  wire                          line_valid,
 
-    output reg  [15:0]                   cmd_data_1,   // hour
-    output reg  [15:0]                   cmd_data_2,   // min
-    output reg  [15:0]                   cmd_data_3,   // sec
-    output reg  [15:0]                   cmd_data_4,   // msec
+    // 현재로써 HH:MM:SS:MS 정보만 받지만, 추후를 위해 16bit로 고정
+    output reg  [15:0]                   o_cmd_data_1,   // hour
+    output reg  [15:0]                   o_cmd_data_2,   // min
+    output reg  [15:0]                   o_cmd_data_3,   // sec
+    output reg  [15:0]                   o_cmd_data_4,   // msec
 
     output reg  [3:0]                    cmd_type,   // 0~15
     output reg                           cmd_valid,
@@ -37,17 +46,18 @@ module command_parser #(
     localparam CMD_STOPWATCH_CLEAR = 4'd2;
     localparam CMD_STOPWATCH_MODE = 4'd3;
 
-    // 미구현
-    localparam CMD_TIME_SEL = 4'd4;
+    localparam CMD_TIME_SEL = 4'd4; // 미구현
 
     localparam CMD_WATCH_SET = 4'd5;
-    localparam CMD_WATCH_TIME = 4'd6; // watch 시간
-
+    localparam CMD_WATCH_TIME = 4'd6;
     localparam CMD_ULTRASONIC = 4'd7;
     localparam CMD_DHT11 = 4'd8;
 
     // line_data를 8bit ASCII 문자 배열로 분리
     wire [7:0] c [0:LINE_MAX-1];
+
+    // 숫자 ASCII 문자를 숫자로 변경
+    wire [3:0] d [0:LINE_MAX-1];
 
     genvar i;
     generate
@@ -68,8 +78,6 @@ module command_parser #(
         end
     endfunction
 
-    wire [3:0] d [0:LINE_MAX-1];
-
     generate
         for (i = 0; i < LINE_MAX; i = i + 1) begin : GEN_CHAR_TO_DIGIT
             assign d[i] = ascii_to_digit(c[i]);
@@ -78,10 +86,10 @@ module command_parser #(
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            cmd_data_1  <= 16'd0;
-            cmd_data_2  <= 16'd0;
-            cmd_data_3  <= 16'd0;
-            cmd_data_4  <= 16'd0;
+            o_cmd_data_1  <= 16'd0;
+            o_cmd_data_2  <= 16'd0;
+            o_cmd_data_3  <= 16'd0;
+            o_cmd_data_4  <= 16'd0;
             cmd_type  <= CMD_NOP;
             cmd_valid <= 1'b0;
             cmd_error <= 1'b0;
@@ -101,10 +109,10 @@ module command_parser #(
                     ) begin
 
                     cmd_type  <= CMD_STOPWATCH_RUN;
-                    cmd_data_1  <= 16'd0;
-                    cmd_data_2  <= 16'd0;
-                    cmd_data_3  <= 16'd0;
-                    cmd_data_4  <= 16'd0;
+                    o_cmd_data_1  <= 16'd0;
+                    o_cmd_data_2  <= 16'd0;
+                    o_cmd_data_3  <= 16'd0;
+                    o_cmd_data_4  <= 16'd0;
                     cmd_valid <= 1'b1;
                 end
 
@@ -116,10 +124,10 @@ module command_parser #(
                     ) begin
 
                     cmd_type  <= CMD_STOPWATCH_CLEAR;
-                    cmd_data_1  <= 16'd0;
-                    cmd_data_2  <= 16'd0;
-                    cmd_data_3  <= 16'd0;
-                    cmd_data_4  <= 16'd0;
+                    o_cmd_data_1  <= 16'd0;
+                    o_cmd_data_2  <= 16'd0;
+                    o_cmd_data_3  <= 16'd0;
+                    o_cmd_data_4  <= 16'd0;
                     cmd_valid <= 1'b1;
                 end
 
@@ -131,10 +139,10 @@ module command_parser #(
                     ) begin
 
                     cmd_type  <= CMD_STOPWATCH_MODE;
-                    cmd_data_1  <= 16'd0;
-                    cmd_data_2  <= 16'd0;
-                    cmd_data_3  <= 16'd0;
-                    cmd_data_4  <= 16'd0;
+                    o_cmd_data_1  <= 16'd0;
+                    o_cmd_data_2  <= 16'd0;
+                    o_cmd_data_3  <= 16'd0;
+                    o_cmd_data_4  <= 16'd0;
                     cmd_valid <= 1'b1;
                 end
 
@@ -154,7 +162,7 @@ module command_parser #(
                     cmd_valid <= 1'b1;
                 end
 */
-                // WATCH 12:00:00:00
+                // WATCH HH:MM:SS:MS
                 else if (line_length == 17 &&
                     c[0] == "W" && c[1] == "A" && c[2] == "T" && c[3] == "C"  && c[4] == "H" &&
                     c[5] == " " && d[6] != 4'hF && d[7] != 4'hF && c[8] == ":" && d[9] != 4'hF &&
@@ -163,10 +171,10 @@ module command_parser #(
                     ) begin
 
                     cmd_type  <= CMD_WATCH_SET;
-                    cmd_data_1  <= d[6] * 16'd10 + d[7];
-                    cmd_data_2  <= d[9] * 16'd10 + d[10];
-                    cmd_data_3  <= d[12] * 16'd10 + d[13];
-                    cmd_data_4  <= d[15] * 16'd10 + d[16];
+                    o_cmd_data_1  <= d[6] * 16'd10 + d[7];
+                    o_cmd_data_2  <= d[9] * 16'd10 + d[10];
+                    o_cmd_data_3  <= d[12] * 16'd10 + d[13];
+                    o_cmd_data_4  <= d[15] * 16'd10 + d[16];
                     cmd_valid <= 1'b1;
                 end
 
@@ -177,10 +185,10 @@ module command_parser #(
                     ) begin
 
                     cmd_type  <= CMD_WATCH_TIME;
-                    cmd_data_1  <= 16'd0;
-                    cmd_data_2  <= 16'd0;
-                    cmd_data_3  <= 16'd0;
-                    cmd_data_4  <= 16'd0;
+                    o_cmd_data_1  <= 16'd0;
+                    o_cmd_data_2  <= 16'd0;
+                    o_cmd_data_3  <= 16'd0;
+                    o_cmd_data_4  <= 16'd0;
                     cmd_valid <= 1'b1;
                 end
 
@@ -191,10 +199,10 @@ module command_parser #(
                     ) begin
 
                     cmd_type  <= CMD_ULTRASONIC;
-                    cmd_data_1  <= 16'd0;
-                    cmd_data_2  <= 16'd0;
-                    cmd_data_3  <= 16'd0;
-                    cmd_data_4  <= 16'd0;
+                    o_cmd_data_1  <= 16'd0;
+                    o_cmd_data_2  <= 16'd0;
+                    o_cmd_data_3  <= 16'd0;
+                    o_cmd_data_4  <= 16'd0;
                     cmd_valid <= 1'b1;
                 end
 
@@ -204,20 +212,20 @@ module command_parser #(
                     ) begin
 
                     cmd_type  <= CMD_DHT11;
-                    cmd_data_1  <= 16'd0;
-                    cmd_data_2  <= 16'd0;
-                    cmd_data_3  <= 16'd0;
-                    cmd_data_4  <= 16'd0;
+                    o_cmd_data_1  <= 16'd0;
+                    o_cmd_data_2  <= 16'd0;
+                    o_cmd_data_3  <= 16'd0;
+                    o_cmd_data_4  <= 16'd0;
                     cmd_valid <= 1'b1;
                 end
 
                 // Unknown command
                 else begin
                     cmd_type  <= CMD_NOP;
-                    cmd_data_1  <= 16'd0;
-                    cmd_data_2  <= 16'd0;
-                    cmd_data_3  <= 16'd0;
-                    cmd_data_4  <= 16'd0;
+                    o_cmd_data_1  <= 16'd0;
+                    o_cmd_data_2  <= 16'd0;
+                    o_cmd_data_3  <= 16'd0;
+                    o_cmd_data_4  <= 16'd0;
                     cmd_valid <= 1'b1;
                     cmd_error <= 1'b1;
                 end
