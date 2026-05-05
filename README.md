@@ -1,39 +1,59 @@
-\[2026-04-06] 
-1. verilogHDL 환경 설정 및 기초 문법
+1. FND Controller
 
-[2026-04-06 방과후] 
-1. tick generator 1ms
-2. tick generator 1ms accumulator
-3. debounce 
-4. rising & falling & both edge detector
+   1.1 BCD
 
-[2026-04-07 수업 시작 전]
-1. N-modulo
-2. watch FSM 미완성
+   1.2 digit splitter 1to4
 
-[2026-04-07]
-1. 파일 구조
-2. half adder & full adder
-3. 4bit full adder + FND
+   1.3 mux 4to1
 
-[2026-04-08]
-1. 8bit full adder + FND
+   1.4 tick generator
 
-[2026-04-09 수업 시작 전]
-1. ultrasonic sensor
+   1.5 counter 4
 
-[2026-04-09]
-1. 10000 counter
+   1.6 decoder 2to4
 
-[2026-04-10]
-1. 10000 counter + run/stop + reset + up/down count mode
-2. latch + ff + meta stable + CDC
+2. button interface
 
-[2026-04-11 방과후]
-1. ultrasonic slack path fixed
-2. register
-3. uart baud rate
+   2.1 8 flip-flop method debounce
 
-[2026-04-12]
-1. uart baud rate + uart tx + uart rx
-2. button interface (debounce + edge detect)
+   2.2 count method debounce
+
+   2.3 edge detector
+
+   ​    2.3.1 rising edge detector
+
+   ​    2.3.2 falling edge detector
+
+   ​    2.3.3 both edge detector
+
+3. N-modulo
+
+4. moore - mealy FSM
+
+5. patten FSM
+
+6. UART Protocol
+
+   6.1 UART baud rate 
+       6.1.1 16 oversampling
+       6.1.2 accumulate method
+
+   6.2 UART TX 16 oversampling
+
+   6.3 UART RX 16 oversampling
+
+7. FIFO
+   7.1 register file
+   7.2 register file control unit
+8. Line Collector
+9. Command Parser
+10. Command Executor
+11. UART TX Controller
+12. Ultrasonic ASM
+13. DHT11 ASM
+14. latch + flip-flop + metastability + CDC
+15. CDC (Clock Domain Crossing)
+    1.  synchronizer
+    2. handshake
+    3. async FIFO
+
