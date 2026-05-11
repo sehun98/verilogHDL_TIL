@@ -9,12 +9,50 @@ interface FND_Controller_interface ();
 endinterface
 
 class transaction;
-    rand bit rst_n;
+    bit rst_n;
     rand bit [13:0] data;
     bit [3:0] digit;
     bit [7:0] seg;
 
-    constraint in_rage {}
+    constraint data_rate {
+        data < 10000;
+    }
+
+/*
+    constraint in_rage {
+        data 
+    }
+    */
+
+    /*    
+    constraint in_range {
+        a>128;
+        b>250;
+    }
+
+    constraint in_range {
+        a inside {[0:127]};
+    }
+
+    constraint in_distribute {
+        mode dist {0:/80, 1:/20};
+    }
+
+    constraint in_b {
+        if(mode == 0) { 
+            b inside {0,1,2,3,15,31,250};
+        } else {
+            b > 128;
+        }
+    }
+    constraint c5 {
+        solve mode before b;
+    }
+
+    constraint c6 {
+        unique {arr};
+    }
+    */
 
     task debug_print(string name);
         begin
@@ -27,11 +65,11 @@ endclass
 class generator;
     transaction tr;
     mailbox #(transaction) gen2drv_mbox;
-    event event_gen2drv;
+    event event_scb2gen;
 
-    function new(mailbox#(transaction) _gen2drv_mbox, event _event_gen2drv);
+    function new(mailbox#(transaction) _gen2drv_mbox, event _event_scb2gen);
         this.gen2drv_mbox = _gen2drv_mbox;
-        event_gen2drv = _event_gen2drv;
+        event_scb2gen = _event_scb2gen;
     endfunction
 
     task run();
@@ -40,7 +78,7 @@ class generator;
             tr.randomize();
             this.gen2drv_mbox.put(tr);
             tr.debug_print("GEN");
-            @(event_gen2drv);
+            @(event_scb2gen);
         end
     endtask
 endclass
@@ -49,29 +87,23 @@ class driver;
     transaction tr;
     mailbox #(transaction) gen2drv_mbox;
     virtual FND_Controller_interface v_FND_Controller_if;
+    event event_drv2mon;
 
     function new(virtual FND_Controller_interface _v_FND_Controller_if,
-                 mailbox#(transaction) _gen2drv_mbox);
+                 mailbox#(transaction) _gen2drv_mbox,
+                 event _event_drv2mon);
         this.v_FND_Controller_if = _v_FND_Controller_if;
         this.gen2drv_mbox = _gen2drv_mbox;
+        this.event_drv2mon = _event_drv2mon;
     endfunction
-
-    task reset_n();
-        v_FND_Controller_if.rst_n = 1'b0;
-        repeat (2) @(posedge v_FND_Controller_if.clk);
-        v_FND_Controller_if.rst_n = 1'b1;
-    endtask
 
     task run();
         forever begin
             this.gen2drv_mbox.get(tr);
-            v_FND_Controller_if.rst_n = tr.rst_n;
             v_FND_Controller_if.data  = tr.data;
-            v_FND_Controller_if.digit = tr.digit;
-            v_FND_Controller_if.seg   = tr.seg;
-            #10;
+            #4000_000;
             tr.debug_print("DRV");
-            ->event_gen2drv;
+            -> event_drv2mon;
         end
     endtask
 endclass
@@ -80,17 +112,20 @@ class monitor;
     transaction tr;
     mailbox #(transaction) mon2scb_mbox;
     virtual FND_Controller_interface v_FND_Controller_if;
+    event event_drv2mon;
 
     function new(virtual FND_Controller_interface _v_FND_Controller_if,
-                 mailbox#(transaction) _mon2scb_mbox);
+                 mailbox#(transaction) _mon2scb_mbox,
+                 event _event_drv2mon);
         this.v_FND_Controller_if = _v_FND_Controller_if;
         this.mon2scb_mbox = _mon2scb_mbox;
+        this.event_drv2mon = _event_drv2mon;
     endfunction
 
     task run();
         forever begin
+            @(event_drv2mon);
             this.tr = new();
-            this.tr.rst_n = this.v_FND_Controller_if.rst_n;
             this.tr.data = this.v_FND_Controller_if.data;
             this.tr.digit = this.v_FND_Controller_if.digit;
             this.tr.seg = this.v_FND_Controller_if.seg;
@@ -103,9 +138,11 @@ endclass
 class scoreboard;
     transaction tr;
     mailbox #(transaction) mon2scb_mbox;
+    event event_scb2gen;
 
-    function new(mailbox#(transaction) _mon2scb_mbox);
+    function new(mailbox#(transaction) _mon2scb_mbox, event _event_scb2gen);
         this.mon2scb_mbox = _mon2scb_mbox;
+        this.event_scb2gen = _event_scb2gen;
     endfunction
 
     function automatic logic [7:0] seg_ref(input logic [3:0] num);
@@ -175,6 +212,7 @@ class scoreboard;
             this.mon2scb_mbox.get(tr);
             this.tr.debug_print("SCB");
             compare(tr.data, tr.digit, tr.seg);
+            -> event_scb2gen;
         end
     endtask
 endclass
@@ -186,19 +224,20 @@ class environment;
     scoreboard scb;
     mailbox #(transaction) gen2drv_mbox;
     mailbox #(transaction) mon2scb_mbox;
-    event event_gen2drv;
+    event event_scb2gen;
+    event event_drv2mon;
 
     function new(virtual FND_Controller_interface _v_FND_Controller_if);
         gen2drv_mbox = new();
         mon2scb_mbox = new();
-        gen = new(this.gen2drv_mbox, event_gen2drv);
-        drv = new(_v_FND_Controller_if, this.gen2drv_mbox);
-        mon = new(_v_FND_Controller_if, this.mon2scb_mbox);
-        scb = new(this.mon2scb_mbox);
+        gen = new(this.gen2drv_mbox, this.event_scb2gen);
+        drv = new(_v_FND_Controller_if, this.gen2drv_mbox, this.event_drv2mon);
+        mon = new(_v_FND_Controller_if, this.mon2scb_mbox, this.event_drv2mon);
+        scb = new(this.mon2scb_mbox, this.event_scb2gen);
     endfunction
 
     task run();
-        drv.reset_n();
+        //drv.reset_n();
         fork
             gen.run();
             drv.run();
@@ -223,6 +262,10 @@ module tb_FND_Controller_sv ();
     always #5 FND_Controller_if.clk = ~FND_Controller_if.clk;
 
     initial begin
+        FND_Controller_if.clk = 1'b0;
+        FND_Controller_if.rst_n = 1'b0;
+        repeat (2) @(posedge FND_Controller_if.clk);
+        FND_Controller_if.rst_n = 1'b1;
         env = new(FND_Controller_if);
         env.run();
     end
