@@ -21,7 +21,9 @@ class transaction;
     bit empty;
 
     task debug_print(string name);
-        $display("[%t] %s",$time, name);
+        $display(
+            "[%t] [%s] full = %d, empty =%d, push_data = %d, push = %d, pop = %d pop_data = %d",
+            $time, name, full, empty, push_data, push, pop, pop_data);
     endtask
 endclass
 
@@ -50,19 +52,19 @@ class driver;
     transaction tr;
     mailbox #(transaction) gen2drv_mbox;
     virtual fifo_interface v_fifo_if;
-    event event_drv2mon;
 
     function new(mailbox#(transaction) _gen2drv_mbox,
-                 virtual fifo_interface _v_fifo_if, event _event_drv2mon);
+                 virtual fifo_interface _v_fifo_if);
         this.gen2drv_mbox = _gen2drv_mbox;
         this.v_fifo_if = _v_fifo_if;
-        this.event_drv2mon = _event_drv2mon;
     endfunction
 
     task preset();
-        v_fifo_if.clk   = 0;
         v_fifo_if.rst_n = 0;
-        repeat (2) @(posedge fifo_if.clk);
+        v_fifo_if.push_data = 0;
+        v_fifo_if.push = 0;
+        v_fifo_if.pop = 0;
+        repeat (2) @(posedge v_fifo_if.clk);
         v_fifo_if.rst_n = 1;
     endtask
 
@@ -75,7 +77,12 @@ class driver;
             v_fifo_if.push_data = tr.push_data;
             v_fifo_if.push = tr.push;
             v_fifo_if.pop = tr.pop;
-            //->event_drv2mon;
+            // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            @(posedge v_fifo_if.clk);
+            #1;
+            v_fifo_if.push <= 0;
+            v_fifo_if.pop  <= 0;
+            // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         end
     endtask
 endclass
@@ -84,19 +91,16 @@ class monitor;
     transaction tr;
     mailbox #(transaction) mon2scb_mbox;
     virtual fifo_interface v_fifo_if;
-    event event_drv2mon;
 
     function new(mailbox#(transaction) _mon2scb_mbox,
-                 virtual fifo_interface _v_fifo_if, event _event_drv2mon);
+                 virtual fifo_interface _v_fifo_if);
         this.mon2scb_mbox = _mon2scb_mbox;
         this.v_fifo_if = _v_fifo_if;
-        this.event_drv2mon = _event_drv2mon;
     endfunction
 
     task run();
         forever begin
             @(negedge v_fifo_if.clk);
-            //@(event_drv2mon);
             tr = new();
             tr.push_data = v_fifo_if.push_data;
             tr.push = v_fifo_if.push;
@@ -115,6 +119,9 @@ class scoreboard;
     mailbox #(transaction) mon2scb_mbox;
     event event_scb2gen;
 
+    int total_cnt = 0, pass_cnt = 0, fail_cnt = 0;
+    logic [7:0] temp;
+
     logic [7:0] debug_fifo_queue[$:15];
 
     function new(mailbox#(transaction) _mon2scb_mbox, event _event_scb2gen);
@@ -124,10 +131,69 @@ class scoreboard;
 
     task run();
         forever begin
-            //push_front(mon2scb_mbox.);
-            //pop_back();
+            total_cnt++;
+            this.mon2scb_mbox.get(tr);
             tr.debug_print("SCB");
-            
+            case ({
+                tr.push, tr.pop
+            })
+                2'b01: begin
+                    if (debug_fifo_queue.size() != 0) begin
+                        temp = debug_fifo_queue.pop_back();
+                        if (tr.pop_data == temp) begin
+                            pass_cnt++;
+                            $display(
+                                "[%t][PASS] debug_fifo_queue = %d, pop_data = %d",
+                                $time, temp, tr.pop_data);
+                        end else begin
+                            fail_cnt++;
+                            $display(
+                                "[%t][FIAL] debug_fifo_queue = %d, pop_data = %d",
+                                $time, temp, tr.pop_data);
+                        end
+                    end
+                end
+                2'b10: begin
+                    if (debug_fifo_queue.size() != 15) begin
+                        debug_fifo_queue.push_front(tr.push_data);
+                    end
+                end
+                2'b11: begin
+                    if (debug_fifo_queue.size() == 15) begin
+                        temp = debug_fifo_queue.pop_back();
+                        if (tr.pop_data == temp) begin
+                            pass_cnt++;
+                            $display(
+                                "[%t][PASS] debug_fifo_queue = %d, pop_data = %d",
+                                $time, temp, tr.pop_data);
+                        end else begin
+                            fail_cnt++;
+                            $display(
+                                "[%t][FIAL] debug_fifo_queue = %d, pop_data = %d",
+                                $time, temp, tr.pop_data);
+                        end
+                    end else if (debug_fifo_queue.size() == 0) begin
+                        debug_fifo_queue.push_front(tr.push_data);
+                    end else begin
+                        temp = debug_fifo_queue.pop_back();
+                        if (tr.pop_data == temp) begin
+                            pass_cnt++;
+                            $display(
+                                "[%t][PASS] debug_fifo_queue = %d, pop_data = %d",
+                                $time, temp, tr.pop_data);
+                        end else begin
+                            fail_cnt++;
+                            $display(
+                                "[%t][FIAL] debug_fifo_queue = %d, pop_data = %d",
+                                $time, temp, tr.pop_data);
+                        end
+                        debug_fifo_queue.push_front(tr.push_data);
+                    end
+                end
+                default: begin
+
+                end
+            endcase
             ->event_scb2gen;
         end
     endtask
@@ -141,25 +207,33 @@ class environment;
     scoreboard scb;
     monitor mon;
     event event_scb2gen;
-    event event_drv2mon;
 
     function new(virtual fifo_interface _v_fifo_if);
         gen2drv_mbox = new();
         mon2scb_mbox = new();
         gen = new(this.gen2drv_mbox, event_scb2gen);
-        drv = new(this.gen2drv_mbox, _v_fifo_if, event_drv2mon);
-        mon = new(this.mon2scb_mbox, _v_fifo_if, event_drv2mon);
+        drv = new(this.gen2drv_mbox, _v_fifo_if);
+        mon = new(this.mon2scb_mbox, _v_fifo_if);
         scb = new(this.mon2scb_mbox, event_scb2gen);
     endfunction
 
     task run();
         drv.preset();
         fork
-            gen.run(10);
+            gen.run(100);
             drv.run();
             mon.run();
             scb.run();
         join_any
+
+        $display("================end-fork join any================");
+        $display("total_cnt = %d", scb.total_cnt);
+        $display("pass_cnt = %d", scb.pass_cnt);
+        $display("fail_cnt = %d", scb.fail_cnt);
+        $display("================end-fork join any================");
+        
+        disable fork;
+        $stop;
     endtask
 endclass
 
@@ -168,20 +242,20 @@ module tb_fifo_sv ();
     environment env;
 
     fifo dut (
-        .clk(clk),
-        .rst_n(rst_n),
-        .push_data(push_data),
-        .pop_data(pop_data),
-        .push(push),
-        .pop(pop),
-        .full(full),
-        .empty(empty)
+        .clk(fifo_if.clk),
+        .rst_n(fifo_if.rst_n),
+        .push_data(fifo_if.push_data),
+        .pop_data(fifo_if.pop_data),
+        .push(fifo_if.push),
+        .pop(fifo_if.pop),
+        .full(fifo_if.full),
+        .empty(fifo_if.empty)
     );
 
     always #5 fifo_if.clk = ~fifo_if.clk;
 
     initial begin
-
+        fifo_if.clk = 0;
         env = new(fifo_if);
         env.run();
     end

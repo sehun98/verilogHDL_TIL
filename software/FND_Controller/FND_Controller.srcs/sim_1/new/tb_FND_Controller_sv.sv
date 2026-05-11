@@ -56,7 +56,7 @@ class transaction;
 
     task debug_print(string name);
         begin
-            $display("[%s][%t] data = %b, digit = %b, seg = %b", name, $time,
+            $display("[%s][%t] data = %d, digit = %b, seg = %b", name, $time,
                      data, digit, seg);
         end
     endtask
@@ -65,20 +65,20 @@ endclass
 class generator;
     transaction tr;
     mailbox #(transaction) gen2drv_mbox;
-    event event_scb2gen;
+    event event_drv2gen;
 
-    function new(mailbox#(transaction) _gen2drv_mbox, event _event_scb2gen);
+    function new(mailbox#(transaction) _gen2drv_mbox, event _event_drv2gen);
         this.gen2drv_mbox = _gen2drv_mbox;
-        event_scb2gen = _event_scb2gen;
+        event_drv2gen = _event_drv2gen;
     endfunction
 
-    task run();
-        repeat (10) begin
+    task run(int cnt);
+        repeat (cnt) begin
             tr = new();
             tr.randomize();
             this.gen2drv_mbox.put(tr);
             tr.debug_print("GEN");
-            @(event_scb2gen);
+            @(event_drv2gen);
         end
     endtask
 endclass
@@ -87,23 +87,31 @@ class driver;
     transaction tr;
     mailbox #(transaction) gen2drv_mbox;
     virtual FND_Controller_interface v_FND_Controller_if;
-    event event_drv2mon;
+    event event_drv2gen;
 
     function new(virtual FND_Controller_interface _v_FND_Controller_if,
                  mailbox#(transaction) _gen2drv_mbox,
-                 event _event_drv2mon);
+                 event _event_drv2gen);
         this.v_FND_Controller_if = _v_FND_Controller_if;
         this.gen2drv_mbox = _gen2drv_mbox;
-        this.event_drv2mon = _event_drv2mon;
+        this.event_drv2gen = _event_drv2gen;
     endfunction
+
+    task reset_n();
+        v_FND_Controller_if.rst_n = 1'b0;
+        v_FND_Controller_if.data = 0;
+        #1000_000;
+        //repeat (10) @(posedge v_FND_Controller_if.clk);
+        v_FND_Controller_if.rst_n = 1'b1;
+    endtask
 
     task run();
         forever begin
             this.gen2drv_mbox.get(tr);
             v_FND_Controller_if.data  = tr.data;
-            #4000_000;
             tr.debug_print("DRV");
-            -> event_drv2mon;
+            #4000_000;
+            -> event_drv2gen;
         end
     endtask
 endclass
@@ -112,25 +120,23 @@ class monitor;
     transaction tr;
     mailbox #(transaction) mon2scb_mbox;
     virtual FND_Controller_interface v_FND_Controller_if;
-    event event_drv2mon;
 
     function new(virtual FND_Controller_interface _v_FND_Controller_if,
-                 mailbox#(transaction) _mon2scb_mbox,
-                 event _event_drv2mon);
+                 mailbox#(transaction) _mon2scb_mbox);
         this.v_FND_Controller_if = _v_FND_Controller_if;
         this.mon2scb_mbox = _mon2scb_mbox;
-        this.event_drv2mon = _event_drv2mon;
     endfunction
 
     task run();
         forever begin
-            @(event_drv2mon);
+            @(posedge v_FND_Controller_if.clk);
             this.tr = new();
             this.tr.data = this.v_FND_Controller_if.data;
             this.tr.digit = this.v_FND_Controller_if.digit;
             this.tr.seg = this.v_FND_Controller_if.seg;
             this.mon2scb_mbox.put(tr);
             tr.debug_print("MON");
+            #1000_000;
         end
     endtask
 endclass
@@ -138,14 +144,12 @@ endclass
 class scoreboard;
     transaction tr;
     mailbox #(transaction) mon2scb_mbox;
-    event event_scb2gen;
 
-    function new(mailbox#(transaction) _mon2scb_mbox, event _event_scb2gen);
+    function new(mailbox#(transaction) _mon2scb_mbox);
         this.mon2scb_mbox = _mon2scb_mbox;
-        this.event_scb2gen = _event_scb2gen;
     endfunction
 
-    function automatic logic [7:0] seg_ref(input logic [3:0] num);
+    function logic [7:0] seg_ref(input logic [3:0] num);
         case (num)
             4'd0: seg_ref = 8'hC0;
             4'd1: seg_ref = 8'hF9;
@@ -161,7 +165,7 @@ class scoreboard;
         endcase
     endfunction
 
-    function automatic logic [3:0] digit_ref(input logic [13:0] data,
+    function logic [3:0] digit_ref(input logic [13:0] data,
                                              input logic [3:0] fnd_sel);
         logic [3:0] data_1;
         logic [3:0] data_10;
@@ -196,12 +200,12 @@ class scoreboard;
 
         total_cnt = total_cnt + 1;
         if (actual_seg !== expected_seg) begin
-            $error(
-                "[FND FAIL] data=%0d fnd_sel=%b digit=%0d expected_seg=%h actual_seg=%h",
+            $display(
+                "[FND FAIL] data=%d fnd_sel=%b digit=%d expected_seg=%b actual_seg=%b",
                 data, fnd_sel, expected_digit, expected_seg, actual_seg);
             fail_cnt = fail_cnt + 1;
         end else begin
-            $display("[FND PASS] data=%0d fnd_sel=%b digit=%0d seg=%h", data,
+            $display("[FND PASS] data=%d fnd_sel=%b digit=%d seg=%b", data,
                      fnd_sel, expected_digit, actual_seg);
             pass_cnt = pass_cnt + 1;
         end
@@ -212,7 +216,6 @@ class scoreboard;
             this.mon2scb_mbox.get(tr);
             this.tr.debug_print("SCB");
             compare(tr.data, tr.digit, tr.seg);
-            -> event_scb2gen;
         end
     endtask
 endclass
@@ -224,26 +227,34 @@ class environment;
     scoreboard scb;
     mailbox #(transaction) gen2drv_mbox;
     mailbox #(transaction) mon2scb_mbox;
-    event event_scb2gen;
-    event event_drv2mon;
+    event event_drv2gen;
 
     function new(virtual FND_Controller_interface _v_FND_Controller_if);
         gen2drv_mbox = new();
         mon2scb_mbox = new();
-        gen = new(this.gen2drv_mbox, this.event_scb2gen);
-        drv = new(_v_FND_Controller_if, this.gen2drv_mbox, this.event_drv2mon);
-        mon = new(_v_FND_Controller_if, this.mon2scb_mbox, this.event_drv2mon);
-        scb = new(this.mon2scb_mbox, this.event_scb2gen);
+        gen = new(this.gen2drv_mbox, this.event_drv2gen);
+        drv = new(_v_FND_Controller_if, this.gen2drv_mbox, this.event_drv2gen);
+        mon = new(_v_FND_Controller_if, this.mon2scb_mbox);
+        scb = new(this.mon2scb_mbox);
     endfunction
 
     task run();
-        //drv.reset_n();
+        drv.reset_n();
         fork
-            gen.run();
+            gen.run(10);
             drv.run();
             mon.run();
             scb.run();
         join_any
+
+        $display("=========================================================");
+        $display("[total_cnt] %d ", scb.total_cnt);
+        $display("[pass_cnt] %d ", scb.pass_cnt);
+        $display("[fail_cnt] %d ", scb.fail_cnt);
+        $display("=========================================================");
+
+        disable fork;
+        $stop;
     endtask
 endclass
 
@@ -263,9 +274,6 @@ module tb_FND_Controller_sv ();
 
     initial begin
         FND_Controller_if.clk = 1'b0;
-        FND_Controller_if.rst_n = 1'b0;
-        repeat (2) @(posedge FND_Controller_if.clk);
-        FND_Controller_if.rst_n = 1'b1;
         env = new(FND_Controller_if);
         env.run();
     end
