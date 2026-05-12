@@ -79,10 +79,12 @@ class driver;
     task run();
         forever begin
             gen2drv_mbox.get(tr);
+            @(negedge v_control_unit_if.clk);
             v_control_unit_if.btn_run   = tr.btn_run;
             v_control_unit_if.btn_clear = tr.btn_clear;
             v_control_unit_if.btn_mode  = tr.btn_mode;
             @(posedge v_control_unit_if.clk);
+            @(negedge v_control_unit_if.clk);
             v_control_unit_if.btn_run   = 0;
             v_control_unit_if.btn_clear = 0;
             v_control_unit_if.btn_mode  = 0;
@@ -117,7 +119,8 @@ class monitor;
 
     task run();
         forever begin
-            @(negedge v_control_unit_if.clk);
+            @(posedge v_control_unit_if.clk);
+            #1;
             tr           = new();
             tr.btn_run   = v_control_unit_if.btn_run;
             tr.btn_clear = v_control_unit_if.btn_clear;
@@ -135,43 +138,58 @@ class scoreboard;
     transaction tr;
     mailbox #(transaction) mon2scb_mbox;
 
+    int total_cnt = 0, pass_cnt = 0, fail_cnt = 0;
+    bit debug_run = 0, debug_clear = 0, debug_mode = 0;
+
+    bit exp_run_q = 0;
+    bit exp_clear_q = 0;
+    bit exp_mode_q = 0;
+
+    bit next_run;
+    bit next_clear;
+    bit next_mode;
+
     function new(mailbox#(transaction) _mon2scb_mbox);
         this.mon2scb_mbox = _mon2scb_mbox;
     endfunction
-
-    bit debug_run = 0, debug_clear = 0, debug_mode = 0;
     task compare(transaction tr);
-        logic exp_run;
-        logic exp_clear;
-        logic exp_mode;
+        bit next_run;
+        bit next_clear;
+        bit next_mode;
 
         begin
-            if (tr.btn_clear) begin
-                debug_clear = 1'b1;
-                debug_run   = 1'b0;
-            end else if (tr.btn_mode) begin
-                debug_mode = ~debug_mode;
-            end else if (tr.btn_run) begin
-                debug_run = ~debug_run;
-            end
-
-            exp_run   = debug_run;
-            exp_clear = debug_clear;
-            exp_mode  = debug_mode;
-
-            if ((tr.run === exp_run) &&
-            (tr.clear === exp_clear) &&
-            (tr.mode === exp_mode)) begin
-                $display(
-                    "[%t][PASS] btn_run=%0b btn_clear=%0b btn_mode=%0b | exp run=%0b clear=%0b mode=%0b | actual run=%0b clear=%0b mode=%0b",
-                    $time, tr.btn_run, tr.btn_clear, tr.btn_mode, exp_run,
-                    exp_clear, exp_mode, tr.run, tr.clear, tr.mode);
+            if ((tr.run   == exp_run_q) &&
+            (tr.clear == exp_clear_q) &&
+            (tr.mode  == exp_mode_q)) begin
+                $display("[%t][PASS]", $time);
+                pass_cnt++;
             end else begin
                 $display(
-                    "[%t][FAIL] btn_run=%0b btn_clear=%0b btn_mode=%0b | exp run=%0b clear=%0b mode=%0b | actual run=%0b clear=%0b mode=%0b",
-                    $time, tr.btn_run, tr.btn_clear, tr.btn_mode, exp_run,
-                    exp_clear, exp_mode, tr.run, tr.clear, tr.mode);
+                    "[%t][FAIL] actual_run=%0d actual_clear=%0d actual_mode=%0d",
+                    $time, tr.run, tr.clear, tr.mode);
+                $display(
+                    "[%t][    ] expect_run=%0d expect_clear=%0d expect_mode=%0d",
+                    $time, exp_run_q, exp_clear_q, exp_mode_q);
+                fail_cnt++;
             end
+
+            total_cnt++;
+
+            next_run   = exp_run_q;
+            next_clear = 1'b0;
+            next_mode  = exp_mode_q;
+
+            if (tr.btn_clear && !exp_run_q) begin
+                next_clear = 1'b1;
+            end else if (tr.btn_mode && !exp_run_q) begin
+                next_mode = ~exp_mode_q;
+            end else if (tr.btn_run) begin
+                next_run = ~exp_run_q;
+            end
+
+            exp_run_q   = next_run;
+            exp_clear_q = next_clear;
+            exp_mode_q  = next_mode;
         end
     endtask
 
@@ -179,12 +197,6 @@ class scoreboard;
         forever begin
             mon2scb_mbox.get(tr);
             compare(tr);
-            // tr.btn_run;
-            // tr.btn_clear;
-            // tr.btn_mode;
-            // tr.run;
-            // tr.clear;
-            // tr.mode;
             tr.debug_print("SCB");
         end
     endtask
@@ -210,13 +222,19 @@ class environment;
 
     task run();
         drv.reset();
-        $display("reset done ======================== %t", $time);
         fork
             gen.run(10);
             drv.run();
             mon.run();
             scb.run();
         join_any
+
+        $display("=========================================");
+        $display("total_cnt = %d", scb.total_cnt);
+        $display("pass_cnt  = %d", scb.pass_cnt);
+        $display("fail_cnt  = %d", scb.fail_cnt);
+        $display("=========================================");
+
 
         #100;
         $stop;
