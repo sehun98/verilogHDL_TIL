@@ -103,6 +103,10 @@ class driver;
         #1000_000;
         //repeat (10) @(posedge v_FND_Controller_if.clk);
         v_FND_Controller_if.rst_n = 1'b1;
+        assert(v_FND_Controller_if.digit==4'b1110) $display("[DRV Assert] reset pass : digit!");
+        else $display("[DRV Assert] reset fail : digit = %d",v_FND_Controller_if.digit);
+        assert(v_FND_Controller_if.seg==8'b11000000) $display("[DRV Assert] reset pass : seg!");
+        else $display("[DRV Assert] reset fail : seg = %d",v_FND_Controller_if.seg);
     endtask
 
     task run();
@@ -129,7 +133,7 @@ class monitor;
 
     task run();
         forever begin
-            @(posedge v_FND_Controller_if.clk);
+            @(negedge v_FND_Controller_if.clk);
             this.tr = new();
             this.tr.data = this.v_FND_Controller_if.data;
             this.tr.digit = this.v_FND_Controller_if.digit;

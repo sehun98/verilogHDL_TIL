@@ -66,6 +66,10 @@ class driver;
         v_fifo_if.pop = 0;
         repeat (2) @(posedge v_fifo_if.clk);
         v_fifo_if.rst_n = 1;
+        assert(v_fifo_if.empty) $display("[DRV Assert] reset pass : empty!");
+        else $display("[DRV Assert] reset fail : empty = %d",v_fifo_if.empty);
+        assert(!v_fifo_if.full) $display("[DRV Assert] reset pass : full!");
+        else $display("[DRV Assert] reset fail : full = %d",v_fifo_if.full);
     endtask
 
     task run();
@@ -78,13 +82,27 @@ class driver;
             v_fifo_if.push = tr.push;
             v_fifo_if.pop = tr.pop;
             // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-            @(posedge v_fifo_if.clk);
-            #1;
-            v_fifo_if.push <= 0;
-            v_fifo_if.pop  <= 0;
+            //@(posedge v_fifo_if.clk);
+            //#1;
+            //v_fifo_if.push <= 0;
+            //v_fifo_if.pop  <= 0;
             // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         end
     endtask
+/*
+    task push_only();
+        $display("fifo push only test");
+        repeat(20) begin
+            gen.run(1);
+            gen2drv_mbox.get(tr);
+            @(posedge fifo_vif.clk);
+            #1;
+            v_fifo_if.push = 1;
+            v_fifo_if.push_data = tr.push_data;
+            v_fifo_if.pop = 0;
+        end
+    endtask
+*/
 endclass
 
 class monitor;

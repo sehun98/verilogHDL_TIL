@@ -3,24 +3,25 @@
 interface btn_debounce_interface ();
     logic clk;
     logic rst_n;
-    logic din;
-    logic dout;
+    logic btn_in;
+    logic btn_pulse;
 endinterface
 
 class transaction;
     bit rst_n;
-    rand bit din;
-    bit dout;
+    bit btn_in;
+    bit btn_pulse;
     rand int press_time;
     rand int bounce_count;
 
-    constraint c_press {press_time inside {[1 : 50]};}
+    constraint c_press {press_time inside {[4 : 6]};}
 
-    constraint c_bounce {bounce_count inside {[0 : 5]};}
+    constraint c_bounce {bounce_count inside {[1 : 7]};}
 
     task debug_print(string name);
         begin
-            $display("[%s][%t] din = %d, dout = %b", name, $time, din, dout);
+            $display("[%s][%t] btn_in = %d, btn_pulse = %b", name, $time,
+                     btn_in, btn_pulse);
         end
     endtask
 endclass
@@ -60,9 +61,11 @@ class driver;
     endfunction
 
     task reset_n();
-        v_btn_debounce_if.rst_n = 1'b0;
-        v_btn_debounce_if.din   = 0;
-        repeat (10) @(posedge v_btn_debounce_if.clk);
+        @(posedge v_btn_debounce_if.clk);
+        v_btn_debounce_if.rst_n  = 1'b0;
+        v_btn_debounce_if.btn_in = 0;
+        #1000_000;
+        //repeat (10) @(posedge v_btn_debounce_if.clk);
         v_btn_debounce_if.rst_n = 1'b1;
     endtask
 
@@ -70,19 +73,25 @@ class driver;
         forever begin
             gen2drv_mbox.get(tr);
 
-            // bounce 발생
+            // bounce
             repeat (tr.bounce_count) begin
-                v_btn_debounce_if.din = ~v_btn_debounce_if.din;
-                #(100_000);  // 0.1ms
+                @(negedge v_btn_debounce_if.clk);
+                v_btn_debounce_if.btn_in = ~v_btn_debounce_if.btn_in;
+
+                repeat (10_000) @(posedge v_btn_debounce_if.clk);
             end
 
-            // 정상 press 유지
-            v_btn_debounce_if.din = 1'b1;
-            #(tr.press_time * 1_000_000);
+            // stable press
+            @(negedge v_btn_debounce_if.clk);
+            v_btn_debounce_if.btn_in = 1'b1;
+
+            repeat (tr.press_time * 100_000) @(posedge v_btn_debounce_if.clk);
 
             // release
-            v_btn_debounce_if.din = 1'b0;
-            #5_000_000;
+            @(negedge v_btn_debounce_if.clk);
+            v_btn_debounce_if.btn_in = 1'b0;
+
+            repeat (500_000) @(posedge v_btn_debounce_if.clk);
 
             ->event_drv2gen;
         end
@@ -102,12 +111,12 @@ class monitor;
 
     task run();
         forever begin
-            @(posedge v_btn_debounce_if.clk);
+            @(negedge v_btn_debounce_if.clk);
             this.tr = new();
-            this.tr.din = this.v_btn_debounce_if.din;
-            this.tr.dout = this.v_btn_debounce_if.dout;
+            this.tr.btn_in = this.v_btn_debounce_if.btn_in;
+            this.tr.btn_pulse = this.v_btn_debounce_if.btn_pulse;
             this.mon2scb_mbox.put(tr);
-            tr.debug_print("MON");
+            //tr.debug_print("MON");
         end
     endtask
 endclass
@@ -120,11 +129,41 @@ class scoreboard;
         this.mon2scb_mbox = _mon2scb_mbox;
     endfunction
 
+    int total_cnt = 0, pass_cnt = 0, fail_cnt = 0;
+    logic [$clog2(100_000_000)-1:0] count;
+    logic [5:0] shift_reg = 0;
+
+    task compare(logic actual_btn_in, logic actual_btn_pulse);
+        shift_reg = {shift_reg[4:0], actual_btn_in};
+
+        if (shift_reg[5]) begin
+            count++;
+            if (count > 499_990 && count < 500_010) begin
+                $display("[%t][scope][count = %d] btn_in = %d, btn_pulse = %d",
+                         $time, count, actual_btn_in, actual_btn_pulse);
+            end
+            if (count == 500_000 - 1) begin
+                total_cnt++;
+                if (actual_btn_pulse) begin
+                    $display("[%t][PASS]", $time);
+                    pass_cnt++;
+                end else begin
+                    $display(
+                        "[%t][FAIL][count = %d] btn_in = %d, btn_pulse = %d",
+                        $time, count, actual_btn_in, actual_btn_pulse);
+                    fail_cnt++;
+                end
+            end
+        end else begin
+            count = 0;
+        end
+    endtask
+
     task run();
         forever begin
             this.mon2scb_mbox.get(tr);
-            this.tr.debug_print("SCB");
-            //compare(tr.data, tr.digit, tr.seg);
+            //this.tr.debug_print("SCB");
+            compare(tr.btn_in, tr.btn_pulse);
         end
     endtask
 endclass
@@ -155,13 +194,13 @@ class environment;
             mon.run();
             scb.run();
         join_any
-        /*
+
         $display("=========================================================");
         $display("[total_cnt] %d ", scb.total_cnt);
         $display("[pass_cnt] %d ", scb.pass_cnt);
         $display("[fail_cnt] %d ", scb.fail_cnt);
         $display("=========================================================");
-*/
+
         disable fork;
         $stop;
     endtask
@@ -171,14 +210,14 @@ module tb_debounce_sv ();
     btn_debounce_interface btn_debounce_if ();
     environment env;
 
-    debounce #(
+    btn_interface #(
         .CLK_FREQ_HZ(100_000_000),
-        .DEBOUNCE_MS(20)
+        .DEBOUNCE_MS(5)
     ) dut (
-        .clk  (btn_debounce_if.clk),
+        .clk(btn_debounce_if.clk),
         .rst_n(btn_debounce_if.rst_n),
-        .din  (btn_debounce_if.din),
-        .dout (btn_debounce_if.dout)
+        .btn_in(btn_debounce_if.btn_in),
+        .btn_pulse(btn_debounce_if.btn_pulse)
     );
 
     always #5 btn_debounce_if.clk = ~btn_debounce_if.clk;
