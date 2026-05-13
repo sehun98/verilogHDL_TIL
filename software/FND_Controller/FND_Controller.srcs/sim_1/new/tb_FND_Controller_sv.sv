@@ -18,12 +18,6 @@ class transaction;
         data < 10000;
     }
 
-/*
-    constraint in_rage {
-        data 
-    }
-    */
-
     /*    
     constraint in_range {
         a>128;
@@ -153,22 +147,6 @@ class scoreboard;
         this.mon2scb_mbox = _mon2scb_mbox;
     endfunction
 
-    function logic [7:0] seg_ref(input logic [3:0] num);
-        case (num)
-            4'd0: seg_ref = 8'hC0;
-            4'd1: seg_ref = 8'hF9;
-            4'd2: seg_ref = 8'hA4;
-            4'd3: seg_ref = 8'hB0;
-            4'd4: seg_ref = 8'h99;
-            4'd5: seg_ref = 8'h92;
-            4'd6: seg_ref = 8'h82;
-            4'd7: seg_ref = 8'hF8;
-            4'd8: seg_ref = 8'h80;
-            4'd9: seg_ref = 8'h90;
-            default: seg_ref = 8'hFF;
-        endcase
-    endfunction
-
     function logic [3:0] digit_ref(input logic [13:0] data,
                                              input logic [3:0] fnd_sel);
         logic [3:0] data_1;
@@ -190,6 +168,22 @@ class scoreboard;
                 default: digit_ref = 4'hF;
             endcase
         end
+    endfunction
+
+    function logic [7:0] seg_ref(input logic [3:0] num);
+        case (num)
+            4'd0: seg_ref = 8'hC0;
+            4'd1: seg_ref = 8'hF9;
+            4'd2: seg_ref = 8'hA4;
+            4'd3: seg_ref = 8'hB0;
+            4'd4: seg_ref = 8'h99;
+            4'd5: seg_ref = 8'h92;
+            4'd6: seg_ref = 8'h82;
+            4'd7: seg_ref = 8'hF8;
+            4'd8: seg_ref = 8'h80;
+            4'd9: seg_ref = 8'h90;
+            default: seg_ref = 8'hFF;
+        endcase
     endfunction
 
     int pass_cnt, fail_cnt, total_cnt;

@@ -3,9 +3,11 @@
 interface control_unit_interface ();
     logic clk;
     logic rst_n;
+
     logic btn_run;
     logic btn_clear;
     logic btn_mode;
+
     logic run;
     logic clear;
     logic mode;
@@ -96,10 +98,10 @@ class driver;
 
     task reset();
         @(negedge v_control_unit_if.clk);
-        v_control_unit_if.rst_n = 0;
-        v_control_unit_if.btn_run = 0;
+        v_control_unit_if.rst_n     = 0;
+        v_control_unit_if.btn_run   = 0;
         v_control_unit_if.btn_clear = 0;
-        v_control_unit_if.btn_mode = 0;
+        v_control_unit_if.btn_mode  = 0;
         @(posedge v_control_unit_if.clk);
         #1000_000;
         v_control_unit_if.rst_n = 1;
@@ -139,7 +141,6 @@ class scoreboard;
     mailbox #(transaction) mon2scb_mbox;
 
     int total_cnt = 0, pass_cnt = 0, fail_cnt = 0;
-    bit debug_run = 0, debug_clear = 0, debug_mode = 0;
 
     bit exp_run_q = 0;
     bit exp_clear_q = 0;
@@ -152,6 +153,7 @@ class scoreboard;
     function new(mailbox#(transaction) _mon2scb_mbox);
         this.mon2scb_mbox = _mon2scb_mbox;
     endfunction
+
     task compare(transaction tr);
         bit next_run;
         bit next_clear;
@@ -211,19 +213,19 @@ class environment;
     mailbox #(transaction) mon2scb_mbox;
     event event_drv2gen;
 
-    function new(virtual control_unit_interface v_control_unit_if);
+    function new(virtual control_unit_interface _v_control_unit_if);
         gen2drv_mbox = new();
         mon2scb_mbox = new();
         gen = new(gen2drv_mbox, event_drv2gen);
-        drv = new(gen2drv_mbox, v_control_unit_if, event_drv2gen);
-        mon = new(mon2scb_mbox, v_control_unit_if);
+        drv = new(gen2drv_mbox, _v_control_unit_if, event_drv2gen);
+        mon = new(mon2scb_mbox, _v_control_unit_if);
         scb = new(mon2scb_mbox);
     endfunction
 
     task run();
         drv.reset();
         fork
-            gen.run(10);
+            gen.run(100);
             drv.run();
             mon.run();
             scb.run();

@@ -2,7 +2,7 @@
 
 module tick_1ms #(
     parameter CLOCK_FREQ_HZ = 100_000_000,
-    parameter TICK_HZ = 1000,
+    parameter TICK_HZ = 1000, 
     localparam TICK_COUNT = CLOCK_FREQ_HZ / TICK_HZ,
     localparam CNT_WIDTH = $clog2(TICK_COUNT)
 )(
