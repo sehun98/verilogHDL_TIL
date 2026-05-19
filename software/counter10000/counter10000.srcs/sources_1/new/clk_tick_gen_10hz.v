@@ -7,7 +7,7 @@ module clk_tick_gen_10hz #(
     input  wire rst_n,
     output reg  tick_10hz
 );
-    localparam TICK_10HZ = CLOCK_FREQ / 10000; //10
+    localparam TICK_10HZ = CLOCK_FREQ / 10; //10
     localparam TICK_COUNT_WIDTH = $clog2(TICK_10HZ);
 
     reg [TICK_COUNT_WIDTH-1:0] count;

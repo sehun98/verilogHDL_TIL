@@ -11,7 +11,6 @@ module mcp25625_loopback (
     output logic MOSI,
     input  logic MISO
 );
-
     logic        sck;
 
     logic [ 7:0] spi_tx_data;
@@ -198,6 +197,7 @@ module mcp25625_loopback (
 
         .debug_state(debug_state)
     );
+    /*
     ila_0 ila_0_test (
         .clk(clk),
 
@@ -222,5 +222,5 @@ module mcp25625_loopback (
         .probe11(tx_request),
         .probe12(debug_state)
     );
-
+*/
 endmodule

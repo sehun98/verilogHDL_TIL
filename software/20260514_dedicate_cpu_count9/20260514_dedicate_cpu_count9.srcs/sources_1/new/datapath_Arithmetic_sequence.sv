@@ -106,12 +106,15 @@ module register (
     input logic [7:0] data_in,
     output logic [7:0] data_out
 );
+    reg [7:0] register;
+
+    assign data_out = register;
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            data_out <= 8'd0;
+            register <= 8'd0;
         end else begin
             if (load) begin
-                data_out <= data_in;
+                register <= data_in;
             end
         end
     end

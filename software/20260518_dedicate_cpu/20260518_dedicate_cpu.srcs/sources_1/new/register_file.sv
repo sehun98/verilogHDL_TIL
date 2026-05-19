@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 
+// Application Binary Interface
 module dedicate (
     input  wire       clk,
     input  wire       rst_n,
@@ -52,7 +53,7 @@ module dedicate_control_unit (
 );
 
     typedef enum logic [3:0] {
-        S0, S1, S2, S3, S4, S5, S6, S7, S8
+        S0, S1, S2, S3, S4, S5, S6
     } state_t;
 
     state_t state, n_state;
@@ -71,18 +72,15 @@ module dedicate_control_unit (
             S0: n_state = S1;
             S1: n_state = S2;
             S2: n_state = S3;
-            S3: n_state = S4;
-            S4: begin
+            S3: begin
                 if (eq_10)
-                    n_state = S8;
+                    n_state = S6;
                 else
-                    n_state = S5;
+                    n_state = S4;
             end
-
-            S5: n_state = S6;
-            S6: n_state = S7;
-            S7: n_state = S4;
-            S8: n_state = S8;
+            S4: n_state = S5;
+            S5: n_state = S3;
+            S6: n_state = S6;
 
             default: n_state = S0;
         endcase
@@ -96,22 +94,14 @@ module dedicate_control_unit (
         waddr   = 2'd0;
 
         case (state)
-            // R0 = 0
-            S0: begin
-                src_sel = 1'b1;
-                we      = 1'b1;
-                waddr   = 2'd0;
-            end
-
             // R1 = 1
-            S1: begin
+            S0: begin
                 src_sel = 1'b0;
                 we      = 1'b1;
                 waddr   = 2'd1;
             end
-
             // R2 = 0
-            S2: begin
+            S1: begin
                 src_sel = 1'b1;
                 we      = 1'b1;
                 raddr0  = 2'd0;
@@ -120,7 +110,7 @@ module dedicate_control_unit (
             end
 
             // R3 = 0
-            S3: begin
+            S2: begin
                 src_sel = 1'b1;
                 we      = 1'b1;
                 raddr0  = 2'd0;
@@ -128,31 +118,23 @@ module dedicate_control_unit (
                 waddr   = 2'd3;
             end
 
-            // read R3, R2
-            S4: begin
-                we      = 1'b0;
-                raddr0  = 2'd3;
-                raddr1  = 2'd2;
-            end
-
-            // compare R3
-            S5: begin
+            // read R3, R2, compare R3
+            S3: begin
                 we      = 1'b0;
                 raddr0  = 2'd3;
                 raddr1  = 2'd2;
             end
 
             // R3 = R3 + R1
-            S6: begin
+            S4: begin
                 src_sel = 1'b1;
                 we      = 1'b1;
                 raddr0  = 2'd3;
                 raddr1  = 2'd1;
                 waddr   = 2'd3;
             end
-
             // R2 = R2 + R3
-            S7: begin
+            S5: begin
                 src_sel = 1'b1;
                 we      = 1'b1;
                 raddr0  = 2'd3;
@@ -160,7 +142,7 @@ module dedicate_control_unit (
                 waddr   = 2'd2;
             end
 
-            S8: begin
+            S6: begin
                 we      = 1'b0;
                 raddr0  = 2'd3;
                 raddr1  = 2'd2;

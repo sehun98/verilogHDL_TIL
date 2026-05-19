@@ -28,14 +28,14 @@ module debounce #(
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            cnt  <= 'd0;
+            cnt  <= {CNT_WIDTH{1'd0}};
             dout <= 1'b0;
         end else begin
             if (sync_ff2 == dout) begin
-                cnt <= 'd0;
+                cnt <= {CNT_WIDTH{1'd0}};
             end else begin
                 if (cnt == MAX_COUNT - 1) begin
-                    cnt  <= 'd0;
+                    cnt  <= {CNT_WIDTH{1'd0}};
                     dout <= sync_ff2;
                 end else begin
                     cnt <= cnt + 1'b1;

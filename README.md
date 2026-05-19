@@ -45,15 +45,27 @@
 7. FIFO
    7.1 register file
    7.2 register file control unit
+
 8. Line Collector
+
 9. Command Parser
+
 10. Command Executor
+
 11. UART TX Controller
+
 12. Ultrasonic ASM
+
 13. DHT11 ASM
+
 14. latch + flip-flop + metastability + CDC
+
 15. CDC (Clock Domain Crossing)
     1.  synchronizer
     2. handshake
     3. async FIFO
+
+16. Dedicate CPU
+
+17. register file + ALU
 

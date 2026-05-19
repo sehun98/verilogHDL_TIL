@@ -36,26 +36,26 @@ module control_unit_Arithmetic_sequence (
         A_src_sel = 0;
         SUM_src_sel = 0;
         A_reg_load = 0;
+        ALU_src_sel = 0;
         SUM_reg_load = 0;
         OUT_reg_load = 0;
-        ALU_src_sel = 0;
         case (state)
             S0: begin
                 A_src_sel = 0;
                 SUM_src_sel = 0;
+                ALU_src_sel = 0;
                 A_reg_load = 1;
                 SUM_reg_load = 1;
                 OUT_reg_load = 0;
-                ALU_src_sel = 0;
                 n_state = S1;
             end
             S1: begin
                 A_src_sel = 0;
                 SUM_src_sel = 0;
+                ALU_src_sel = 0;
                 A_reg_load = 0;
                 SUM_reg_load = 0;
                 OUT_reg_load = 0;
-                ALU_src_sel = 0;
                 if (A_gr_10) begin
                     n_state = S5;
                 end else begin
@@ -65,37 +65,37 @@ module control_unit_Arithmetic_sequence (
             S2: begin
                 A_src_sel = 0;
                 SUM_src_sel = 0;
+                ALU_src_sel = 0;
                 A_reg_load = 0;
                 SUM_reg_load = 0;
                 OUT_reg_load = 1;
-                ALU_src_sel = 0;
                 n_state = S3;
             end
             S3: begin
                 A_src_sel = 1;
                 SUM_src_sel = 0;
+                ALU_src_sel = 0;
                 A_reg_load = 1;
                 SUM_reg_load = 0;
                 OUT_reg_load = 0;
-                ALU_src_sel = 0;
                 n_state = S4;
             end
             S4: begin
                 A_src_sel = 0;
                 SUM_src_sel = 1;
+                ALU_src_sel = 1;
                 A_reg_load = 0;
                 SUM_reg_load = 1;
                 OUT_reg_load = 0;
-                ALU_src_sel = 1;
                 n_state = S1;
             end
             S5: begin
                 A_src_sel = 0;
                 SUM_src_sel = 0;
+                ALU_src_sel = 0;
                 A_reg_load = 0;
                 SUM_reg_load = 0;
                 OUT_reg_load = 1;
-                ALU_src_sel = 0;
             end
         endcase
     end
