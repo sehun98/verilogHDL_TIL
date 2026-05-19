@@ -98,7 +98,7 @@ module rv32i_alu (
             `SLTU: alu_result_reg = ($unsigned(a) < $unsigned(b)) ? 32'd1 : 32'd0;  // zero-extention
             `XOR:  alu_result_reg = a ^ b;
             `SRL: alu_result_reg = a >> b[4:0]; // a>>b;
-            `SRA: alu_result_reg = $signed(a) >> b[4:0]; // a>>b; // msb-extention
+            `SRA: alu_result_reg = $signed(a) >>> b[4:0]; // a>>b; // msb-extention
             `OR:   alu_result_reg = a | b;
             `AND:  alu_result_reg = a & b;
         endcase
