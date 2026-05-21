@@ -13,6 +13,10 @@ module rv32i_cpu (
 );
     wire w_register_file_we;
     wire [3:0] w_alu_control;  // 10bit -> 4bit
+    wire w_branch;
+    wire w_jal;
+    wire w_jalr;
+    wire [2:0] w_register_file_src_sel;
 
     rv32i_datapath u1_rv32i_datapath (
         .clk                  (clk),
@@ -24,8 +28,11 @@ module rv32i_cpu (
         .instr_addr           (instr_addr),
         .data_mem_data        (data_mem_data),
         .data_mem_addr        (data_mem_addr),
-        .register_file_src_sel(register_file_src_sel),
-        .data_read_mem_data   (data_read_mem_data)
+        .register_file_src_sel(w_register_file_src_sel),
+        .data_read_mem_data   (data_read_mem_data),
+        .branch(w_branch),
+        .jal(w_jal),
+        .jalr(w_jalr)
     );
 
     rv32i_control_unit u2_rv32i_control_unit (
@@ -34,7 +41,10 @@ module rv32i_cpu (
         .alu_control     (w_alu_control),
         .mux_src_sel     (mux_src_sel),
         .mem_mode        (mem_mode),
-        .register_file_src_sel(register_file_src_sel),
-        .data_mem_we     (data_mem_we)
+        .register_file_src_sel(w_register_file_src_sel),
+        .data_mem_we     (data_mem_we),
+        .branch(w_branch),
+        .jal(w_jal),
+        .jalr(w_jalr)
     );
 endmodule

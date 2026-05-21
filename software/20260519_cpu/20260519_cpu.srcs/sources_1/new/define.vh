@@ -1,13 +1,13 @@
 // OP-CODE intruction
 `define R_TYPE 7'b011_0011 
+`define S_TYPE 7'b010_0011
 `define LOAD_I_TYPE 7'b000_0011
 `define ALU_I_TYPE 7'b001_0011
-`define FENCE_I_TYPE 7'b000_1111
-`define ECALL_I_TYPE 7'b111_0011
-`define S_TYPE 7'b010_0011
-`define U_TYPE 7'b011_0111
 `define B_TYPE 7'b110_0011
-`define J_TYPE 7'b110_0111
+`define LUI_TYPE 7'b011_0111
+`define AUIPC_TYPE 7'b001_0111
+`define JAL_TYPE 7'b110_1111
+`define JALR_TYPE 7'b110_0111
 
 // R-type instruction
 // {funct7, funct3} = 10bit
@@ -23,7 +23,6 @@
 `define OR   10'b000_0000_110
 `define AND  10'b000_0000_111
 */
-
 
 // R-type instruction
 // {funct7, funct3} = 4bit
@@ -60,3 +59,14 @@
 `define LW 3'b010
 `define LBU 3'b100
 `define LHU 3'b101
+
+// Branch B-type instruction
+`define BEQ 3'b000
+`define BNE 3'b001
+`define BLT 3'b100
+`define BGE 3'b101
+`define BLTU 3'b110
+`define BGEU 3'b111
+
+// JAL, JALR unconditional Jump
+// 함수 호출 return
