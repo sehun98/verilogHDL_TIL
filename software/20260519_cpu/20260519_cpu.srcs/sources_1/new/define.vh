@@ -24,7 +24,7 @@
 `define AND  10'b000_0000_111
 */
 
-// R-type instruction
+// Register-type instruction
 // {funct7, funct3} = 4bit
 `define ADD  4'b0_000
 `define SUB  4'b1_000
@@ -37,12 +37,7 @@
 `define OR   4'b0_110
 `define AND  4'b0_111
 
-// S-type instruction
-`define SB 3'b000
-`define SH 3'b001
-`define SW 3'b010
-
-// ALU 연산 계열
+// Immediate ALU 연산 계열
 `define ADDI 3'b000
 `define SLTI 3'b010
 `define SLTIU 3'b011
@@ -53,7 +48,12 @@
 `define SRLI 4'b0_101
 `define SRAI 4'b1_101
 
-// 메모리 접근 계열
+// Store-type instruction
+`define SB 3'b000
+`define SH 3'b001
+`define SW 3'b010
+
+// Load-type instruction
 `define LB 3'b000
 `define LH 3'b001
 `define LW 3'b010
@@ -67,6 +67,3 @@
 `define BGE 3'b101
 `define BLTU 3'b110
 `define BGEU 3'b111
-
-// JAL, JALR unconditional Jump
-// 함수 호출 return
