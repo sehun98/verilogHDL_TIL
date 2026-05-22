@@ -1,25 +1,25 @@
 `timescale 1ns / 1ps
 
-module tb_rv32i ();
-    reg clk;
-    reg rst_n;
 
-    top_rv32i_soc dut (
-        .clk  (clk),
-        .rst_n(rst_n)
-    );
+module tb_rv32i( );
+    logic clk, rst_n;
+    top_rv32i_soc dut(.*);
 
-    always #5 clk = ~clk;
 
-    initial begin
-        clk   = 0;
-        rst_n = 0;
-        repeat (2) @(posedge clk);
-        rst_n = 1;
+always #5 clk = ~clk;
 
-        #1000000;
-        $finish();
-    end
+initial begin
+    clk = 0;
+    rst_n = 0;
+    @(negedge clk);
+    @(negedge clk);
 
+    rst_n = 1;
+
+    @(negedge clk);
+    @(negedge clk);
+   
+
+    $stop;
+end
 endmodule
-

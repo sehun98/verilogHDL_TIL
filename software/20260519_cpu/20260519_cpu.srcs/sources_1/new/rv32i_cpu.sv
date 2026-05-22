@@ -5,46 +5,65 @@ module rv32i_cpu (
     input  wire        rst_n,
     input  wire [31:0] instr_code,
     output wire [31:0] instr_addr,
+
     output wire [ 2:0] mem_mode,
     output wire        data_mem_we,
-    output wire [31:0] data_mem_data,
+    output wire [31:0] data_mem_wdata,
     output wire [31:0] data_mem_addr,
-    input  wire [31:0] data_read_mem_data
+    input  wire [31:0] data_mem_rdata
 );
-    wire w_register_file_we;
+
     wire [3:0] w_alu_control;  // 10bit -> 4bit
-    wire w_branch;
-    wire w_jal;
-    wire w_jalr;
-    wire [2:0] w_register_file_src_sel;
+    wire [2:0] w_write_back_sel;
+    wire w_alu_src_sel;
+    wire w_reg_we;
+
+    wire w_pc_branch;
+    wire w_pc_jal;
+    wire w_pc_jalr;
 
     rv32i_datapath u1_rv32i_datapath (
-        .clk                  (clk),
-        .rst_n                (rst_n),
-        .instr_code           (instr_code),
-        .register_file_we     (w_register_file_we),
-        .alu_control          (w_alu_control),
-        .mux_src_sel          (mux_src_sel),
-        .instr_addr           (instr_addr),
-        .data_mem_data        (data_mem_data),
-        .data_mem_addr        (data_mem_addr),
-        .register_file_src_sel(w_register_file_src_sel),
-        .data_read_mem_data   (data_read_mem_data),
-        .branch(w_branch),
-        .jal(w_jal),
-        .jalr(w_jalr)
+        .clk  (clk),
+        .rst_n(rst_n),
+
+        // instruction memory
+        .instr_code(instr_code),
+        .instr_addr(instr_addr),
+
+        // register file
+        .alu_control   (w_alu_control),
+        .write_back_sel(w_write_back_sel),
+        .alu_src_sel   (w_alu_src_sel),
+        .reg_we        (w_reg_we),
+
+        // data memory
+        .data_mem_wdata(data_mem_wdata),
+        .data_mem_addr (data_mem_addr),
+        .data_mem_rdata(data_mem_rdata),
+
+        // pc
+        .pc_branch(w_pc_branch),
+        .pc_jal   (w_pc_jal),
+        .pc_jalr  (w_pc_jalr)
     );
 
     rv32i_control_unit u2_rv32i_control_unit (
-        .instr_code      (instr_code),
-        .register_file_we(w_register_file_we),
-        .alu_control     (w_alu_control),
-        .mux_src_sel     (mux_src_sel),
-        .mem_mode        (mem_mode),
-        .register_file_src_sel(w_register_file_src_sel),
-        .data_mem_we     (data_mem_we),
-        .branch(w_branch),
-        .jal(w_jal),
-        .jalr(w_jalr)
+        // instruction memory
+        .instr_code(instr_code),
+
+        // register file
+        .alu_control   (w_alu_control),
+        .write_back_sel(w_write_back_sel),
+        .alu_src_sel   (w_alu_src_sel),
+        .reg_we        (w_reg_we),
+
+        // data memory
+        .mem_mode   (mem_mode),
+        .data_mem_we(data_mem_we),
+
+        // pc
+        .pc_branch(w_pc_branch),
+        .pc_jal   (w_pc_jal),
+        .pc_jalr  (w_pc_jalr)
     );
 endmodule
