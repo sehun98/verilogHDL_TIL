@@ -67,3 +67,6 @@
 `define BGE 3'b101
 `define BLTU 3'b110
 `define BGEU 3'b111
+
+`define INSTR_MEM_WORDS 32768
+`define INSTR_MEM_BYTES ((`INSTR_MEM_WORDS) * 4)

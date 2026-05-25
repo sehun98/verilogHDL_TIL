@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 `include "define.vh"
 // 명령어, 블록도
-module rv32i_datapath (
+module rv32i_datapath_debug (
     input  wire        clk,
     input  wire        rst_n,
     input  wire [31:0] instr_code,
-    output wire [31:0] instr_addr,
+    output wire [31:0] instr_addr_debug,
 
     input wire [3:0] alu_control,     // 10bit -> 4bit
     input wire       alu_src_sel,
@@ -18,19 +18,20 @@ module rv32i_datapath (
 
     input wire pc_branch,
     input wire pc_jal,
-    input wire pc_jalr
+    input wire pc_jalr,
+
+    output wire        b_taken_debug,
+    output wire [31:0] write_back_out_debug,
+    output wire [31:0] rs1_debug
 );
-    wire [31:0] w_rs1;
     wire [31:0] w_alu_b_src;
 
     wire [31:0] w_immediate_code;
 
-    wire w_b_taken;
     wire [31:0] w_pc_imm;
     wire [31:0] w_pc_4;
-    wire [31:0] w_write_back_out;
 
-    rv32i_register_file u1_rv32i_register_file (
+    rv32i_register_file_debug u1_rv32i_register_file (
         .clk(clk),
 
         // control unit
@@ -40,33 +41,33 @@ module rv32i_datapath (
         .reg_we(reg_we),
 
         // alu
-        .wdata (w_write_back_out),
-        .rdata1(w_rs1),
+        .wdata (write_back_out_debug),
+        .rdata1(rs1_debug),
         .rdata2(data_mem_wdata)
     );
 
-    rv32i_alu u2_rv32i_alu (
-        .rs1        (w_rs1),
+    rv32i_alu_debug u2_rv32i_alu (
+        .rs1        (rs1_debug),
         .rs2        (w_alu_b_src),
         .alu_control(alu_control),
         .alu_out    (data_mem_addr),
-        .b_taken    (w_b_taken)
+        .b_taken    (b_taken_debug)
     );
 
-    immediate_generator u3_immediate_generator (
+    immediate_generator_debug u3_immediate_generator (
         .instr_code    (instr_code),
         .immediate_code(w_immediate_code)
     );
 
     assign w_alu_b_src = alu_src_sel ? w_immediate_code : data_mem_wdata;
 
-    rv32i_program_counter u5_rv32i_program_counter (
+    rv32i_program_counter_debug u5_rv32i_program_counter (
         .clk  (clk),
         .rst_n(rst_n),
 
         .immediate_code(w_immediate_code),
-        .rs1           (w_rs1),
-        .b_taken       (w_b_taken),
+        .rs1           (rs1_debug),
+        .b_taken       (b_taken_debug),
 
         // control unit
         .pc_branch(pc_branch),
@@ -78,10 +79,10 @@ module rv32i_datapath (
         .pc_4  (w_pc_4),
 
         // instruction memory
-        .pc_out(instr_addr)
+        .pc_out(instr_addr_debug)
     );
 
-    write_back u6_write_back (
+    write_back_debug u6_write_back (
         .in0(data_mem_addr),
         .in1(data_mem_rdata),
         .in2(w_immediate_code),
@@ -89,11 +90,11 @@ module rv32i_datapath (
         .in4(w_pc_4),
 
         .write_back_sel(write_back_sel),
-        .write_back_out(w_write_back_out)
+        .write_back_out(write_back_out_debug)
     );
 endmodule
 
-module rv32i_register_file (
+module rv32i_register_file_debug (
     input wire clk,
 
     // instruction memory
@@ -112,14 +113,12 @@ module rv32i_register_file (
     output wire [31:0] rdata2
 );
     reg [31:0] mem[1:31];
-`ifdef TEST_SIMULATION
+    
     initial begin
         for (int i = 1; i < 32; i = i + 1) begin
             mem[i] = 0;
         end
-        //mem[31] = 32'hFFFF_FFFF;
     end
-`endif
 
     always_ff @(posedge clk) begin
         if (reg_we) begin
@@ -131,7 +130,7 @@ module rv32i_register_file (
     assign rdata2 = (raddr2 == 5'd0) ? 32'd0 : mem[raddr2];
 endmodule
 
-module rv32i_alu (
+module rv32i_alu_debug (
     input wire [31:0] rs1,
     input wire [31:0] rs2,
     input wire [3:0] alu_control,  // 10bit -> 4bit
@@ -215,7 +214,7 @@ module rv32i_alu (
     end
 endmodule
 
-module rv32i_program_counter (
+module rv32i_program_counter_debug (
     input wire clk,
     input wire rst_n,
 
@@ -249,7 +248,7 @@ module rv32i_program_counter (
     assign pc_base_out = pc_jalr ? rs1 : pc_reg;  // pc_base_mux
 endmodule
 
-module immediate_generator (
+module immediate_generator_debug (
     input  wire [31:0] instr_code,
     output wire [31:0] immediate_code
 );
@@ -296,7 +295,7 @@ module immediate_generator (
     end
 endmodule
 
-module write_back (
+module write_back_debug (
     input wire [31:0] in0,
     input wire [31:0] in1,
     input wire [31:0] in2,

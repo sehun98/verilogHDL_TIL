@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module tb_rv32i( );
     logic clk, rst_n;
     top_rv32i_soc dut(.*);
