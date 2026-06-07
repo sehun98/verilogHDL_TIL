@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2026/05/12 18:33:07
+// Create Date: 2026/06/06 15:10:59
 // Design Name: 
-// Module Name: tb_counter10000_sv
+// Module Name: apb_gpio
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module tb_counter10000_sv(
+module apb_gpio(
 
     );
 endmodule

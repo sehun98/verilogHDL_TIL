@@ -1,0 +1,8 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+C:/Xilinx/Vivado/2020.2/data/xsim/system_verilog/uvm_include/uvm_macros.svh,1605717275,verilog,,,,,,,,,,,,
+d:/Project/verilogHDL_TIL/software/20260601_cpu_single_cycle/20260601_cpu_single_cycle.srcs/sources_1/new/datapath.sv,1780320812,systemVerilog,,,,alu;datapath;register_file,,,,,,,,
+d:/Project/verilogHDL_TIL/software/20260603_apb/20260603_apb.srcs/sim_1/new/tb_apb_gpio.sv,1780799977,systemVerilog,,,C:/Xilinx/Vivado/2020.2/data/xsim/system_verilog/uvm_include/uvm_macros.svh,tb_apb_gpio,,,,,,,,
+d:/Project/verilogHDL_TIL/software/20260606_apb_gpio/20260606_apb_gpio.srcs/sources_1/new/apb_gpio.sv,1780726259,systemVerilog,,,,apb_gpio,,,,,,,,
