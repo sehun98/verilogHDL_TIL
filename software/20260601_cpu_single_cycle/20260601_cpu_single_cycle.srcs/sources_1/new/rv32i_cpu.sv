@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2026/05/12 18:33:07
+// Create Date: 2026/06/01 22:17:46
 // Design Name: 
-// Module Name: tb_counter10000_sv
+// Module Name: rv32i_cpu
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module tb_counter10000_sv(
+module rv32i_cpu(
 
     );
 endmodule

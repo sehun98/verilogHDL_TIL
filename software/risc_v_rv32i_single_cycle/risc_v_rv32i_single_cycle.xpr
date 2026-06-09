@@ -46,7 +46,19 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="basys3"/>
+<<<<<<< HEAD:software/risc_v_rv32i_single_cycle/risc_v_rv32i_single_cycle.xpr
     <Option Name="WTXSimLaunchSim" Val="3"/>
+=======
+<<<<<<< HEAD
+    <Option Name="WTXSimLaunchSim" Val="604"/>
+=======
+<<<<<<< HEAD
+    <Option Name="WTXSimLaunchSim" Val="149"/>
+=======
+    <Option Name="WTXSimLaunchSim" Val="587"/>
+>>>>>>> b123ee9ce2580dcdea85197317a040da08b982aa
+>>>>>>> 86d6ed4ef3e3b21d95898ea4f30d671c6bf2cc93
+>>>>>>> db7da2c9ff0e07bce6054d4094d59ef9cf411773:software/20260519_cpu/20260519_cpu.xpr
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -172,7 +184,10 @@
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="top_rv32i_soc"/>
+<<<<<<< HEAD:software/risc_v_rv32i_single_cycle/risc_v_rv32i_single_cycle.xpr
         <Option Name="TopAutoSet" Val="TRUE"/>
+=======
+>>>>>>> db7da2c9ff0e07bce6054d4094d59ef9cf411773:software/20260519_cpu/20260519_cpu.xpr
       </Config>
     </FileSet>
     <FileSet Name="constrs_1" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
@@ -239,16 +254,25 @@
     </Simulator>
   </Simulators>
   <Runs Version="1" Minor="15">
+<<<<<<< HEAD:software/risc_v_rv32i_single_cycle/risc_v_rv32i_single_cycle.xpr
     <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7a35tcpg236-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/synth_1">
+=======
+    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7a35tcpg236-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" Dir="$PRUNDIR/synth_1" IncludeInArchive="true" AutoIncrementalDir="$PPRDIR/../../../../ondevice_ai_project/verilogHDL_TIL/software/20260519_cpu/20260519_cpu.srcs/utils_1/imports/synth_1">
+>>>>>>> db7da2c9ff0e07bce6054d4094d59ef9cf411773:software/20260519_cpu/20260519_cpu.xpr
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020"/>
         <Step Id="synth_design"/>
       </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
       <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2020"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD:software/risc_v_rv32i_single_cycle/risc_v_rv32i_single_cycle.xpr
     <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/impl_1">
+=======
+    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" Dir="$PRUNDIR/impl_1" SynthRun="synth_1" IncludeInArchive="true" GenFullBitstream="true" AutoIncrementalDir="$PPRDIR/../../../../ondevice_ai_project/verilogHDL_TIL/software/20260519_cpu/20260519_cpu.srcs/utils_1/imports/impl_1">
+>>>>>>> db7da2c9ff0e07bce6054d4094d59ef9cf411773:software/20260519_cpu/20260519_cpu.xpr
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020"/>
         <Step Id="init_design"/>
@@ -261,6 +285,7 @@
         <Step Id="post_route_phys_opt_design"/>
         <Step Id="write_bitstream"/>
       </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
       <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2020"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
