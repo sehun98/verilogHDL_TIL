@@ -90,7 +90,7 @@ module datapath_Arithmetic_sequence (
     );
 endmodule
 
-/*
+
 module mux2to1 (
     input logic [7:0] in0,
     input logic [7:0] in1,
@@ -139,4 +139,3 @@ module compare_eq (
 endmodule
 
 
-*/
