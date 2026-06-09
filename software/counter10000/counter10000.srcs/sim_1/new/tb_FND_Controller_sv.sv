@@ -61,7 +61,8 @@ class generator;
     mailbox #(transaction) gen2drv_mbox;
     event event_drv2gen;
 
-    function new(mailbox#(transaction) _gen2drv_mbox, event _event_drv2gen);
+    function new(mailbox#(transaction) _gen2drv_mbox, 
+        event _event_drv2gen);
         this.gen2drv_mbox = _gen2drv_mbox;
         event_drv2gen = _event_drv2gen;
     endfunction

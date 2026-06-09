@@ -1,0 +1,4 @@
+timestamp=[2026-06-05 08:09:35], mode=WORKBENCH_START, duration=0:00:04.117, duration_ms=4117, data={}
+timestamp=[2026-06-05 08:09:35], mode=WORKBENCH_UI_INIT, duration=0:00:00.301, duration_ms=301, data={editors_count=0, platform_editors_count=0, projects_count=0, platform_projects_count=0, active_platform_editor=false, projects=}
+timestamp=[2026-06-05 08:09:39], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:03.186, duration_ms=3186, data={}
+timestamp=[2026-06-05 08:11:40], mode=APP_CREATION, duration=0:00:05.732, duration_ms=5732, data={name=gpio_test, project_type=sdk, os=standalone, processor=microblaze, runtime=cpp, platform=microblaze_apb_gpio_wrapper, application_type=application}

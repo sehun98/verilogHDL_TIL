@@ -31,7 +31,8 @@ class generator;
     mailbox #(transaction) gen2drv_mbox;
     event event_drv2gen;
 
-    function new(mailbox#(transaction) _gen2drv_mbox, event _event_drv2gen);
+    function new(mailbox#(transaction) _gen2drv_mbox, 
+        event _event_drv2gen);
         this.gen2drv_mbox = _gen2drv_mbox;
         event_drv2gen = _event_drv2gen;
     endfunction
@@ -65,14 +66,12 @@ class driver;
         v_btn_debounce_if.rst_n  = 1'b0;
         v_btn_debounce_if.btn_in = 0;
         #1000_000;
-        //repeat (10) @(posedge v_btn_debounce_if.clk);
         v_btn_debounce_if.rst_n = 1'b1;
     endtask
 
     task run();
         forever begin
             gen2drv_mbox.get(tr);
-
             // bounce
             repeat (tr.bounce_count) begin
                 @(negedge v_btn_debounce_if.clk);
@@ -80,19 +79,14 @@ class driver;
 
                 repeat (10_000) @(posedge v_btn_debounce_if.clk);
             end
-
             // stable press
             @(negedge v_btn_debounce_if.clk);
             v_btn_debounce_if.btn_in = 1'b1;
-
             repeat (tr.press_time * 100_000) @(posedge v_btn_debounce_if.clk);
-
             // release
             @(negedge v_btn_debounce_if.clk);
             v_btn_debounce_if.btn_in = 1'b0;
-
             repeat (500_000) @(posedge v_btn_debounce_if.clk);
-
             ->event_drv2gen;
         end
     endtask

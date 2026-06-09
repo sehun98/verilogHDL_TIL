@@ -200,50 +200,52 @@
     </FileSet>
     <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1" RelGenDir="$PGENDIR/sim_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sim_1/imports/new/tb_counter10000.v">
+      <File Path="$PSRCDIR/sim_1/new/tb_counter10000.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sim_1/new/tb_counter10000.v"/>
-          <Attr Name="ImportTime" Val="1778593461"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/imports/new/tb_datapath_sv.sv">
+      <File Path="$PSRCDIR/sim_1/new/tb_control_unit_sv.sv">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sim_1/new/tb_datapath_sv.sv"/>
-          <Attr Name="ImportTime" Val="1778679881"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/imports/new/tb_control_unit_sv.sv">
+      <File Path="$PSRCDIR/sim_1/new/tb_FND_Controller_sv.sv">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sim_1/new/tb_control_unit_sv.sv"/>
-          <Attr Name="ImportTime" Val="1778679881"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+<<<<<<< HEAD
+      <File Path="$PSRCDIR/sim_1/new/tb_counter10000_sv.v">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sim_1/new/tb_datapath_sv.sv">
+=======
       <File Path="$PSRCDIR/sim_1/imports/new/tb_debounce_sv.sv">
+>>>>>>> db7da2c9ff0e07bce6054d4094d59ef9cf411773
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sim_1/new/tb_debounce_sv.sv"/>
-          <Attr Name="ImportTime" Val="1778593461"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/imports/new/tb_FND_Controller_sv.sv">
+      <File Path="$PSRCDIR/sim_1/new/tb_debounce_sv.sv">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sim_1/new/tb_FND_Controller_sv.sv"/>
-          <Attr Name="ImportTime" Val="1778679881"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
