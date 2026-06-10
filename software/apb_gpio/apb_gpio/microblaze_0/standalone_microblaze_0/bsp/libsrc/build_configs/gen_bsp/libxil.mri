@@ -1,0 +1,5 @@
+create libxil.a
+addlib D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/gen_bsp/libsrc/uartlite/src/libuartlite.a
+addlib D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/gen_bsp/libsrc/bram/src/libbram.a
+save
+end

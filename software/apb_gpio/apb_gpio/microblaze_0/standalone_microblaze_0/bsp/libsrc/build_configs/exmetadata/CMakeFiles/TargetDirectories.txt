@@ -1,0 +1,4 @@
+D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/exmetadata/CMakeFiles/uartlite_example.dir
+D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/exmetadata/CMakeFiles/bram_example.dir
+D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/exmetadata/CMakeFiles/edit_cache.dir
+D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/exmetadata/CMakeFiles/rebuild_cache.dir
