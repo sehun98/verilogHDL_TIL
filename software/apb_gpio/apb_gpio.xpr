@@ -3,10 +3,24 @@
 <!--                                                         -->
 <!-- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.   -->
 
+<<<<<<< HEAD
 <Project Version="7" Minor="54" Path="D:/ondevice_ai_project/verilogHDL_TIL/software/apb_gpio/apb_gpio.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="b7de079ead1b4cf4a3c9f556e1bac13a"/>
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+<Project Version="7" Minor="54" Path="D:/ondevice_ai_project/verilogHDL_TIL/software/20260611_apb_fnd/20260611_apb_fnd.xpr">
+  <DefaultLaunch Dir="$PRUNDIR"/>
+  <Configuration>
+    <Option Name="Id" Val="5256951910af4e6bbebaa326870680b9"/>
+========
+<Project Version="7" Minor="54" Path="D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio.xpr">
+  <DefaultLaunch Dir="$PRUNDIR"/>
+  <Configuration>
+    <Option Name="Id" Val="82426e2002d7430993745f7d6156d158"/>
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Option Name="Part" Val="xc7a35tcpg236-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -36,8 +50,12 @@
     <Option Name="ActiveSimSet" Val="sim_1"/>
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
     <Option Name="ProjectType" Val="Default"/>
+<<<<<<< HEAD
     <Option Name="IPRepoPath" Val="$PPRDIR/../../../veriloghdl_til/software/apb_gpio"/>
     <Option Name="IPRepoPath" Val="$PSRCDIR"/>
+=======
+    <Option Name="IPRepoPath" Val="$PSRCDIR/sources_1/new"/>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Option Name="IPOutputRepo" Val="$PCACHEDIR/ip"/>
     <Option Name="IPDefaultOutputPath" Val="$PGENDIR/sources_1"/>
     <Option Name="IPCachePermission" Val="read"/>
@@ -55,6 +73,7 @@
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
+<<<<<<< HEAD
     <Option Name="WTXSimExportSim" Val="2"/>
     <Option Name="WTModelSimExportSim" Val="2"/>
     <Option Name="WTQuestaExportSim" Val="2"/>
@@ -62,6 +81,15 @@
     <Option Name="WTVcsExportSim" Val="2"/>
     <Option Name="WTRivieraExportSim" Val="2"/>
     <Option Name="WTActivehdlExportSim" Val="2"/>
+=======
+    <Option Name="WTXSimExportSim" Val="1"/>
+    <Option Name="WTModelSimExportSim" Val="1"/>
+    <Option Name="WTQuestaExportSim" Val="1"/>
+    <Option Name="WTIesExportSim" Val="1"/>
+    <Option Name="WTVcsExportSim" Val="1"/>
+    <Option Name="WTRivieraExportSim" Val="1"/>
+    <Option Name="WTActivehdlExportSim" Val="1"/>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -83,6 +111,7 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
+<<<<<<< HEAD
         <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_rst_clk_wiz_1_100M_0/design_1_rst_clk_wiz_1_100M_0.xci">
           <Proxy FileSetName="design_1_rst_clk_wiz_1_100M_0"/>
         </CompFileExtendedInfo>
@@ -98,12 +127,49 @@
         <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_ilmb_v10_0/design_1_ilmb_v10_0.xci">
           <Proxy FileSetName="design_1_ilmb_v10_0"/>
         </CompFileExtendedInfo>
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_ilmb_v10_0/design_1_ilmb_v10_0.xci">
+          <Proxy FileSetName="design_1_ilmb_v10_0"/>
+========
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_apb_gpio_0_0/design_1_apb_gpio_0_0.xci">
+          <Proxy FileSetName="design_1_apb_gpio_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_axi_uartlite_0_0/design_1_axi_uartlite_0_0.xci">
+          <Proxy FileSetName="design_1_axi_uartlite_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_axi_apb_bridge_0_0/design_1_axi_apb_bridge_0_0.xci">
+          <Proxy FileSetName="design_1_axi_apb_bridge_0_0"/>
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_microblaze_0_0/design_1_microblaze_0_0.xci">
+          <Proxy FileSetName="design_1_microblaze_0_0"/>
+        </CompFileExtendedInfo>
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_dlmb_v10_0/design_1_dlmb_v10_0.xci">
+          <Proxy FileSetName="design_1_dlmb_v10_0"/>
+========
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_ilmb_v10_0/design_1_ilmb_v10_0.xci">
+          <Proxy FileSetName="design_1_ilmb_v10_0"/>
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_dlmb_bram_if_cntlr_0/design_1_dlmb_bram_if_cntlr_0.xci">
+          <Proxy FileSetName="design_1_dlmb_bram_if_cntlr_0"/>
+        </CompFileExtendedInfo>
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+========
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_dlmb_v10_0/design_1_dlmb_v10_0.xci">
+          <Proxy FileSetName="design_1_dlmb_v10_0"/>
+        </CompFileExtendedInfo>
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_ilmb_bram_if_cntlr_0/design_1_ilmb_bram_if_cntlr_0.xci">
           <Proxy FileSetName="design_1_ilmb_bram_if_cntlr_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_lmb_bram_0/design_1_lmb_bram_0.xci">
           <Proxy FileSetName="design_1_lmb_bram_0"/>
         </CompFileExtendedInfo>
+<<<<<<< HEAD
         <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_microblaze_0_0/design_1_microblaze_0_0.xci">
           <Proxy FileSetName="design_1_microblaze_0_0"/>
         </CompFileExtendedInfo>
@@ -115,6 +181,27 @@
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_axi_uartlite_0_0/design_1_axi_uartlite_0_0.xci">
           <Proxy FileSetName="design_1_axi_uartlite_0_0"/>
+=======
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_mdm_1_0/design_1_mdm_1_0.xci">
+          <Proxy FileSetName="design_1_mdm_1_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_clk_wiz_1_0/design_1_clk_wiz_1_0.xci">
+          <Proxy FileSetName="design_1_clk_wiz_1_0"/>
+        </CompFileExtendedInfo>
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_apb_fnd_0_0/design_1_apb_fnd_0_0.xci">
+          <Proxy FileSetName="design_1_apb_fnd_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_axi_apb_bridge_0_0/design_1_axi_apb_bridge_0_0.xci">
+          <Proxy FileSetName="design_1_axi_apb_bridge_0_0"/>
+========
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_xbar_0/design_1_xbar_0.xci">
+          <Proxy FileSetName="design_1_xbar_0"/>
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="design_1.bd" FileRelPathName="ip/design_1_rst_clk_wiz_1_100M_0/design_1_rst_clk_wiz_1_100M_0.xci">
+          <Proxy FileSetName="design_1_rst_clk_wiz_1_100M_0"/>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         </CompFileExtendedInfo>
       </File>
       <File Path="$PGENDIR/sources_1/bd/design_1/hdl/design_1_wrapper.v">
@@ -124,7 +211,15 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+<<<<<<< HEAD
       <File Path="$PSRCDIR/sources_1/new/apb_gpio.sv">
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+      <File Path="$PSRCDIR/sources_1/new/apb_fnd.sv">
+========
+      <File Path="$PSRCDIR/sources_1/new/apb_gpio.sv">
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -132,32 +227,54 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+<<<<<<< HEAD
       <File Path="$PPRDIR/../../../veriloghdl_til/software/apb_gpio/component.xml">
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+      <File Path="$PPRDIR/../../../veriloghdl_til/software/20260611_apb_fnd/component.xml">
+========
+      <File Path="$PSRCDIR/sources_1/new/component.xml">
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         <FileInfo SFType="IPXACT"/>
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="design_1_wrapper"/>
+<<<<<<< HEAD
         <Option Name="TopAutoSet" Val="TRUE"/>
+=======
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
       </Config>
     </FileSet>
     <FileSet Name="constrs_1" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
       <Filter Type="Constrs"/>
+<<<<<<< HEAD
       <File Path="$PSRCDIR/constrs_1/new/apb_gpio.xdc">
+=======
+      <File Path="$PSRCDIR/constrs_1/new/apb_fnd.xdc">
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
         </FileInfo>
       </File>
       <Config>
+<<<<<<< HEAD
         <Option Name="TargetConstrsFile" Val="$PSRCDIR/constrs_1/new/apb_gpio.xdc"/>
+=======
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         <Option Name="ConstrsType" Val="XDC"/>
       </Config>
     </FileSet>
     <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1" RelGenDir="$PGENDIR/sim_1">
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
+<<<<<<< HEAD
         <Option Name="TopModule" Val="design_1_wrapper"/>
+=======
+        <Option Name="TopModule" Val="apb_fnd"/>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         <Option Name="TopLib" Val="xil_defaultlib"/>
         <Option Name="TopAutoSet" Val="TRUE"/>
         <Option Name="TransportPathDelay" Val="0"/>
@@ -194,6 +311,15 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
+<<<<<<< HEAD
+=======
+    <FileSet Name="design_1_dlmb_bram_if_cntlr_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/design_1_dlmb_bram_if_cntlr_0" RelGenDir="$PGENDIR/design_1_dlmb_bram_if_cntlr_0">
+      <Config>
+        <Option Name="TopModule" Val="design_1_dlmb_bram_if_cntlr_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <FileSet Name="design_1_ilmb_bram_if_cntlr_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/design_1_ilmb_bram_if_cntlr_0" RelGenDir="$PGENDIR/design_1_ilmb_bram_if_cntlr_0">
       <Config>
         <Option Name="TopModule" Val="design_1_ilmb_bram_if_cntlr_0"/>
@@ -224,21 +350,45 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
+<<<<<<< HEAD
+=======
+    <FileSet Name="design_1_xbar_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/design_1_xbar_0" RelGenDir="$PGENDIR/design_1_xbar_0">
+      <Config>
+        <Option Name="TopModule" Val="design_1_xbar_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <FileSet Name="design_1_axi_apb_bridge_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/design_1_axi_apb_bridge_0_0" RelGenDir="$PGENDIR/design_1_axi_apb_bridge_0_0">
       <Config>
         <Option Name="TopModule" Val="design_1_axi_apb_bridge_0_0"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+    <FileSet Name="design_1_apb_fnd_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/design_1_apb_fnd_0_0" RelGenDir="$PGENDIR/design_1_apb_fnd_0_0">
+      <Config>
+        <Option Name="TopModule" Val="design_1_apb_fnd_0_0"/>
+========
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <FileSet Name="design_1_axi_uartlite_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/design_1_axi_uartlite_0_0" RelGenDir="$PGENDIR/design_1_axi_uartlite_0_0">
       <Config>
         <Option Name="TopModule" Val="design_1_axi_uartlite_0_0"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
+<<<<<<< HEAD
     <FileSet Name="design_1_apb_gpio_0_2" Type="BlockSrcs" RelSrcDir="$PSRCDIR/design_1_apb_gpio_0_2" RelGenDir="$PGENDIR/design_1_apb_gpio_0_2">
       <Config>
         <Option Name="TopModule" Val="design_1_apb_gpio_0_2"/>
+=======
+    <FileSet Name="design_1_apb_gpio_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/design_1_apb_gpio_0_0" RelGenDir="$PGENDIR/design_1_apb_gpio_0_0">
+      <Config>
+        <Option Name="TopModule" Val="design_1_apb_gpio_0_0"/>
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
@@ -310,6 +460,21 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD
+=======
+    <Run Id="design_1_dlmb_bram_if_cntlr_0_synth_1" Type="Ft3:Synth" SrcSet="design_1_dlmb_bram_if_cntlr_0" Part="xc7a35tcpg236-1" ConstrsSet="design_1_dlmb_bram_if_cntlr_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/design_1_dlmb_bram_if_cntlr_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_dlmb_bram_if_cntlr_0_synth_1">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
+          <Desc>Vivado Synthesis Defaults</Desc>
+        </StratHandle>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2020"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Run Id="design_1_ilmb_bram_if_cntlr_0_synth_1" Type="Ft3:Synth" SrcSet="design_1_ilmb_bram_if_cntlr_0" Part="xc7a35tcpg236-1" ConstrsSet="design_1_ilmb_bram_if_cntlr_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/design_1_ilmb_bram_if_cntlr_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_ilmb_bram_if_cntlr_0_synth_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
@@ -370,6 +535,21 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD
+=======
+    <Run Id="design_1_xbar_0_synth_1" Type="Ft3:Synth" SrcSet="design_1_xbar_0" Part="xc7a35tcpg236-1" ConstrsSet="design_1_xbar_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/design_1_xbar_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_xbar_0_synth_1">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
+          <Desc>Vivado Synthesis Defaults</Desc>
+        </StratHandle>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2020"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Run Id="design_1_axi_apb_bridge_0_0_synth_1" Type="Ft3:Synth" SrcSet="design_1_axi_apb_bridge_0_0" Part="xc7a35tcpg236-1" ConstrsSet="design_1_axi_apb_bridge_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/design_1_axi_apb_bridge_0_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_axi_apb_bridge_0_0_synth_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
@@ -382,6 +562,12 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+    <Run Id="design_1_apb_fnd_0_0_synth_1" Type="Ft3:Synth" SrcSet="design_1_apb_fnd_0_0" Part="xc7a35tcpg236-1" ConstrsSet="design_1_apb_fnd_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/design_1_apb_fnd_0_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_apb_fnd_0_0_synth_1">
+========
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Run Id="design_1_axi_uartlite_0_0_synth_1" Type="Ft3:Synth" SrcSet="design_1_axi_uartlite_0_0" Part="xc7a35tcpg236-1" ConstrsSet="design_1_axi_uartlite_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/design_1_axi_uartlite_0_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_axi_uartlite_0_0_synth_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
@@ -394,7 +580,12 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD
     <Run Id="design_1_apb_gpio_0_2_synth_1" Type="Ft3:Synth" SrcSet="design_1_apb_gpio_0_2" Part="xc7a35tcpg236-1" ConstrsSet="design_1_apb_gpio_0_2" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/design_1_apb_gpio_0_2_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_apb_gpio_0_2_synth_1">
+=======
+    <Run Id="design_1_apb_gpio_0_0_synth_1" Type="Ft3:Synth" SrcSet="design_1_apb_gpio_0_0" Part="xc7a35tcpg236-1" ConstrsSet="design_1_apb_gpio_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/design_1_apb_gpio_0_0_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_apb_gpio_0_0_synth_1">
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
           <Desc>Vivado Synthesis Defaults</Desc>
@@ -483,6 +674,28 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD
+=======
+    <Run Id="design_1_dlmb_bram_if_cntlr_0_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="design_1_dlmb_bram_if_cntlr_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="design_1_dlmb_bram_if_cntlr_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_dlmb_bram_if_cntlr_0_impl_1">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
+          <Desc>Default settings for Implementation.</Desc>
+        </StratHandle>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2020"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Run Id="design_1_ilmb_bram_if_cntlr_0_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="design_1_ilmb_bram_if_cntlr_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="design_1_ilmb_bram_if_cntlr_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_ilmb_bram_if_cntlr_0_impl_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
@@ -578,6 +791,28 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD
+=======
+    <Run Id="design_1_xbar_0_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="design_1_xbar_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="design_1_xbar_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_xbar_0_impl_1">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
+          <Desc>Default settings for Implementation.</Desc>
+        </StratHandle>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2020"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Run Id="design_1_axi_apb_bridge_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="design_1_axi_apb_bridge_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="design_1_axi_apb_bridge_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_axi_apb_bridge_0_0_impl_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
@@ -597,6 +832,12 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.xpr
+    <Run Id="design_1_apb_fnd_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="design_1_apb_fnd_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="design_1_apb_fnd_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_apb_fnd_0_0_impl_1">
+========
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     <Run Id="design_1_axi_uartlite_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="design_1_axi_uartlite_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="design_1_axi_uartlite_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_axi_uartlite_0_0_impl_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
@@ -616,7 +857,12 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
+<<<<<<< HEAD
     <Run Id="design_1_apb_gpio_0_2_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="design_1_apb_gpio_0_2" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="design_1_apb_gpio_0_2_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_apb_gpio_0_2_impl_1">
+=======
+    <Run Id="design_1_apb_gpio_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="design_1_apb_gpio_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="design_1_apb_gpio_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/design_1_apb_gpio_0_0_impl_1">
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.xpr
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
           <Desc>Default settings for Implementation.</Desc>

@@ -1,0 +1,9 @@
+# ninja log v5
+4	646	0	CMakeFiles/uartlite_example	df959006453a1633
+4	646	0	xuartlite_exlist.yaml	df959006453a1633
+4	646	0	D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/exmetadata/CMakeFiles/uartlite_example	df959006453a1633
+4	646	0	D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/exmetadata/xuartlite_exlist.yaml	df959006453a1633
+16	650	0	CMakeFiles/bram_example	233473a36c403f30
+16	650	0	xbram_exlist.yaml	233473a36c403f30
+16	650	0	D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/exmetadata/CMakeFiles/bram_example	233473a36c403f30
+16	650	0	D:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio/microblaze_0/standalone_microblaze_0/bsp/libsrc/build_configs/exmetadata/xbram_exlist.yaml	233473a36c403f30

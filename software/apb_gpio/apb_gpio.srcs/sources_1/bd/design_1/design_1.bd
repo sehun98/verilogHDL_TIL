@@ -1,9 +1,21 @@
 {
   "design": {
     "design_info": {
+<<<<<<< HEAD
       "boundary_crc": "0x375A86DB72D3B62C",
       "device": "xc7a35tcpg236-1",
       "gen_directory": "../../../../apb_gpio.gen/sources_1/bd/design_1",
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+      "boundary_crc": "0x70A2F3416BAC7ED6",
+      "device": "xc7a35tcpg236-1",
+      "gen_directory": "../../../../20260611_apb_fnd.gen/sources_1/bd/design_1",
+========
+      "boundary_crc": "0x375A86DB72D3B62C",
+      "device": "xc7a35tcpg236-1",
+      "gen_directory": "../../../../apb_gpio.gen/sources_1/bd/design_1",
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
       "name": "design_1",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
@@ -29,6 +41,12 @@
         "m01_couplers": {}
       },
       "axi_apb_bridge_0": "",
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+      "apb_fnd_0": ""
+========
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
       "axi_uartlite_0": "",
       "apb_gpio_0": ""
     },
@@ -37,6 +55,10 @@
         "mode": "Master",
         "vlnv": "xilinx.com:interface:uart_rtl:1.0"
       }
+<<<<<<< HEAD
+=======
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
     },
     "ports": {
       "clk": {
@@ -76,9 +98,26 @@
           }
         }
       },
+<<<<<<< HEAD
       "gpio_pin": {
         "direction": "IO",
         "left": "15",
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+      "digit": {
+        "direction": "O",
+        "left": "3",
+        "right": "0"
+      },
+      "seg": {
+        "direction": "O",
+        "left": "7",
+========
+      "gpio_pin": {
+        "direction": "IO",
+        "left": "15",
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         "right": "0"
       }
     },
@@ -256,12 +295,30 @@
             "interface_ports": [
               "ILMB",
               "ilmb_v10/LMB_M"
+<<<<<<< HEAD
             ]
           },
           "microblaze_0_dlmb_cntlr": {
             "interface_ports": [
               "dlmb_bram_if_cntlr/BRAM_PORT",
               "lmb_bram/BRAM_PORTA"
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+========
+            ]
+          },
+          "microblaze_0_ilmb_cntlr": {
+            "interface_ports": [
+              "ilmb_bram_if_cntlr/BRAM_PORT",
+              "lmb_bram/BRAM_PORTB"
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+            ]
+          },
+          "microblaze_0_dlmb": {
+            "interface_ports": [
+              "DLMB",
+              "dlmb_v10/LMB_M"
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
             ]
           },
           "microblaze_0_ilmb_cntlr": {
@@ -270,22 +327,41 @@
               "lmb_bram/BRAM_PORTB"
             ]
           },
+<<<<<<< HEAD
           "microblaze_0_ilmb_bus": {
             "interface_ports": [
               "ilmb_v10/LMB_Sl_0",
               "ilmb_bram_if_cntlr/SLMB"
             ]
           },
+=======
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
           "microblaze_0_dlmb_bus": {
             "interface_ports": [
               "dlmb_v10/LMB_Sl_0",
               "dlmb_bram_if_cntlr/SLMB"
             ]
           },
+<<<<<<< HEAD
           "microblaze_0_dlmb": {
             "interface_ports": [
               "DLMB",
               "dlmb_v10/LMB_M"
+=======
+          "microblaze_0_ilmb_bus": {
+            "interface_ports": [
+              "ilmb_v10/LMB_Sl_0",
+              "ilmb_bram_if_cntlr/SLMB"
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+========
+            ]
+          },
+          "microblaze_0_dlmb_cntlr": {
+            "interface_ports": [
+              "dlmb_bram_if_cntlr/BRAM_PORT",
+              "lmb_bram/BRAM_PORTA"
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
             ]
           }
         },
@@ -355,11 +431,14 @@
         "xci_path": "ip\\design_1_axi_interconnect_0_0\\design_1_axi_interconnect_0_0.xci",
         "inst_hier_path": "axi_interconnect_0",
         "xci_name": "design_1_axi_interconnect_0_0",
+<<<<<<< HEAD
         "parameters": {
           "NUM_MI": {
             "value": "2"
           }
         },
+=======
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         "interface_ports": {
           "S00_AXI": {
             "mode": "Slave",
@@ -628,6 +707,7 @@
           }
         },
         "interface_nets": {
+<<<<<<< HEAD
           "axi_interconnect_0_to_s00_couplers": {
             "interface_ports": [
               "S00_AXI",
@@ -646,6 +726,8 @@
               "m00_couplers/M_AXI"
             ]
           },
+=======
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
           "xbar_to_m00_couplers": {
             "interface_ports": [
               "xbar/M00_AXI",
@@ -658,11 +740,35 @@
               "m01_couplers/M_AXI"
             ]
           },
+<<<<<<< HEAD
+=======
+          "axi_interconnect_0_to_s00_couplers": {
+            "interface_ports": [
+              "S00_AXI",
+              "s00_couplers/S_AXI"
+            ]
+          },
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
           "xbar_to_m01_couplers": {
             "interface_ports": [
               "xbar/M01_AXI",
               "m01_couplers/S_AXI"
             ]
+<<<<<<< HEAD
+=======
+          },
+          "m00_couplers_to_axi_interconnect_0": {
+            "interface_ports": [
+              "M00_AXI",
+              "m00_couplers/M_AXI"
+            ]
+          },
+          "s00_couplers_to_xbar": {
+            "interface_ports": [
+              "s00_couplers/M_AXI",
+              "xbar/S00_AXI"
+            ]
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
           }
         },
         "nets": {
@@ -700,6 +806,12 @@
         "parameters": {
           "C_APB_NUM_SLAVES": {
             "value": "1"
+<<<<<<< HEAD
+=======
+          },
+          "C_M_APB_PROTOCOL": {
+            "value": "apb4"
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
           }
         },
         "interface_ports": {
@@ -711,15 +823,28 @@
           }
         }
       },
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+      "apb_fnd_0": {
+        "vlnv": "xilinx.com:user:apb_fnd:1.0",
+        "xci_name": "design_1_apb_fnd_0_0",
+        "xci_path": "ip\\design_1_apb_fnd_0_0\\design_1_apb_fnd_0_0.xci",
+        "inst_hier_path": "apb_fnd_0"
+========
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
       "axi_uartlite_0": {
         "vlnv": "xilinx.com:ip:axi_uartlite:2.0",
         "xci_name": "design_1_axi_uartlite_0_0",
         "xci_path": "ip\\design_1_axi_uartlite_0_0\\design_1_axi_uartlite_0_0.xci",
         "inst_hier_path": "axi_uartlite_0",
         "parameters": {
+<<<<<<< HEAD
           "C_BAUDRATE": {
             "value": "115200"
           },
+=======
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
           "UARTLITE_BOARD_INTERFACE": {
             "value": "usb_uart"
           },
@@ -730,6 +855,7 @@
       },
       "apb_gpio_0": {
         "vlnv": "xilinx.com:user:apb_gpio:1.0",
+<<<<<<< HEAD
         "xci_name": "design_1_apb_gpio_0_2",
         "xci_path": "ip\\design_1_apb_gpio_0_2\\design_1_apb_gpio_0_2.xci",
         "inst_hier_path": "apb_gpio_0"
@@ -764,6 +890,23 @@
         "interface_ports": [
           "mdm_1/MBDEBUG_0",
           "microblaze_0/DEBUG"
+=======
+        "xci_name": "design_1_apb_gpio_0_0",
+        "xci_path": "ip\\design_1_apb_gpio_0_0\\design_1_apb_gpio_0_0.xci",
+        "inst_hier_path": "apb_gpio_0"
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+      }
+    },
+    "interface_nets": {
+      "microblaze_0_debug": {
+        "interface_ports": [
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+          "mdm_1/MBDEBUG_0",
+          "microblaze_0/DEBUG"
+========
+          "axi_interconnect_0/M00_AXI",
+          "axi_uartlite_0/S_AXI"
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         ]
       },
       "axi_uartlite_0_UART": {
@@ -775,7 +918,39 @@
       "axi_interconnect_0_M01_AXI": {
         "interface_ports": [
           "axi_interconnect_0/M01_AXI",
+<<<<<<< HEAD
           "axi_uartlite_0/S_AXI"
+=======
+          "axi_apb_bridge_0/AXI4_LITE"
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+        ]
+      },
+      "microblaze_0_dlmb_1": {
+        "interface_ports": [
+          "microblaze_0/DLMB",
+          "microblaze_0_local_memory/DLMB"
+        ]
+      },
+      "microblaze_0_ilmb_1": {
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+========
+        "interface_ports": [
+          "microblaze_0/ILMB",
+          "microblaze_0_local_memory/ILMB"
+        ]
+      },
+      "microblaze_0_debug": {
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+        "interface_ports": [
+          "microblaze_0/ILMB",
+          "microblaze_0_local_memory/ILMB"
+        ]
+      },
+      "axi_interconnect_0_M00_AXI": {
+        "interface_ports": [
+          "axi_interconnect_0/M00_AXI",
+          "axi_apb_bridge_0/AXI4_LITE"
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         ]
       },
       "axi_apb_bridge_0_APB_M": {
@@ -783,6 +958,21 @@
           "axi_apb_bridge_0/APB_M",
           "apb_gpio_0/apb_gpio"
         ]
+<<<<<<< HEAD
+=======
+      },
+      "microblaze_0_M_AXI_DP": {
+        "interface_ports": [
+          "microblaze_0/M_AXI_DP",
+          "axi_interconnect_0/S00_AXI"
+        ]
+      },
+      "axi_apb_bridge_0_APB_M": {
+        "interface_ports": [
+          "axi_apb_bridge_0/APB_M",
+          "apb_fnd_0/apb_fnd"
+        ]
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
       }
     },
     "nets": {
@@ -793,12 +983,28 @@
           "microblaze_0_local_memory/LMB_Clk",
           "rst_clk_wiz_1_100M/slowest_sync_clk",
           "axi_interconnect_0/ACLK",
+<<<<<<< HEAD
           "axi_interconnect_0/M00_ACLK",
           "axi_apb_bridge_0/s_axi_aclk",
           "axi_interconnect_0/S00_ACLK",
           "axi_interconnect_0/M01_ACLK",
           "axi_uartlite_0/s_axi_aclk",
           "apb_gpio_0/PCLK"
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+          "axi_interconnect_0/M00_ACLK",
+          "axi_apb_bridge_0/s_axi_aclk",
+          "axi_interconnect_0/S00_ACLK",
+          "apb_fnd_0/PCLK"
+========
+          "axi_interconnect_0/S00_ACLK",
+          "axi_uartlite_0/s_axi_aclk",
+          "axi_interconnect_0/M00_ACLK",
+          "axi_interconnect_0/M01_ACLK",
+          "axi_apb_bridge_0/s_axi_aclk",
+          "apb_gpio_0/PCLK"
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         ]
       },
       "clk_wiz_1_locked": {
@@ -842,6 +1048,7 @@
         "ports": [
           "rst_clk_wiz_1_100M/peripheral_aresetn",
           "axi_interconnect_0/ARESETN",
+<<<<<<< HEAD
           "axi_interconnect_0/M00_ARESETN",
           "axi_apb_bridge_0/s_axi_aresetn",
           "axi_interconnect_0/S00_ARESETN",
@@ -854,6 +1061,38 @@
         "ports": [
           "gpio_pin",
           "apb_gpio_0/gpio_pin"
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+          "axi_interconnect_0/M00_ARESETN",
+          "axi_apb_bridge_0/s_axi_aresetn",
+          "axi_interconnect_0/S00_ARESETN",
+          "apb_fnd_0/PRESETn"
+========
+          "axi_interconnect_0/S00_ARESETN",
+          "axi_uartlite_0/s_axi_aresetn",
+          "axi_interconnect_0/M00_ARESETN",
+          "axi_interconnect_0/M01_ARESETN",
+          "axi_apb_bridge_0/s_axi_aresetn",
+          "apb_gpio_0/PRESETn"
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+        ]
+      },
+      "apb_fnd_0_digit": {
+        "ports": [
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+          "apb_fnd_0/digit",
+          "digit"
+        ]
+      },
+      "apb_fnd_0_seg": {
+        "ports": [
+          "apb_fnd_0/seg",
+          "seg"
+========
+          "gpio_pin",
+          "apb_gpio_0/gpio_pin"
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
         ]
       }
     },
@@ -862,9 +1101,21 @@
         "address_spaces": {
           "Data": {
             "segments": {
+<<<<<<< HEAD
               "SEG_apb_gpio_0_Reg": {
                 "address_block": "/apb_gpio_0/apb_gpio/Reg",
                 "offset": "0x40001000",
+=======
+<<<<<<<< HEAD:software/20260611_apb_fnd/20260611_apb_fnd.srcs/sources_1/bd/design_1/design_1.bd
+              "SEG_apb_fnd_0_Reg": {
+                "address_block": "/apb_fnd_0/apb_fnd/Reg",
+                "offset": "0x40004000",
+========
+              "SEG_apb_gpio_0_Reg": {
+                "address_block": "/apb_gpio_0/apb_gpio/Reg",
+                "offset": "0x40001000",
+>>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4:software/apb_gpio/apb_gpio.srcs/sources_1/bd/design_1/design_1.bd
+>>>>>>> 671521f1ec5af8bcf85dac254e1bf86c61ad75a4
                 "range": "4K"
               },
               "SEG_axi_uartlite_0_Reg": {
