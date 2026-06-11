@@ -1,0 +1,111 @@
+/******************************************************************************
+*
+* Copyright (C) 2009 - 2014 Xilinx, Inc.  All rights reserved.
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* Use of the Software is limited solely to applications:
+* (a) running on a Xilinx device, or
+* (b) that interact with a Xilinx device through a bus or interconnect.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+* XILINX  BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+* WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+* OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*
+* Except as contained in this notice, the name of the Xilinx shall not be used
+* in advertising or otherwise to promote the sale, use or other dealings in
+* this Software without prior written authorization from Xilinx.
+*
+******************************************************************************/
+
+/*
+ * helloworld.c: simple test application
+ *
+ * This application configures UART 16550 to baud rate 9600.
+ * PS7 UART (Zynq) is not initialized by this application, since
+ * bootrom/bsp configures it to baud rate 115200
+ *
+ * ------------------------------------------------
+ * | UART TYPE   BAUD RATE                        |
+ * ------------------------------------------------
+ *   uartns550   9600
+ *   uartlite    Configurable only in HW design
+ *   ps7_uart    115200 (configured by bootrom/bsp)
+ */
+
+#include <stdint.h>
+#include "platform.h"
+#include "xil_printf.h"
+
+#define GPIO_BASE 0x40001000U
+#define GPIO_CRL  (*(volatile uint32_t *)(GPIO_BASE + 0x00))
+#define GPIO_CRH  (*(volatile uint32_t *)(GPIO_BASE + 0x04))
+#define GPIO_IDR  (*(volatile uint32_t *)(GPIO_BASE + 0X08))
+#define GPIO_ODR  (*(volatile uint32_t *)(GPIO_BASE + 0x0C))
+#define GPIO_BSRR (*(volatile uint32_t *)(GPIO_BASE + 0x10))
+
+#define GPIO_PIN_0 ((uint16_t)0x0001)
+#define GPIO_PIN_1 ((uint16_t)0x0002)
+#define GPIO_PIN_2 ((uint16_t)0x0004)
+#define GPIO_PIN_3 ((uint16_t)0x0008)
+#define GPIO_PIN_4 ((uint16_t)0x0010)
+#define GPIO_PIN_5 ((uint16_t)0x0020)
+#define GPIO_PIN_6 ((uint16_t)0x0040)
+#define GPIO_PIN_7 ((uint16_t)0x0080)
+
+#define GPIO_PIN_8 ((uint16_t)0x0100)
+#define GPIO_PIN_9 ((uint16_t)0x0200)
+#define GPIO_PIN_10 ((uint16_t)0x0400)
+#define GPIO_PIN_11 ((uint16_t)0x0800)
+#define GPIO_PIN_12 ((uint16_t)0x1000)
+#define GPIO_PIN_13 ((uint16_t)0x2000)
+#define GPIO_PIN_14 ((uint16_t)0x4000)
+#define GPIO_PIN_15 ((uint16_t)0x8000)
+#define GPIO_PIN_ALL ((uint16_t)0xFFFF)
+
+#define  GPIO_MODE_INPUT                        0x00000000u   /*!< Input Floating Mode                   */
+#define  GPIO_MODE_OUTPUT_PP                    0x00000001u   /*!< Output Push Pull Mode                 */
+#define  GPIO_MODE_OUTPUT_OD                    0x00000011u   /*!< Output Open Drain Mode                */
+
+static void delay(void)
+{
+    for (volatile int i = 0; i < 1000000; i++);
+}
+
+int main(void)
+{
+    init_platform();
+
+    xil_printf("Hello World\r\n");
+    xil_printf("Successfully ran Hello World application\r\n");
+
+    GPIO_CRL = 0x00000000;   // GPIO[0:7] Input
+    GPIO_CRH = 0x33333333;   // GPIO[8:15] Output
+
+    while (1)
+    {
+        //GPIO_ODR = 0x0000FF00;
+        xil_printf("CRL = 0x%08x\r\n", GPIO_CRL);
+        xil_printf("CRH = 0x%08x\r\n", GPIO_CRH);
+        xil_printf("IDR = 0x%08x\r\n", GPIO_IDR);
+        xil_printf("ODR = 0x%08x\r\n", GPIO_ODR);
+
+        for (volatile int i = 0; i < 1000000; i++);
+    }
+
+    cleanup_platform();
+
+    return 0;
+}

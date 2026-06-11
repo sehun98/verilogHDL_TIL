@@ -69,3 +69,10 @@
 
 17. register file + ALU
 
+18. RISV-V RV32 Single Cycle CPU
+
+19. RISV-V RV32 Multi Cycle CPU
+
+20. AMBA APB GPIO
+
+21. AMBA APB 

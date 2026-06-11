@@ -1,0 +1,75 @@
+#include <stdint.h>
+
+#define GPIO_BASE 0x40001000U
+#define GPIO_CRL  (*(volatile uint32_t *)(GPIO_BASE + 0x00))
+#define GPIO_CRH  (*(volatile uint32_t *)(GPIO_BASE + 0x04))
+#define GPIO_IDR  (*(volatile uint32_t *)(GPIO_BASE + 0X08))
+#define GPIO_ODR  (*(volatile uint32_t *)(GPIO_BASE + 0x0C))
+#define GPIO_BSRR (*(volatile uint32_t *)(GPIO_BASE + 0x10))
+
+#define GPIO_PIN_0 ((uint16_t)0x0001)
+#define GPIO_PIN_1 ((uint16_t)0x0002)
+#define GPIO_PIN_2 ((uint16_t)0x0004)
+#define GPIO_PIN_3 ((uint16_t)0x0008)
+#define GPIO_PIN_4 ((uint16_t)0x0010)
+#define GPIO_PIN_5 ((uint16_t)0x0020)
+#define GPIO_PIN_6 ((uint16_t)0x0040)
+#define GPIO_PIN_7 ((uint16_t)0x0080)
+
+#define GPIO_PIN_8 ((uint16_t)0x0100)
+#define GPIO_PIN_9 ((uint16_t)0x0200)
+#define GPIO_PIN_10 ((uint16_t)0x0400)
+#define GPIO_PIN_11 ((uint16_t)0x0800)
+#define GPIO_PIN_12 ((uint16_t)0x1000)
+#define GPIO_PIN_13 ((uint16_t)0x2000)
+#define GPIO_PIN_14 ((uint16_t)0x4000)
+#define GPIO_PIN_15 ((uint16_t)0x8000)
+#define GPIO_PIN_ALL ((uint16_t)0xFFFF)
+
+#define  GPIO_MODE_INPUT                        0x00000000u   /*!< Input Floating Mode                   */
+#define  GPIO_MODE_OUTPUT_PP                    0x00000001u   /*!< Output Push Pull Mode                 */
+#define  GPIO_MODE_OUTPUT_OD                    0x00000011u   /*!< Output Open Drain Mode                */
+
+static void delay(void)
+{
+    for (volatile int i = 0; i < 1000000; i++);
+}
+
+int main(void)
+{
+	// 0011 << 0
+	// 0011_0011_0011_0011_0011_0011_0011_0011
+	// [8] [9] [10] [11] [12] [13] [14] [15]
+    GPIO_CRH = (GPIO_MODE_OUTPUT_OD << 7) | (GPIO_MODE_OUTPUT_OD << 6) | (GPIO_MODE_OUTPUT_OD << 5) | (GPIO_MODE_OUTPUT_OD << 4) | (GPIO_MODE_OUTPUT_OD << 3) | (GPIO_MODE_OUTPUT_OD << 2) | (GPIO_MODE_OUTPUT_OD << 1) | (GPIO_MODE_OUTPUT_OD << 0);  // gpio_pin[8]~[15] output
+    //GPIO_CRH = 0x33333333;
+
+    while (1)
+    {
+    	if(GPIO_IDR[8]) {
+    		GPIO_ODR = GPIO_PIN_8;
+    	} else if(GPIO_IDR[9]) {
+    		GPIO_ODR = GPIO_PIN_9;
+    	} else if(GPIO_IDR[10]) {
+    		GPIO_ODR = GPIO_PIN_10;
+    	} else if(GPIO_IDR[11]) {
+    		GPIO_ODR = GPIO_PIN_11;
+    	} else if(GPIO_IDR[12]) {
+    		GPIO_ODR = GPIO_PIN_12;
+    	} else if(GPIO_IDR[13]) {
+    		GPIO_ODR = GPIO_PIN_13;
+    	} else if(GPIO_IDR[14]) {
+    		GPIO_ODR = GPIO_PIN_14;
+    	} else if(GPIO_IDR[15]) {
+    		GPIO_ODR = GPIO_PIN_15;
+    	}
+    	/*
+        GPIO_ODR = GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+        delay();
+
+        GPIO_ODR = 0x00000000;
+        delay();
+		*/
+    }
+
+    return 0;
+}

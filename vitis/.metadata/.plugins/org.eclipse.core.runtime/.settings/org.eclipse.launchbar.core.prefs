@@ -1,0 +1,9 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:Debugger_apb_gpio_uart-Default,org.eclipse.launchbar.core.descriptorType.default\:Debugger_apb_fnd_system-Default,org.eclipse.launchbar.core.descriptorType.default\:SystemDebugger_apb_fnd_system_system,org.eclipse.launchbar.core.descriptorType.default\:SystemDebugger_apb_fnd_system_system_1,org.eclipse.launchbar.core.descriptorType.default\:SystemDebugger_apb_fnd_system_system_2,org.eclipse.launchbar.core.descriptorType.default\:SystemDebugger_apb_fnd_system_system_3
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_apb_gpio_uart-Default/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_apb_gpio_uart-Default/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_testgpio-Default/activeLaunchMode=debug
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_testgpio-Default/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
