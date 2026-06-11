@@ -8,4 +8,6 @@ d:/Project/verilogHDL_TIL/software/20260607_vga/20260607_vga.srcs/sim_1/new/tb_t
 d:/Project/verilogHDL_TIL/software/20260607_vga/20260607_vga.srcs/sources_1/new/vga_control_unit.sv,1780835041,systemVerilog,,,,color_print;display_data;pixel_counter;tick_gen;vga_control_unit;vga_decoder,,,,,,,,
 d:/Project/verilogHDL_TIL/software/20260610_apb_timer/20260610_apb_timer.srcs/sources_1/new/apb_timer.sv,1781086288,systemVerilog,,,,apb_timer,,,,,,,,
 d:/Project/verilogHDL_TIL/software/20260610_apb_uart/20260610_apb_uart.srcs/sources_1/new/apb_uart.sv,1781099037,systemVerilog,,,,apb_uart;uart_baudrate;uart_tx,,,,,,,,
+d:/Project/verilogHDL_TIL/software/20260612_apb_spi/20260612_apb_spi.srcs/sim_1/new/tb_spi_master.sv,1781190791,systemVerilog,,,,tb_spi_master,,,,,,,,
+d:/Project/verilogHDL_TIL/software/20260612_apb_spi/20260612_apb_spi.srcs/sources_1/new/apb_spi.sv,1781190428,systemVerilog,,,,apb_spi;spi_baudrate;spi_master,,,,,,,,
 d:/Project/verilogHDL_TIL/software/apb_gpio/apb_gpio.srcs/sources_1/new/apb_gpio.sv,1781084734,systemVerilog,,,,apb_gpio,,,,,,,,
