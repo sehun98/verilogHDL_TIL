@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item key="sdx.custom.platform.repository.locations" value="D:\ondevice_ai_project\verilogHDL_TIL\vitis\apb_gpio\export\apb_gpio;D:\ondevice_ai_project\verilogHDL_TIL\vitis\apb_fnd\export\apb_fnd"/>
+	<item key="sdx.custom.platform.repository.locations" value="D:\ondevice_ai_project\verilogHDL_TIL\vitis\apb_gpio\export\apb_gpio;D:\ondevice_ai_project\verilogHDL_TIL\vitis\apb_fnd\export\apb_fnd;D:\ondevice_ai_project\verilogHDL_TIL\vitis\apb_spi\export\apb_spi"/>
 </section>
