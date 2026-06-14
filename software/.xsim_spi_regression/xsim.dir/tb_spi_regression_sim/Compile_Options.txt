@@ -1,0 +1,1 @@
+"tb_spi_regression" -s "tb_spi_regression_sim" 

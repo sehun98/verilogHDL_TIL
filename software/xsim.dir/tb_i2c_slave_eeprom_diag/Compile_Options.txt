@@ -1,0 +1,1 @@
+-debug "typical" -top "tb_i2c_slave_eeprom" -snapshot "tb_i2c_slave_eeprom_diag" 

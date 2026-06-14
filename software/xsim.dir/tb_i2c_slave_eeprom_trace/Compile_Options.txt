@@ -1,0 +1,1 @@
+"tb_i2c_slave_eeprom" -s "tb_i2c_slave_eeprom_trace" 
