@@ -22,22 +22,22 @@ module spi_master (
         DONE
     } state_t;
 
-    state_t state;
+    state_t       state;
 
-    logic       sclk_enable;
-    logic       tick;
-    logic [7:0] tx_shift_reg;
-    logic [7:0] rx_shift_reg;
-    logic [3:0] edge_cnt;
-    logic       sample_edge;
-    logic       shift_edge;
+    logic         sclk_enable;
+    logic         tick;
+    logic   [7:0] tx_shift_reg;
+    logic   [7:0] rx_shift_reg;
+    logic   [3:0] edge_cnt;
+    logic         sample_edge;
+    logic         shift_edge;
 
     spi_baudrate u1_spi_baudrate (
-        .clk    (clk),
-        .reset  (reset),
-        .enable (sclk_enable),
-        .SPI_BR (clk_div[2:0]),
-        .tick   (tick)
+        .clk   (clk),
+        .reset (reset),
+        .enable(sclk_enable),
+        .SPI_BR(clk_div[2:0]),
+        .tick  (tick)
     );
 
     assign sample_edge = (cpol ^ cpha) ? (~sclk == 1'b0) : (~sclk == 1'b1);
@@ -65,7 +65,6 @@ module spi_master (
                     done        <= 1'b0;
                     edge_cnt    <= 4'd0;
                     sclk        <= cpol;
-
                     if (start) begin
                         //rx_data      <= 8'd0;
                         rx_shift_reg <= 8'd0;
@@ -74,7 +73,6 @@ module spi_master (
                         busy         <= 1'b1;
                         sclk         <= cpol;
                         edge_cnt     <= 4'd0;
-
                         if (cpha == 1'b0) begin
                             mosi         <= tx_data[7];
                             tx_shift_reg <= {tx_data[6:0], 1'b0};
@@ -82,24 +80,19 @@ module spi_master (
                             mosi         <= 1'b0;
                             tx_shift_reg <= tx_data;
                         end
-
                         state <= DATA;
                     end
                 end
-
                 DATA: begin
                     if (tick) begin
                         sclk <= ~sclk;
-
                         if (sample_edge) begin
                             rx_shift_reg <= {rx_shift_reg[6:0], miso};
-
                             if ((cpha == 1'b0 && edge_cnt == 4'd14) ||
                                 (cpha == 1'b1 && edge_cnt == 4'd15)) begin
                                 rx_data <= {rx_shift_reg[6:0], miso};
                             end
                         end
-
                         if (shift_edge) begin
                             mosi         <= tx_shift_reg[7];
                             tx_shift_reg <= {tx_shift_reg[6:0], 1'b0};
