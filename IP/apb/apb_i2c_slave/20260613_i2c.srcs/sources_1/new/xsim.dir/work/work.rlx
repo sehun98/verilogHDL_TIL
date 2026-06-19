@@ -1,0 +1,8 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260613_i2c/20260613_i2c.srcs/sources_1/new/control_board.sv,1781441189,systemVerilog,,,,control_board;control_unit;counter;tick_1hz,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260613_i2c/20260613_i2c.srcs/sources_1/new/i2c_master.sv,1781577504,systemVerilog,,,,i2c_master,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260613_i2c/20260613_i2c.srcs/sources_1/new/i2c_slave_eeprom.sv,1781441189,systemVerilog,,,,i2c_slave_eeprom,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260613_i2c/20260613_i2c.srcs/sources_1/new/tb_i2c_multi_master_arbitration.sv,1781577151,systemVerilog,,,,tb_i2c_multi_master_arbitration,,,,,,,,
