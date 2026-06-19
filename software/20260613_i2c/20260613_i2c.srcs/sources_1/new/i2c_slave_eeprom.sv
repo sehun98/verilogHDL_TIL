@@ -107,7 +107,7 @@ module i2c_slave_eeprom (
                     IDLE: begin
                         sda_o <= 1'b1;
                         we <= 1'b0;
-                    end
+                    end 
                     ADDR: begin
                         sda_o <= 1'b1;
                         if (scl_rising_edge) begin

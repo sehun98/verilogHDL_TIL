@@ -29,8 +29,8 @@ module i2c_master (
     // Open-drain output
     // 0 : drive low
     // 1 : release line
-    assign sda = (sda_o == 1'b0) ? 1'b0 : 1'bz;
-    assign scl = (scl_o == 1'b0) ? 1'b0 : 1'bz;
+    assign sda   = (sda_o == 1'b0) ? 1'b0 : 1'bz;
+    assign scl   = (scl_o == 1'b0) ? 1'b0 : 1'bz;
 
     // Pull-up bus value interpretation
     assign sda_i = (sda === 1'b0) ? 1'b0 : 1'b1;
@@ -46,21 +46,16 @@ module i2c_master (
         ARB_LOST
     } i2c_state_e;
 
-    i2c_state_e state;
+    i2c_state_e       state;
 
-    logic       qtr_tick;
-    logic       scl_r;
-    logic       sda_r;
-    logic [7:0] div_cnt;
-    logic [2:0] bit_cnt;
-    logic [1:0] step;
-    logic [7:0] tx_shift_reg;
-    logic [7:0] rx_shift_reg;
-    logic       is_read;
-    logic       ack_in_r;
-
-    assign sda_o = sda_r;
-    assign scl_o = scl_r;
+    logic             qtr_tick;
+    logic       [7:0] div_cnt;
+    logic       [2:0] bit_cnt;
+    logic       [1:0] step;
+    logic       [7:0] tx_shift_reg;
+    logic       [7:0] rx_shift_reg;
+    logic             is_read;
+    logic             ack_in_r;
 
     assign busy = (state != IDLE);
 
@@ -83,8 +78,8 @@ module i2c_master (
     always_ff @(posedge clk or posedge reset) begin
         if (reset) begin
             state        <= IDLE;
-            scl_r        <= 1'b1;  // release
-            sda_r        <= 1'b1;  // release
+            scl_o        <= 1'b1;  // release
+            sda_o        <= 1'b1;  // release
             step         <= 2'd0;
             done         <= 1'b0;
             tx_shift_reg <= 8'd0;
@@ -100,8 +95,8 @@ module i2c_master (
             case (state)
 
                 IDLE: begin
-                    scl_r <= 1'b1;  // release
-                    sda_r <= 1'b1;  // release
+                    scl_o <= 1'b1;  // release
+                    sda_o <= 1'b1;  // release
                     step  <= 2'd0;
 
                     if (cmd_start) begin
@@ -114,26 +109,26 @@ module i2c_master (
                     if (qtr_tick) begin
                         case (step)
                             2'd0: begin
-                                sda_r <= 1'b1;
-                                scl_r <= 1'b1;
+                                sda_o <= 1'b1;
+                                scl_o <= 1'b1;
                                 step  <= 2'd1;
                             end
 
                             2'd1: begin
-                                sda_r <= 1'b0;
-                                scl_r <= 1'b1;
+                                sda_o <= 1'b0;
+                                scl_o <= 1'b1;
                                 step  <= 2'd2;
                             end
 
                             2'd2: begin
-                                sda_r <= 1'b0;
-                                scl_r <= 1'b0;
+                                sda_o <= 1'b0;
+                                scl_o <= 1'b0;
                                 step  <= 2'd3;
                             end
 
                             2'd3: begin
-                                sda_r <= 1'b0;
-                                scl_r <= 1'b0;
+                                sda_o <= 1'b0;
+                                scl_o <= 1'b0;
                                 step  <= 2'd0;
                                 done  <= 1'b1;
                                 state <= WAIT_CMD;
@@ -143,24 +138,21 @@ module i2c_master (
                 end
 
                 WAIT_CMD: begin
+                    step         <= 2'd0;
                     if (cmd_write) begin
                         tx_shift_reg <= tx_data;
                         bit_cnt      <= 3'd0;
-                        step         <= 2'd0;
                         is_read      <= 1'b0;
                         state        <= DATA;
                     end else if (cmd_read) begin
                         rx_shift_reg <= 8'd0;
                         bit_cnt      <= 3'd0;
-                        step         <= 2'd0;
                         is_read      <= 1'b1;
                         ack_in_r     <= ack_in;
                         state        <= DATA;
                     end else if (cmd_stop) begin
-                        step  <= 2'd0;
                         state <= STOP;
                     end else if (cmd_start) begin
-                        step  <= 2'd0;
                         state <= START;
                     end
                 end
@@ -171,20 +163,20 @@ module i2c_master (
 
                             // SCL low, data setup
                             2'd0: begin
-                                scl_r <= 1'b0;
-                                sda_r <= is_read ? 1'b1 : tx_shift_reg[7];
+                                scl_o <= 1'b0;
+                                sda_o <= is_read ? 1'b1 : tx_shift_reg[7];
                                 step  <= 2'd1;
                             end
 
                             // SCL release high
                             2'd1: begin
-                                scl_r <= 1'b1;
+                                scl_o <= 1'b1;
                                 step  <= 2'd2;
                             end
 
                             // SCL high, arbitration/sample point
                             2'd2: begin
-                                scl_r <= 1'b1;
+                                scl_o <= 1'b1;
 
                                 // Arbitration check only during write bit
                                 // I release SDA for logic 1, but bus is 0 -> lost
@@ -192,8 +184,8 @@ module i2c_master (
                                     tx_shift_reg[7] == 1'b1 &&
                                     sda_i == 1'b0) begin
 
-                                    sda_r <= 1'b1;  // release SDA
-                                    scl_r <= 1'b1;  // release SCL
+                                    sda_o <= 1'b1;  // release SDA
+                                    scl_o <= 1'b1;  // release SCL
                                     step  <= 2'd0;
                                     done  <= 1'b1;
                                     state <= ARB_LOST;
@@ -205,7 +197,7 @@ module i2c_master (
 
                             // SCL low, shift data
                             2'd3: begin
-                                scl_r <= 1'b0;
+                                scl_o <= 1'b0;
                                 step  <= 2'd0;
 
                                 if (is_read) begin
@@ -229,31 +221,29 @@ module i2c_master (
                         case (step)
 
                             2'd0: begin
-                                scl_r <= 1'b0;
-                                sda_r <= is_read ? ack_in_r : 1'b1;
+                                scl_o <= 1'b0;
+                                sda_o <= is_read ? ack_in_r : 1'b1;
                                 step  <= 2'd1;
                             end
 
                             2'd1: begin
-                                scl_r <= 1'b1;
+                                scl_o <= 1'b1;
                                 step  <= 2'd2;
                             end
 
                             2'd2: begin
-                                scl_r <= 1'b1;
-
+                                scl_o <= 1'b1;
                                 if (!is_read) begin
                                     ack_out <= sda_i;
                                 end else begin
                                     rx_data <= rx_shift_reg;
                                 end
-
                                 step <= 2'd3;
                             end
 
                             2'd3: begin
-                                scl_r <= 1'b0;
-                                sda_r <= 1'b1;
+                                scl_o <= 1'b0;
+                                sda_o <= 1'b1;
                                 step  <= 2'd0;
                                 done  <= 1'b1;
                                 state <= WAIT_CMD;
@@ -267,26 +257,26 @@ module i2c_master (
                         case (step)
 
                             2'd0: begin
-                                sda_r <= 1'b0;
-                                scl_r <= 1'b0;
+                                sda_o <= 1'b0;
+                                scl_o <= 1'b0;
                                 step  <= 2'd1;
                             end
 
                             2'd1: begin
-                                sda_r <= 1'b0;
-                                scl_r <= 1'b1;
+                                sda_o <= 1'b0;
+                                scl_o <= 1'b1;
                                 step  <= 2'd2;
                             end
 
                             2'd2: begin
-                                sda_r <= 1'b1;
-                                scl_r <= 1'b1;
+                                sda_o <= 1'b1;
+                                scl_o <= 1'b1;
                                 step  <= 2'd3;
                             end
 
                             2'd3: begin
-                                sda_r <= 1'b1;
-                                scl_r <= 1'b1;
+                                sda_o <= 1'b1;
+                                scl_o <= 1'b1;
                                 step  <= 2'd0;
                                 done  <= 1'b1;
                                 state <= IDLE;
@@ -297,16 +287,16 @@ module i2c_master (
 
                 ARB_LOST: begin
                     // Lost master releases both lines and returns to IDLE.
-                    sda_r <= 1'b1;
-                    scl_r <= 1'b1;
+                    sda_o <= 1'b1;
+                    scl_o <= 1'b1;
                     step  <= 2'd0;
                     state <= IDLE;
                 end
 
                 default: begin
                     state <= IDLE;
-                    sda_r <= 1'b1;
-                    scl_r <= 1'b1;
+                    sda_o <= 1'b1;
+                    scl_o <= 1'b1;
                     step  <= 2'd0;
                 end
             endcase
