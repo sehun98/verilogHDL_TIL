@@ -131,14 +131,12 @@ initial begin
     axi_write(32'h04, 32'h2222_2222);
     axi_write(32'h08, 32'h3333_3333);
     axi_write(32'h0C, 32'h4444_4444);
-    axi_write(32'h10, 32'h5555_5555);
 
 
     axi_read(32'h00);
     axi_read(32'h04);
     axi_read(32'h08);
     axi_read(32'h0C);
-    axi_read(32'h10);
 
 
     #100;

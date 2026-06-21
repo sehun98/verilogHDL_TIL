@@ -38,7 +38,7 @@ module apb_spi_master(
     logic [31:0] spi_tx_data;
     logic [31:0] spi_rx_data;
 
-    spi_master_1 u1_spi_master (
+    spi_master u1_spi_master (
         .clk        (PCLK),
         .rst_n      (PRESETn),
         .SPI_CR     (spi_cr),
@@ -92,11 +92,7 @@ module apb_spi_master(
     end
 endmodule
 
-/* 
- * [note] rx_done pulse -> level
- * 
- */
-module spi_master_1 (
+module spi_master (
     input logic clk,
     input logic rst_n,
 

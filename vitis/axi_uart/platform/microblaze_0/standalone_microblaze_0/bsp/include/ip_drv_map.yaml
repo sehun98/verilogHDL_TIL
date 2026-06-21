@@ -1,0 +1,9 @@
+axi_intc_0:
+- axi_intc
+- intc
+axi_uart_v1_0_0:
+- axi_uart_v1_0
+- None
+microblaze_0_local_memory_dlmb_bram_if_cntlr:
+- lmb_bram_if_cntlr
+- bram

@@ -43,9 +43,7 @@ module mcp25625_controller (
     output logic [7:0] spi_tx_data,  // combinational
     input  logic [7:0] spi_rx_data,
     output logic       spi_request,  // combinational
-    input  logic       spi_done,
-
-    output logic [4:0] debug_state
+    input  logic       spi_done
 );
     // 32
     typedef enum logic [4:0] {
@@ -144,8 +142,6 @@ module mcp25625_controller (
     assign rx_data5 = rx_data5_reg;
     assign rx_data6 = rx_data6_reg;
     assign rx_data7 = rx_data7_reg;
-
-    assign debug_state = state;
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin

@@ -150,7 +150,6 @@ module mcp25625_loopback (
         .MOSI(MOSI),
         .MISO(MISO)
     );
-    logic [4:0] debug_state;
 
     // =========================================================
     // MCP25625 Controller
@@ -193,34 +192,6 @@ module mcp25625_loopback (
         .spi_tx_data(spi_tx_data),
         .spi_rx_data(spi_rx_data),
         .spi_request(spi_request),
-        .spi_done   (spi_done),
-
-        .debug_state(debug_state)
+        .spi_done   (spi_done)
     );
-    /*
-    ila_0 ila_0_test (
-        .clk(clk),
-
-        // SPI physical
-        .probe0(CS),
-        .probe1(SCK),
-        .probe2(MOSI),
-        .probe3(MISO),
-
-        // SPI internal
-        .probe4(spi_tx_data),
-        .probe5(spi_rx_data),
-        .probe6(spi_request),
-        .probe7(spi_done),
-
-        // RX result
-        .probe8(rx_id),
-        .probe9(INT),
-
-        // 추가 debug
-        .probe10(rx_valid),
-        .probe11(tx_request),
-        .probe12(debug_state)
-    );
-*/
 endmodule
