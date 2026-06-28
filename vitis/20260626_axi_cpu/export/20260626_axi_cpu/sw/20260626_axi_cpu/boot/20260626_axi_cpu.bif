@@ -1,0 +1,6 @@
+/*20260626_axi_cpu*/
+the_ROM_image:
+{
+   <bitstream> 
+   <elf> 
+}

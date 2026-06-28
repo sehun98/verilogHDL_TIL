@@ -1,9 +1,0 @@
-axi_uartlite_0:
-- axi_uartlite
-- uartlite
-i2c_master_v1_0_0:
-- i2c_master_v1_0
-- None
-microblaze_0_local_memory_dlmb_bram_if_cntlr:
-- lmb_bram_if_cntlr
-- bram

@@ -1,0 +1,7 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+d:/ondevice_ai_project/verilogHDL_TIL/IP/axi4_lite/axi_uart/rtl/axi_uart_core.sv,1782077663,systemVerilog,,,,axi_uart_core;fifo;fifo_control_unit;fifo_data_path;uart_baud_rate;uart_rx;uart_tx,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/IP/axi4_lite/axi_uart/rtl/axi_uart_v1_0.v,1782077663,verilog,,,,axi_uart_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/IP/axi4_lite/axi_uart/rtl/axi_uart_v1_0_S00_AXI.v,1782077663,verilog,,,,axi_uart_v1_0_S00_AXI,,,,,,,,

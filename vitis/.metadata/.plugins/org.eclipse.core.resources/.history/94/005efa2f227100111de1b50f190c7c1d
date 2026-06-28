@@ -1,0 +1,100 @@
+#include "../../../inc/Driver/TIM/tim.h"
+#include <stdint.h>
+
+void TIM_SetPrescaler(TIM_TypeDef *TIMx, uint32_t prescalser)
+{
+    TIMx->PSC = prescalser;
+}
+
+void TIM_SetAutoReload(TIM_TypeDef *TIMx, uint32_t autoReload)
+{
+    TIMx->ARR = autoReload;
+}
+
+void TIM_SetCompareCapture(TIM_TypeDef *TIMx, uint32_t compareCapture)
+{
+    TIMx->CCR = compareCapture;
+}
+
+void TIM_SetCounterState(TIM_TypeDef *TIMx, TIM_CounterState counterState)
+{
+    if (counterState == TIM_COUNTER_ENABLE) {
+        TIMx->CR |= TIM_CR_CEN_Msk;
+    } else {
+        TIMx->CR &= ~TIM_CR_CEN_Msk;
+    }
+}
+
+void TIM_SetRunMode(TIM_TypeDef *TIMx, TIM_RunMode runMode)
+{
+    TIMx->CR &= ~TIM_CR_OPM_Msk;
+
+    if (runMode == TIM_MODE_ONE_PULSE) {
+        TIMx->CR |= TIM_CR_OPM_Msk;
+    }
+}
+
+void TIM_SetCounterDirection(TIM_TypeDef *TIMx, TIM_CounterDirection direction)
+{
+    TIMx->CR &= ~TIM_CR_DIR_Msk;
+
+    if (direction == TIM_COUNTER_DOWN) {
+        TIMx->CR |= TIM_CR_DIR_Msk;
+    }
+}
+
+void TIM_Start(TIM_TypeDef *TIMx)
+{
+    TIMx->CR |= TIM_CR_CEN_Msk;
+}
+
+void TIM_Stop(TIM_TypeDef *TIMx)
+{
+    TIMx->CR &= ~TIM_CR_CEN_Msk;
+}
+
+void TIM_PWM_Start(TIM_TypeDef *TIMx)
+{
+    TIMx->CR |= TIM_CR_PWMEN_Msk;
+}
+
+void TIM_PWM_Stop(TIM_TypeDef *TIMx)
+{
+    TIMx->CR &= ~TIM_CR_PWMEN_Msk;
+}
+
+void TIM_EnableInterrupt(TIM_TypeDef *TIMx, uint32_t interruptMask)
+{
+    TIMx->IER |= interruptMask;
+}
+
+void TIM_DisableInterrupt(TIM_TypeDef *TIMx, uint32_t interruptMask)
+{
+    TIMx->IER &= ~interruptMask;
+}
+
+uint32_t TIM_GetInterruptFlag(TIM_TypeDef *TIMx, uint32_t interruptMask)
+{
+    return (TIMx->IFR & interruptMask);
+}
+
+uint32_t TIM_GetPendingInterrupt(TIM_TypeDef *TIMx)
+{
+    return (TIMx->IFR & TIMx->IER);
+}
+
+void TIM_ClearInterruptFlag(TIM_TypeDef *TIMx, uint32_t interruptMask)
+{
+    TIMx->ICR = interruptMask;
+}
+
+void TIM_Init(TIM_TypeDef *TIMx)
+{
+    // 100_000_000 100MHz -> 100_000 100KHz -> 1Hz 1s
+    TIM_SetPrescaler(TIM1, 999); // -> 1000
+    TIM_SetAutoReload(TIM1, 100);
+    TIM_SetCompareCapture(TIM1, 49);
+    TIM_SetCounterState(TIM1, TIM_COUNTER_ENABLE);
+    TIM_SetRunMode(TIM1, TIM_MODE_CONTINUOUS);
+    TIM_SetCounterDirection(TIM1, TIM_COUNTER_UP);
+}

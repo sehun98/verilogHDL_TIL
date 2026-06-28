@@ -1,6 +1,0 @@
-/*apb_fnd*/
-the_ROM_image:
-{
-   <bitstream> 
-   <elf> 
-}

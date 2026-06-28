@@ -11,12 +11,11 @@
 
 		// Parameters of Axi Slave Bus Interface S00_AXI
 		parameter integer C_S00_AXI_DATA_WIDTH	= 32,
-		parameter integer C_S00_AXI_ADDR_WIDTH	= 5
+		parameter integer C_S00_AXI_ADDR_WIDTH	= 4
 	)
 	(
 		// Users to add ports here
-		output wire pwm_out,
-		output wire irq,
+
 		// User ports ends
 		// Do not modify the ports beyond this line
 
@@ -69,10 +68,7 @@
 		.S_AXI_RDATA(s00_axi_rdata),
 		.S_AXI_RRESP(s00_axi_rresp),
 		.S_AXI_RVALID(s00_axi_rvalid),
-		.S_AXI_RREADY(s00_axi_rready),
-
-        .pwm_out(pwm_out),
-        .irq(irq)
+		.S_AXI_RREADY(s00_axi_rready)
 	);
 
 	// Add user logic here

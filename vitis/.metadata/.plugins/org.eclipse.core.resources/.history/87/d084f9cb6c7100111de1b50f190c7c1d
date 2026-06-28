@@ -1,0 +1,25 @@
+#ifndef INC_DRIVER_BUTTON_BUTTON_H_
+#define INC_DRIVER_BUTTON_BUTTON_H_
+
+#include <stdint.h>
+#include "../../Driver/GPIO/gpio.h"
+
+typedef enum {
+    RELEASE,
+    isPRESS,
+    PRESS,
+    isRELEASE
+} btnState_t;
+
+typedef struct {
+    GPIO_TypeDef *GPIOx;
+    uint16_t GPIO_Pin;
+    btnState_t state;
+    volatile uint8_t flag;
+} Button_t;
+
+void Button_DebounceTask(Button_t *btn);
+
+extern Button_t buttons[4];
+
+#endif /* INC_DRIVER_BUTTON_BUTTON_H_ */

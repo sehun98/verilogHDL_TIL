@@ -48,9 +48,6 @@ module axi_uart_v1_0 #(
         .C_S_AXI_DATA_WIDTH(C_S00_AXI_DATA_WIDTH),
         .C_S_AXI_ADDR_WIDTH(C_S00_AXI_ADDR_WIDTH)
     ) axi_uart_v1_0_S00_AXI_inst (
-        .rx(rx),
-        .tx(tx),
-        .irq(irq),
         .S_AXI_ACLK(s00_axi_aclk),
         .S_AXI_ARESETN(s00_axi_aresetn),
         .S_AXI_AWADDR(s00_axi_awaddr),
@@ -75,7 +72,25 @@ module axi_uart_v1_0 #(
     );
 
     // Add user logic here
+    axi_uart_core u_axi_uart_core (
+        .clk          (s00_axi_aclk),
+        .rst_n        (s00_axi_aresetn),
 
+        .UART_CR      (UART_CR),
+        .UART_SR      (UART_SR),
+        .UART_BRR     (UART_BRR),
+        .UART_DR_WDATA(S_AXI_WDATA),
+        .UART_DR_RDATA(UART_DR_RDATA),
+        .UART_IER     (UART_IER),
+        .UART_IFR     (UART_IFR),
+        .UART_ICR     (UART_ICR),
+        .uart_dr_we   (uart_dr_we),
+        .uart_dr_re   (uart_dr_re),
+
+        .irq          (irq),
+        .rx           (rx),
+        .tx           (tx)
+    );
     // User logic ends
 
 endmodule

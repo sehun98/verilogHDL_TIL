@@ -1,0 +1,106 @@
+#include "xparameters.h"
+#include "xintc.h"
+#include "xil_exception.h"
+#include "../../../inc/Driver/GPIO/gpio.h"
+#include "../../../inc/Driver/TIM/tim.h"
+#include "../../../inc/Driver/UART/uart.h"
+#include "../../../inc/App/BUTTON/button.h"
+#include "../../../inc/Common/Interrupt/interrupt.h"
+#include <stdbool.h>
+#include <stdint.h>
+
+XIntc IntrController;
+
+extern bool sensorFlag;
+extern bool counterFlag;
+
+// 1ms FND controller
+void TMR1_ISR(void *CallbackRef)
+{
+	static uint16_t cnt = 0;
+    static uint8_t cnt200Hz = 0;
+    static uint16_t cnt2Hz = 0;
+    static uint16_t cnt1Hz = 0;
+
+	cnt200Hz = cnt % 5;
+	cnt2Hz = cnt % 500;
+	cnt1Hz = cnt % 1000;
+	if ( cnt200Hz == 0 ) Button_DebounceTask(&buttons[0]);
+	if ( cnt2Hz == 0 ) sensorFlag = 1;
+	if ( cnt1Hz == 1 ) counterFlag = 1;
+
+    TIM_SetCompareCapture(TIM2, 10 * fnd_value );
+	cnt++;
+	TIM_ClearInterruptFlag(TIM1, TIM_IT_UPDATE);
+}
+
+// 50hz Servo motor
+void TMR2_ISR(void *CallbackRef)
+{
+
+	TIM_ClearInterruptFlag(TIM2, TIM_IT_UPDATE);
+}
+
+void UART_ISR(void *CallbackRef)
+{
+	// User Code
+	// Check RX interrupt
+	if (UART_GetPendingInterrupt(UART) & UART_IT_RX)
+	{
+		uint8_t data = UART_ReadByte(UART);
+	}
+	// Clear all UART interrupt flags
+	UART_ClearInterruptFlag(UART, UART_IT_ALL);
+}
+int SetupInterruptSystem(void)
+{
+    int status;
+
+    status = XIntc_Initialize(&IntrController, INTC_DEV_ID);
+    if (status != XST_SUCCESS) {
+        return status;
+    }
+
+    status = XIntc_Connect(&IntrController,
+                           TMR0_VEC_ID,
+                           (XInterruptHandler)TMR1_ISR,
+                           (void *)0);
+    if (status != XST_SUCCESS) {
+        return status;
+    }
+
+    status = XIntc_Connect(&IntrController,
+                           TMR1_VEC_ID,
+                           (XInterruptHandler)TMR2_ISR,
+                           (void *)1);
+    if (status != XST_SUCCESS) {
+        return status;
+    }
+
+    status = XIntc_Connect(&IntrController,
+                           UART_VEC_ID,
+                           (XInterruptHandler)UART_ISR,
+                           NULL);
+    if (status != XST_SUCCESS) {
+        return status;
+    }
+
+    status = XIntc_Start(&IntrController, XIN_REAL_MODE);
+    if (status != XST_SUCCESS) {
+        return status;
+    }
+
+    XIntc_Enable(&IntrController, TMR0_VEC_ID);
+    XIntc_Enable(&IntrController, TMR1_VEC_ID);
+    XIntc_Enable(&IntrController, UART_VEC_ID);
+
+    Xil_ExceptionInit();
+
+    Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_INT,
+                                 (Xil_ExceptionHandler)XIntc_InterruptHandler,
+                                 &IntrController);
+
+    Xil_ExceptionEnable();
+
+    return XST_SUCCESS;
+}

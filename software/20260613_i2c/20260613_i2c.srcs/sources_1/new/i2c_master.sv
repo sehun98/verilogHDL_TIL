@@ -4,16 +4,19 @@ module i2c_master (
     input logic clk,
     input logic reset,
 
+ // I2C_CR
     input logic cmd_start,
     input logic cmd_write,
     input logic cmd_read,
     input logic cmd_stop,
 
+// I2C_WDR
     input  logic [7:0] tx_data,
+// I2C_RDR
     output logic [7:0] rx_data,
+// I2C_SR
     input  logic       ack_in,
     output logic       ack_out,
-
     output logic busy,
     output logic done,
 

@@ -1,0 +1,38 @@
+#ifndef INC_DRIVER_CLCD1602_CLCD1602_H_
+#define INC_DRIVER_CLCD1602_CLCD1602_H_
+
+#include <stdint.h>
+
+#define LCD_I2C_ADDR            0x27
+#define LCD_I2C_WRITE_ADDR      ((LCD_I2C_ADDR << 1) | 0x00)
+
+// P0=RS, P1=RW, P2=EN, P3=Backlight, P4..P7=D4..D7
+#define LCD_RS_Pos                  0U
+#define LCD_RW_Pos                  1U
+#define LCD_EN_Pos                  2U
+#define LCD_BACKLIGHT_Pos           3U
+
+#define LCD_RS_Msk                  (1U << LCD_RS_Pos)
+#define LCD_RW_Msk                  (1U << LCD_RW_Pos)
+#define LCD_EN_Msk                  (1U << LCD_EN_Pos)
+#define LCD_BACKLIGHT_Msk           (1U << LCD_BACKLIGHT_Pos)
+
+typedef enum
+{
+    LCD_MODE_COMMAND = 0U,
+    LCD_MODE_DATA    = 1U
+} LCD_Mode;
+
+void delay_us(uint32_t us);
+void delay_ms(uint32_t ms);
+void LCD_WriteExpander(I2C_TypeDef* I2Cx, uint8_t data);
+void LCD_Write4Bits(I2C_TypeDef* I2Cx, uint8_t nibble, LCD_Mode mode);
+void LCD_WriteByte(I2C_TypeDef* I2Cx, uint8_t data, LCD_Mode mode);
+void LCD_SendCommand(I2C_TypeDef* I2Cx, uint8_t command);
+void LCD_SendData(I2C_TypeDef* I2Cx, uint8_t data);
+void LCD_Init(I2C_TypeDef* I2Cx);
+void LCD_SetCursor(I2C_TypeDef* I2Cx, uint8_t row, uint8_t col);
+void LCD_Print(I2C_TypeDef* I2Cx, const char *string);
+void LCD_Clear(I2C_TypeDef* I2Cx);
+
+#endif /* INC_DRIVER_CLCD1602_CLCD1602_H_ */

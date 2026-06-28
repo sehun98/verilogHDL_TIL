@@ -1,6 +1,0 @@
-/*apb_spi*/
-the_ROM_image:
-{
-   <bitstream> 
-   <elf> 
-}

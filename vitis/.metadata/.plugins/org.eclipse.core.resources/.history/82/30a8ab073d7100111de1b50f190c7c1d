@@ -1,0 +1,90 @@
+#ifndef INC_DRIVER_TIM_TIM_H_
+#define INC_DRIVER_TIM_TIM_H_
+
+#include <stdint.h>
+
+#define XPAR_AXI_TIMERA_BASEADDR 0x44A40000
+#define XPAR_AXI_TIMERB_BASEADDR 0x44A60000
+
+#define TIM1_BASE XPAR_AXI_TIMER_V1_0_0_BASEADDR
+#define TIM2_BASE XPAR_AXI_TIMERB_BASEADDR 
+
+
+// Control bit decode
+// TIM_CR[0] : CEN
+// TIM_CR[1] : OPM
+// TIM_CR[2] : DIR
+// TIM_CR[3] : PWMEN
+
+// Interrupt flags / enables
+// TIM_IFR[0] : UIF
+// TIM_IFR[1] : CCIF
+
+#define TIM_CR_CEN_Pos      0U
+#define TIM_CR_OPM_Pos      1U
+#define TIM_CR_DIR_Pos      2U
+#define TIM_CR_PWMEN_Pos    3U
+
+#define TIM_CR_CEN_Msk      (1U << TIM_CR_CEN_Pos)
+#define TIM_CR_OPM_Msk      (1U << TIM_CR_OPM_Pos)
+#define TIM_CR_DIR_Msk      (1U << TIM_CR_DIR_Pos)
+#define TIM_CR_PWMEN_Msk    (1U << TIM_CR_PWMEN_Pos)
+
+#define TIM_IT_UPDATE       (1U << 0)   // UIF
+#define TIM_IT_COMPARE      (1U << 1)   // CCIF
+#define TIM_IT_ALL          (TIM_IT_UPDATE | TIM_IT_COMPARE)
+
+typedef enum
+{
+    TIM_COUNTER_DISABLE = 0U,
+    TIM_COUNTER_ENABLE  = 1U
+} TIM_CounterState;
+
+typedef enum
+{
+    TIM_MODE_CONTINUOUS = 0U,
+    TIM_MODE_ONE_PULSE  = 1U
+} TIM_RunMode;
+
+typedef enum
+{
+    TIM_COUNTER_UP   = 0U,
+    TIM_COUNTER_DOWN = 1U
+} TIM_CounterDirection;
+
+typedef struct
+{
+    volatile uint32_t CR;  /*!< TIM control register,                   Address offset: 0x00 */
+    volatile uint32_t CNT; /*!< TIM Count register,                     Address offset: 0x04 */
+    volatile uint32_t PSC; /*!< TIM Prescaler register,                 Address offset: 0x08 */
+    volatile uint32_t ARR; /*!< TIM Auto Reload register,               Address offset: 0x0C */
+    volatile uint32_t CCR; /*!< TIM Capture Compare register,           Address offset: 0x10 */
+    volatile uint32_t IFR; /*!< TIM Interrupt Flag register,            Address offset: 0x14 */
+    volatile uint32_t IER; /*!< TIM Interrupt Enable register,          Address offset: 0x18 */
+    volatile uint32_t ICR; /*!< TIM Interrupt Control register,         Address offset: 0x1C */
+} TIM_TypeDef;
+
+#define TIM1 ((TIM_TypeDef *)TIM1_BASE)
+#define TIM2 ((TIM_TypeDef *)TIM2_BASE)
+
+void TIM_SetPrescaler(TIM_TypeDef *TIMx, uint32_t prescalser);
+void TIM_SetAutoReload(TIM_TypeDef *TIMx, uint32_t autoReload);
+void TIM_SetCompareCapture(TIM_TypeDef *TIMx, uint32_t compareCapture);
+
+void TIM_SetCounterState(TIM_TypeDef *TIMx, TIM_CounterState counterState);
+void TIM_SetRunMode(TIM_TypeDef *TIMx, TIM_RunMode runMode);
+void TIM_SetCounterDirection(TIM_TypeDef *TIMx, TIM_CounterDirection direction);
+
+void TIM_Start(TIM_TypeDef *TIMx);
+void TIM_Stop(TIM_TypeDef *TIMx);
+
+void TIM_PWM_Start(TIM_TypeDef *TIMx);
+void TIM_PWM_Stop(TIM_TypeDef *TIMx);
+
+void TIM_EnableInterrupt(TIM_TypeDef *TIMx, uint32_t interruptMask);
+void TIM_DisableInterrupt(TIM_TypeDef *TIMx, uint32_t interruptMask);
+uint32_t TIM_GetInterruptFlag(TIM_TypeDef *TIMx, uint32_t interruptMask);
+uint32_t TIM_GetPendingInterrupt(TIM_TypeDef *TIMx);
+void TIM_ClearInterruptFlag(TIM_TypeDef *TIMx, uint32_t interruptMask);
+
+#endif /* INC_DRIVER_TIM_TIM_H_ */

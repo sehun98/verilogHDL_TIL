@@ -1,0 +1,16 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/axi_fnd_v1_0.v,1782093543,verilog,,,,axi_fnd_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/axi_fnd_v1_0_S00_AXI.v,1782093572,verilog,,,,axi_fnd_v1_0_S00_AXI,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/axi_timer_v1_0.v,1782122644,verilog,,,,axi_timer_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/axi_timer_v1_0_S00_AXI.v,1782140025,verilog,,,,axi_timer_v1_0_S00_AXI,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/axi_uart_core.sv,1782212043,systemVerilog,,,,axi_uart_core;fifo;fifo_control_unit;fifo_data_path;uart_baud_rate;uart_rx;uart_tx,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/axi_uart_v1_0.v,1782126734,verilog,,,,axi_uart_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/axi_uart_v1_0_S00_AXI.v,1782128388,verilog,,,,axi_uart_v1_0_S00_AXI,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/fnd_core.sv,1782002989,systemVerilog,,,,bcd;counter;decode2to4;digit_spliter;fnd_core;mux4to1;tick_gen,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/gpio_core.sv,1782107035,systemVerilog,,,,gpio_core,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/spi_master.sv,1782203825,systemVerilog,,,,spi_master,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/tb_axi_uart.sv,1782213987,systemVerilog,,,,tb_axi_uart,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260623_axi/20260623_axi.srcs/sources_1/new/timer_core.sv,1782109241,systemVerilog,,,,timer_core,,,,,,,,
