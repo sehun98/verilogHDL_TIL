@@ -13,10 +13,10 @@ module axi_spi_master_v1_0_S00_AXI #(
     parameter integer C_S_AXI_ADDR_WIDTH = 4
 ) (
     // Users to add ports here
-    output logic spi_sclk,
-    output logic spi_mosi,
-    input  logic spi_miso,
-    output logic spi_cs
+    output wire spi_sclk,
+    output wire spi_mosi,
+    input  wire spi_miso,
+    output wire spi_cs,
     // User ports ends
     // Do not modify the ports beyond this line
 
@@ -105,10 +105,9 @@ module axi_spi_master_v1_0_S00_AXI #(
     //-- Signals for user logic register space example
     //------------------------------------------------
     //-- Number of Slave Registers 4
-    reg [C_S_AXI_DATA_WIDTH-1:0] slv_reg0;
-    reg [C_S_AXI_DATA_WIDTH-1:0] slv_reg1;
-    reg [C_S_AXI_DATA_WIDTH-1:0] slv_reg2;
-    reg [C_S_AXI_DATA_WIDTH-1:0] slv_reg3;
+    reg [C_S_AXI_DATA_WIDTH-1:0] SPI_CR;
+    reg [C_S_AXI_DATA_WIDTH-1:0] SPI_SR;
+    reg [C_S_AXI_DATA_WIDTH-1:0] SPI_RX_DATA;
     wire slv_reg_rden;
     wire slv_reg_wren;
     reg [C_S_AXI_DATA_WIDTH-1:0] reg_data_out;
@@ -198,10 +197,7 @@ module axi_spi_master_v1_0_S00_AXI #(
 
     always @(posedge S_AXI_ACLK) begin
         if (S_AXI_ARESETN == 1'b0) begin
-            slv_reg0 <= 0;
-            slv_reg1 <= 0;
-            slv_reg2 <= 0;
-            slv_reg3 <= 0;
+            SPI_CR <= 0;
         end else begin
             if (slv_reg_wren) begin
                 case (axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB])
@@ -210,34 +206,10 @@ module axi_spi_master_v1_0_S00_AXI #(
                     if (S_AXI_WSTRB[i] == 1) begin
                         // Respective byte enables are asserted as per write strobes 
                         // Slave register 0
-                        slv_reg0[(i*8)+:8] <= S_AXI_WDATA[(i*8)+:8];
-                    end
-                    2'h1:
-                    for (i = 0; i <= (C_S_AXI_DATA_WIDTH / 8) - 1; i = i + 1)
-                    if (S_AXI_WSTRB[i] == 1) begin
-                        // Respective byte enables are asserted as per write strobes 
-                        // Slave register 1
-                        slv_reg1[(i*8)+:8] <= S_AXI_WDATA[(i*8)+:8];
-                    end
-                    2'h2:
-                    for (i = 0; i <= (C_S_AXI_DATA_WIDTH / 8) - 1; i = i + 1)
-                    if (S_AXI_WSTRB[i] == 1) begin
-                        // Respective byte enables are asserted as per write strobes 
-                        // Slave register 2
-                        slv_reg2[(i*8)+:8] <= S_AXI_WDATA[(i*8)+:8];
-                    end
-                    2'h3:
-                    for (i = 0; i <= (C_S_AXI_DATA_WIDTH / 8) - 1; i = i + 1)
-                    if (S_AXI_WSTRB[i] == 1) begin
-                        // Respective byte enables are asserted as per write strobes 
-                        // Slave register 3
-                        slv_reg3[(i*8)+:8] <= S_AXI_WDATA[(i*8)+:8];
+                        SPI_CR[(i*8)+:8] <= S_AXI_WDATA[(i*8)+:8];
                     end
                     default: begin
-                        slv_reg0 <= slv_reg0;
-                        slv_reg1 <= slv_reg1;
-                        slv_reg2 <= slv_reg2;
-                        slv_reg3 <= slv_reg3;
+                        SPI_CR <= SPI_CR;
                     end
                 endcase
             end
@@ -327,10 +299,9 @@ module axi_spi_master_v1_0_S00_AXI #(
     always @(*) begin
         // Address decoding for reading registers
         case (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB])
-            2'h0   : reg_data_out <= slv_reg0;
-            2'h1   : reg_data_out <= slv_reg1;
-            2'h2   : reg_data_out <= slv_reg2;
-            2'h3   : reg_data_out <= slv_reg3;
+            2'h0   : reg_data_out <= SPI_CR;
+            2'h1   : reg_data_out <= SPI_SR;
+            2'h2   : reg_data_out <= SPI_RX_DATA;
             default : reg_data_out <= 0;
         endcase
     end
@@ -356,7 +327,7 @@ module axi_spi_master_v1_0_S00_AXI #(
 
         .SPI_CR(SPI_CR),
         .SPI_SR(SPI_SR),
-        .SPI_TX_DATA(SPI_TX_DATA),
+        .SPI_TX_DATA(S_AXI_WDATA),
         .SPI_RX_DATA(SPI_RX_DATA),
 
         .spi_sclk(spi_sclk),

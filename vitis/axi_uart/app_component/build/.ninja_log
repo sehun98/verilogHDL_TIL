@@ -1,0 +1,9 @@
+# ninja log v5
+22	219	0	CMakeFiles/print_build_info	bbc88442e127c8eb
+22	219	0	D:/Project/verilogHDL_TIL/vitis/axi_uart/app_component/build/CMakeFiles/print_build_info	bbc88442e127c8eb
+219	305	8037331941829971	CMakeFiles/app_component.elf.dir/main.c.obj	53e984ff55b1928
+306	523	8037331943399979	app_component.elf	ddf3c8acab061e53
+21	192	0	CMakeFiles/print_build_info	bbc88442e127c8eb
+21	192	0	D:/Project/verilogHDL_TIL/vitis/axi_uart/app_component/build/CMakeFiles/print_build_info	bbc88442e127c8eb
+192	275	8037332075557646	CMakeFiles/app_component.elf.dir/main.c.obj	53e984ff55b1928
+275	488	8037332076982405	app_component.elf	ddf3c8acab061e53

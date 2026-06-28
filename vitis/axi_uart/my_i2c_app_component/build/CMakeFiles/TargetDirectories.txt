@@ -1,0 +1,4 @@
+D:/Project/verilogHDL_TIL/vitis/axi_uart/my_i2c_app_component/build/CMakeFiles/my_i2c_app_component.elf.dir
+D:/Project/verilogHDL_TIL/vitis/axi_uart/my_i2c_app_component/build/CMakeFiles/print_build_info.dir
+D:/Project/verilogHDL_TIL/vitis/axi_uart/my_i2c_app_component/build/CMakeFiles/edit_cache.dir
+D:/Project/verilogHDL_TIL/vitis/axi_uart/my_i2c_app_component/build/CMakeFiles/rebuild_cache.dir

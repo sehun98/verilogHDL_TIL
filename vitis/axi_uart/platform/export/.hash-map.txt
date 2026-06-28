@@ -1,0 +1,1 @@
+{"generate.platform":[{"uri":"D:\\Project\\verilogHDL_TIL\\vitis\\axi_uart\\platform\\vitis-comp.json","md5":"5eba944ee6f8ef68b05819b879a0f76c"},{"uri":"D:\\Project\\verilogHDL_TIL\\vitis\\axi_uart\\platform\\microblaze_0\\standalone_microblaze_0\\bsp\\bsp.yaml","md5":"70c223aecf511b883de3bb6f028e6036"}]}

@@ -1,0 +1,130 @@
+#ifndef INC_DRIVER_UART_UART_H_
+#define INC_DRIVER_UART_UART_H_
+
+#include <stdint.h>
+
+
+/* Definitions for peripheral AXI_FND_V1_0_0 */
+#define XPAR_AXI_FND_V1_0_0_BASEADDR 0x44A00000
+#define XPAR_AXI_FND_V1_0_0_HIGHADDR 0x44A0FFFF
+
+
+/* Definitions for peripheral AXI_GPIO_V1_0_0 */
+#define XPAR_AXI_GPIO_V1_0_0_BASEADDR 0x44A10000
+#define XPAR_AXI_GPIO_V1_0_0_HIGHADDR 0x44A1FFFF
+
+
+/* Definitions for peripheral AXI_GPIO_V1_0_1 */
+#define XPAR_AXI_GPIO_V1_0_1_BASEADDR 0x44A70000
+#define XPAR_AXI_GPIO_V1_0_1_HIGHADDR 0x44A7FFFF
+
+
+/* Definitions for peripheral AXI_GPIO_V1_0_2 */
+#define XPAR_AXI_GPIO_V1_0_2_BASEADDR 0x44A80000
+#define XPAR_AXI_GPIO_V1_0_2_HIGHADDR 0x44A8FFFF
+
+
+/* Definitions for peripheral AXI_I2C_MASTER_V1_0_0 */
+#define XPAR_AXI_I2C_MASTER_V1_0_0_BASEADDR 0x44A20000
+#define XPAR_AXI_I2C_MASTER_V1_0_0_HIGHADDR 0x44A2FFFF
+
+
+/* Definitions for peripheral AXI_SPI_MASTER_V1_0_0 */
+#define XPAR_AXI_SPI_MASTER_V1_0_0_BASEADDR 0x44A30000
+#define XPAR_AXI_SPI_MASTER_V1_0_0_HIGHADDR 0x44A3FFFF
+
+
+/* Definitions for peripheral AXI_TIMER_V1_0_0 */
+#define XPAR_AXI_TIMER_V1_0_0_BASEADDR 0x44A40000
+#define XPAR_AXI_TIMER_V1_0_0_HIGHADDR 0x44A4FFFF
+
+
+/* Definitions for peripheral AXI_TIMER_V1_0_1 */
+#define XPAR_AXI_TIMER_V1_0_1_BASEADDR 0x44A60000
+#define XPAR_AXI_TIMER_V1_0_1_HIGHADDR 0x44A6FFFF
+
+#define XPAR_AXI_UART_BASEADDR 0x44A50000
+
+#define UART_BASE XPAR_AXI_UART_BASEADDR
+
+#define UART ((UART_TypeDef *)UART_BASE)
+
+// UART_CR [0] : RXE
+// UART_CR [1] : TXE
+// UART_CR [2] : UE
+// UART_CR [5:3] : BRR
+
+// UART_SR [0] : RXE rx_empty
+// UART_SR [1] : RXF rx_full
+// UART_SR [2] : TXE tx_empty
+// UART_SR [3] : TXF tx_full
+// UART_SR [4] : BUSY tx_busy
+// UART_SR [5] : BUSY rx_busy
+
+// UART_IER [0] : TXIE tx_interrupt enable
+// UART_IER [1] : RXIE rx_interrupt enable
+
+// UART_IFR [0] : TXIF tx_interrupt flag
+// UART_IFR [1] : RXIF rx_interrupt flag
+
+// UART_ICR [0] : TXIC tx_interrupt clear
+// UART_ICR [1] : RXIC rx_interrupt clear
+
+#define UART_CR_RXE_Pos      0U
+#define UART_CR_TXE_Pos      1U
+#define UART_CR_UE_Pos       2U
+#define UART_CR_BRR_Pos      3U
+
+#define UART_CR_RXE_Msk      (1U << UART_CR_RXE_Pos)
+#define UART_CR_TXE_Msk      (1U << UART_CR_TXE_Pos)
+#define UART_CR_UE_Msk       (1U << UART_CR_UE_Pos)
+#define UART_CR_BRR_Msk      (7U << UART_CR_BRR_Pos)
+
+#define UART_BRR_9600        0U
+#define UART_BRR_19200       1U
+#define UART_BRR_38400       2U
+#define UART_BRR_57600       3U
+#define UART_BRR_115200      4U
+#define UART_BRR_230400      5U
+
+#define UART_SR_RXE_Pos      0U   // RX empty
+#define UART_SR_RXF_Pos      1U   // RX full
+#define UART_SR_TXE_Pos      2U   // TX empty
+#define UART_SR_TXF_Pos      3U   // TX full
+#define UART_SR_TX_BUSY_Pos  4U
+#define UART_SR_RX_BUSY_Pos  5U
+
+#define UART_SR_RXE_Msk      (1U << UART_SR_RXE_Pos)
+#define UART_SR_RXF_Msk      (1U << UART_SR_RXF_Pos)
+#define UART_SR_TXE_Msk      (1U << UART_SR_TXE_Pos)
+#define UART_SR_TXF_Msk      (1U << UART_SR_TXF_Pos)
+#define UART_SR_TX_BUSY_Msk  (1U << UART_SR_TX_BUSY_Pos)
+#define UART_SR_RX_BUSY_Msk  (1U << UART_SR_RX_BUSY_Pos)
+
+#define UART_IT_TX       (1U << 0)
+#define UART_IT_RX       (1U << 1)
+#define UART_IT_ALL          (UART_IT_TX | UART_IT_RX)
+
+typedef struct
+{
+    volatile uint32_t CR;
+    volatile uint32_t SR;
+    volatile uint32_t DR;
+    volatile uint32_t IER;
+    volatile uint32_t IFR;
+    volatile uint32_t ICR;
+} UART_TypeDef;
+
+
+void UART_WriteByte(UART_TypeDef *UARTx, uint8_t data);
+void UART_WriteString(UART_TypeDef *UARTx, const char *str);
+uint8_t UART_ReadByte(UART_TypeDef *UARTx);
+uint32_t UART_ReadByteNonBlocking(UART_TypeDef *UARTx, uint8_t *data);
+uint32_t UART_WriteByteNonBlocking(UART_TypeDef *UARTx, uint8_t data);
+void UART_Init(UART_TypeDef *UARTx, uint32_t baudrate);
+void UART_EnableInterrupt(UART_TypeDef *UARTx, uint32_t interruptMask);
+void UART_DisableInterrupt(UART_TypeDef *UARTx, uint32_t interruptMask);
+uint32_t UART_GetPendingInterrupt(UART_TypeDef *UARTx);
+void UART_ClearInterruptFlag(UART_TypeDef *UARTx, uint32_t interruptMask);
+
+#endif /* INC_DRIVER_UART_UART_H_ */

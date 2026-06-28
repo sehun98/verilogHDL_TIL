@@ -1,0 +1,9 @@
+# ninja log v5
+20	274	0	CMakeFiles/print_build_info	4544002670275378
+20	274	0	D:/Project/verilogHDL_TIL/vitis/axi_uart/my_i2c_app_component/build/CMakeFiles/print_build_info	4544002670275378
+277	424	8040110832490973	CMakeFiles/my_i2c_app_component.elf.dir/main.c.obj	863626787505ccfe
+285	549	8040110928677918	my_i2c_app_component.elf	e0246297a863402f
+22	237	0	CMakeFiles/print_build_info	4544002670275378
+22	237	0	D:/Project/verilogHDL_TIL/vitis/axi_uart/my_i2c_app_component/build/CMakeFiles/print_build_info	4544002670275378
+237	357	8040111347211727	CMakeFiles/my_i2c_app_component.elf.dir/main.c.obj	863626787505ccfe
+358	646	8040111349148247	my_i2c_app_component.elf	e0246297a863402f

@@ -1,0 +1,57 @@
+#ifndef INC_DRIVER_I2C_I2C_H_
+#define INC_DRIVER_I2C_I2C_H_
+
+#include <stdint.h>
+
+#define XPAR_I2C_MASTER_V1_0_0_BASEADDR    0x44A20000
+#define I2C_MASTER_BASE_ADDR    XPAR_I2C_MASTER_V1_0_0_BASEADDR
+
+// I2C_CR bits
+#define I2C_EN_Pos      0U
+#define I2C_START_Pos   1U
+#define I2C_STOP_Pos    2U
+#define I2C_WRITE_Pos   3U
+#define I2C_READ_Pos    4U
+#define I2C_ACK_Pos     5U
+
+#define I2C_EN_Msk      (1U << I2C_EN_Pos)
+#define I2C_START_Msk   (1U << I2C_START_Pos)
+#define I2C_STOP_Msk    (1U << I2C_STOP_Pos)
+#define I2C_WRITE_Msk   (1U << I2C_WRITE_Pos)
+#define I2C_READ_Msk    (1U << I2C_READ_Pos)
+#define I2C_ACK_Msk     (1U << I2C_ACK_Pos)
+
+#define I2C_SR_BUSY_Pos   0U
+#define I2C_SR_DONE_Pos   1U
+#define I2C_SR_NACK_Pos   2U
+#define I2C_SR_ARLOS_Pos  3U
+
+#define I2C_SR_BUSY_Msk   (1U << I2C_SR_BUSY_Pos)
+#define I2C_SR_DONE_Msk   (1U << I2C_SR_DONE_Pos)
+#define I2C_SR_NACK_Msk   (1U << I2C_SR_NACK_Pos)
+#define I2C_SR_ARLOS_Msk  (1U << I2C_SR_ARLOS_Pos)
+
+
+
+#define I2C ((I2C_TypeDef *)I2C_MASTER_BASE_ADDR)
+
+typedef struct
+{
+    volatile uint32_t CR;  /*!< I2C Control register,             Address offset: 0x00 */
+    volatile uint32_t SR; /*!< I2C Status register,               Address offset: 0x04 */
+    volatile uint32_t DR; /*!< I2C Data register,                 Address offset: 0x08 */
+    volatile uint32_t CLKDIV; /*!< I2C Clock Div register,        Address offset: 0x0C */
+} I2C_TypeDef;
+
+void delay_us(uint32_t us);
+void delay_ms(uint32_t ms);
+void LCD_WriteExpander(I2C_TypeDef* I2Cx, uint8_t data);
+void LCD_Write4Bits(I2C_TypeDef* I2Cx, uint8_t nibble, LCD_Mode mode);
+void LCD_WriteByte(I2C_TypeDef* I2Cx, uint8_t data, LCD_Mode mode);
+void LCD_SendCommand(I2C_TypeDef* I2Cx, uint8_t command);
+void LCD_SendData(I2C_TypeDef* I2Cx, uint8_t data);
+void LCD_Init(I2C_TypeDef* I2Cx);
+void LCD_SetCursor(I2C_TypeDef* I2Cx, uint8_t row, uint8_t col);
+void LCD_Print(I2C_TypeDef* I2Cx, const char *string);
+
+#endif /* INC_DRIVER_I2C_I2C_H_ */

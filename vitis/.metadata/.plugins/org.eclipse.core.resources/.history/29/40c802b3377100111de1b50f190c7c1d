@@ -1,0 +1,15 @@
+#ifndef SRC_INTERRUPT_INTERRUPT_H_
+#define SRC_INTERRUPT_INTERRUPT_H_
+
+#define XPAR_INTC_0_DEVICE_ID
+
+#define INTC_DEV_ID XPAR_INTC_0_DEVICE_ID
+
+#define TMR0_VEC_ID XPAR_INTC_0_TIMER_0_VEC_ID
+#define UART_VEC_ID XPAR_UART_0_VEC_ID
+
+void TMR_ISR(void *CallbackRef);
+void UART_ISR(void *CallbackRef);
+int SetupInterruptSystem(void);
+
+#endif /* SRC_INTERRUPT_INTERRUPT_H_ */

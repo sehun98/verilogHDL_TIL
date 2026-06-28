@@ -56,38 +56,40 @@ module spi_master_core (
         .tick(tick)
     );
     logic [3:0] edge_cnt;
+
+
+    assign tx_overrun_error = tx_busy && start;
+
     // SPI_CR
     // reserved[31:6] start[5] spi_br[4:2] cpol[1] cpha[0] 
     // SPI_SR
     // reserved[31:4] tx_busy[3] tx_overrun_error[2] rx_done[1] rx_frame_error[0]
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            state            <= IDLE;
-            sclk_enable      <= 1'b0;
-            spi_cs           <= 1'b1;
-            spi_mosi         <= 1'bz;
-            tx_busy          <= 1'b0;
-            tx_overrun_error <= 1'b0;
-            rx_done          <= 1'b0;
-            rx_frame_error   <= 1'b0;
-            SPI_RX_DATA      <= 32'd0;
-            spi_sclk         <= 1'b0;
-            tx_shift_reg     <= 8'd0;
-            edge_cnt         <= 4'd0;
+            state          <= IDLE;
+            sclk_enable    <= 1'b0;
+            spi_cs         <= 1'b1;
+            spi_mosi       <= 1'b0;
+            tx_busy        <= 1'b0;
+            rx_done        <= 1'b0;
+            rx_frame_error <= 1'b0;
+            SPI_RX_DATA    <= 32'd0;
+            spi_sclk       <= cpol;
+            tx_shift_reg   <= 8'd0;
+            edge_cnt       <= 4'd0;
         end else begin
             case (state)
                 IDLE: begin
-                    SPI_RX_DATA      <= SPI_RX_DATA;
-                    sclk_enable      <= 1'b0;
-                    spi_cs           <= 1'b1;
-                    spi_mosi         <= 1'bz;
-                    tx_busy          <= 1'b0;
-                    tx_overrun_error <= 1'b0;
-                    rx_done          <= rx_done;
-                    rx_frame_error   <= 1'b0;
-                    spi_sclk         <= cpol;
-                    tx_shift_reg     <= 8'd0;
-                    edge_cnt         <= 4'd0;
+                    SPI_RX_DATA    <= SPI_RX_DATA;
+                    sclk_enable    <= 1'b0;
+                    spi_cs         <= 1'b1;
+                    spi_mosi       <= 1'b0;
+                    tx_busy        <= 1'b0;
+                    rx_done        <= rx_done;
+                    rx_frame_error <= 1'b0;
+                    spi_sclk       <= cpol;
+                    tx_shift_reg   <= 8'd0;
+                    edge_cnt       <= 4'd0;
                     if (start) begin
                         SPI_RX_DATA <= 32'd0;
                         sclk_enable <= 1'b1;

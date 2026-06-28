@@ -24,7 +24,7 @@ module i2c_master_core (
     input  logic [31:0] I2C_WDATA,
     output logic [31:0] I2C_RDATA,
     input  logic [31:0] I2C_CLKDIV,
-
+    
     inout  logic        sda,
     inout  logic        scl
 );

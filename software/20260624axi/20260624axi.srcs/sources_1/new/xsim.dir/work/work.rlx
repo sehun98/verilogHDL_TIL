@@ -1,0 +1,19 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_gpio_v1_0.v,1782107208,verilog,,,,axi_gpio_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_i2c_master_v1_0.v,1782387269,verilog,,,,axi_i2c_master_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_i2c_master_v1_0_S00_AXI.v,1782387217,verilog,,,,axi_i2c_master_v1_0_S00_AXI,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_spi_master_v1_0.v,1782428813,verilog,,,,axi_spi_master_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_spi_master_v1_0_S00_AXI.v,1782438614,verilog,,,,axi_spi_master_v1_0_S00_AXI,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_timer_v1_0.v,1782224604,verilog,,,,axi_timer_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_timer_v1_0_S00_AXI.v,1782224614,verilog,,,,axi_timer_v1_0_S00_AXI,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_uart_v1_0.v,1782277487,verilog,,,,axi_uart_v1_0,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/axi_uart_v1_0_S00_AXI.v,1782277464,verilog,,,,axi_uart_v1_0_S00_AXI,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/fnd_core.sv,1782002989,systemVerilog,,,,bcd;counter;decode2to4;digit_spliter;fnd_core;mux4to1;tick_gen,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/gpio_core.sv,1782107035,systemVerilog,,,,gpio_core,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/i2c_master_core.sv,1782337120,systemVerilog,,,,i2c_clock_div;i2c_master_core,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/spi_master_core.sv,1782440030,systemVerilog,,,,spi_baudrate;spi_master_core,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/timer_core.sv,1782268662,systemVerilog,,,,timer_core,,,,,,,,
+d:/ondevice_ai_project/verilogHDL_TIL/software/20260624axi/20260624axi.srcs/sources_1/new/uart_core.sv,1782363229,systemVerilog,,,,fifo;fifo_control_unit;fifo_data_path;uart_baud_rate;uart_core;uart_rx;uart_tx,,,,,,,,
